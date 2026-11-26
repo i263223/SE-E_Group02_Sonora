@@ -464,3 +464,195 @@ a:hover {
     justify-content: flex-start;
   }
 }
+
+/* ==========================================================================
+   Artist Details Page (pages/artist.html)
+   ========================================================================== */
+
+.sonora-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--sonora-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sonora-back-link:hover {
+  color: var(--sonora-text-primary);
+}
+
+.sonora-artist-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 992px) {
+  .sonora-artist-layout {
+    grid-template-columns: 35fr 65fr;
+    gap: 2.25rem;
+  }
+}
+
+.sonora-artist-card {
+  padding: 1.5rem;
+}
+
+.sonora-artist-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--sonora-radius-md);
+  border: 1px solid var(--sonora-border-strong);
+  background: radial-gradient(circle at 30% 25%, rgba(225, 29, 72, 0.18), var(--sonora-bg-elevated) 70%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sonora-artist-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sonora-artist-image-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-artist-image-initials {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--sonora-text-primary);
+  line-height: 1;
+}
+
+.sonora-artist-name {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.sonora-artist-bio-box {
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-md);
+  padding: 1rem 1.15rem;
+}
+
+.sonora-artist-bio-box p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
+.sonora-tour-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.sonora-tour-row {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-md);
+  color: var(--sonora-text-primary);
+  text-decoration: none;
+  transition: transform var(--sonora-transition), border-color var(--sonora-transition), background-color var(--sonora-transition), box-shadow var(--sonora-transition);
+}
+
+.sonora-tour-row:hover,
+.sonora-tour-row:focus-visible {
+  color: var(--sonora-text-primary);
+  background-color: var(--sonora-bg-elevated);
+  border-color: rgba(225, 29, 72, 0.55);
+  box-shadow: var(--sonora-shadow-card);
+  transform: translateY(-2px);
+}
+
+.sonora-tour-date-box {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: var(--sonora-radius-sm);
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+  transition: border-color var(--sonora-transition), background-color var(--sonora-transition);
+}
+
+.sonora-tour-row:hover .sonora-tour-date-box {
+  border-color: var(--sonora-accent);
+  background-color: var(--sonora-accent-soft);
+}
+
+.sonora-tour-month {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sonora-accent);
+}
+
+.sonora-tour-day {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--sonora-text-primary);
+  margin-top: 0.1rem;
+}
+
+.sonora-tour-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.sonora-tour-city {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--sonora-text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.sonora-tour-meta {
+  font-size: 0.875rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-tour-chevron {
+  flex-shrink: 0;
+  color: var(--sonora-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--sonora-transition), color var(--sonora-transition);
+}
+
+.sonora-tour-row:hover .sonora-tour-chevron {
+  color: var(--sonora-accent);
+  transform: translateX(4px);
+}

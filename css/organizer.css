@@ -1,0 +1,530 @@
+/* =========================================================
+   Sonora - Organizer / Host Page Stylesheet (css/organizer.css)
+   Clean CSS3 using Flexbox, Grid, and responsive design
+   ========================================================= */
+
+/* --- 1. Base Reset & Variables --- */
+:root {
+  --bg-page: #f9fafb;
+  --bg-surface: #ffffff;
+  --text-main: #111827;
+  --text-muted: #4b5563;
+  --border-color: #d1d5db;
+  --sonora-red: #dc2626;
+  --sonora-red-hover: #b91c1c;
+  --faq-blue: #2563eb;
+  --chart-green: #16a34a;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- 2. Reusable Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  border: 2px solid transparent;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background-color: var(--sonora-red);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--sonora-red-hover);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-main);
+  border-color: var(--text-main);
+}
+
+.btn-outline:hover {
+  background-color: var(--text-main);
+  color: #ffffff;
+}
+
+/* --- 3. Header & Navbar --- */
+.site-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 74px;
+  flex-wrap: wrap;
+}
+
+/* Brand Left */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.brand-subtitle {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Collapsible Nav & Actions Wrapper */
+.nav-collapse {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: 20px;
+}
+
+/* Center Navigation with Vertical Dividers */
+.main-nav {
+  margin: 0 auto;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Subtle vertical divider between nav items */
+.nav-item + .nav-item::before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background-color: var(--border-color);
+  margin: 0 14px;
+}
+
+.nav-link {
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 6px 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--text-main);
+}
+
+.nav-link.active {
+  color: var(--sonora-red);
+  border-bottom-color: var(--sonora-red);
+}
+
+/* Right Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background-color: var(--bg-page);
+}
+
+/* Mobile Hamburger Button (hidden on desktop) */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.hamburger-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-main);
+  border-radius: 2px;
+}
+
+/* --- 4. Hero Section --- */
+.hero-section {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 56px 0;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 760px;
+}
+
+.hero-title {
+  font-size: clamp(1.75rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.hero-cta {
+  padding: 12px 26px;
+  font-size: 1rem;
+}
+
+/* --- 5. Middle 3-Column Feature & Calculator Row --- */
+.features-section {
+  padding: 48px 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.45fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.feature-card,
+.calculator-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.calculator-card {
+  border: 2px solid var(--text-main);
+  justify-content: space-between;
+}
+
+.feature-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.graphic-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Calculator Form Inputs */
+.calculator-form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.form-input {
+  width: 165px;
+  padding: 8px 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  text-align: right;
+  color: var(--text-main);
+}
+
+.form-input:focus {
+  outline: 2px solid var(--faq-blue);
+  border-color: var(--faq-blue);
+}
+
+/* Live Output Summary Line */
+.calculator-output {
+  width: 100%;
+  padding: 12px 10px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* --- 6. Organizer FAQ Accordion --- */
+.faq-section {
+  padding: 20px 0 60px;
+}
+
+.faq-container {
+  max-width: 780px;
+}
+
+.faq-heading {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-bottom: 24px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-question:hover {
+  background-color: var(--bg-page);
+}
+
+.faq-toggle {
+  color: var(--faq-blue);
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.faq-answer {
+  padding: 0 20px 18px;
+  color: var(--text-muted);
+  font-size: 0.96rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 12px;
+}
+
+/* --- 7. Footer --- */
+.site-footer {
+  background-color: var(--text-main);
+  color: #ffffff;
+  padding: 22px 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-link {
+  font-size: 0.92rem;
+  color: #d1d5db;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+}
+
+.footer-copy {
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+/* --- 8. Responsive Breakpoints --- */
+@media (max-width: 900px) {
+  /* Stack 3-column feature & calculator row cleanly */
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Show hamburger button and collapse nav on tablet/mobile */
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-collapse {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 0 18px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .nav-collapse.is-open {
+    display: flex;
+  }
+
+  .main-nav {
+    margin: 0;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Remove vertical dividers when stacked vertically */
+  .nav-item + .nav-item::before {
+    display: none;
+  }
+
+  .header-actions {
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    text-align: left;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

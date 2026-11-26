@@ -615,15 +615,9 @@
 
             <div id="selectionAlert" class="sonora-feedback-banner mb-3 d-none" role="status" aria-live="polite"></div>
 
-            <div class="d-grid gap-2 mt-3">
+            <div class="d-grid mt-3">
               <button type="button" id="addToCartBtn" class="btn btn-sonora-pill btn-sonora-primary" disabled>
-                Add Selected to My Tickets
-              </button>
-              <button type="button" id="proceedCheckoutBtn" class="btn btn-sonora-pill btn-sonora-outline" disabled>
-                Proceed to Checkout
-              </button>
-              <button type="button" id="clearSelectionBtn" class="btn btn-sonora-pill btn-sonora-ghost" disabled>
-                Clear Selection
+                Add to Cart
               </button>
             </div>
 
@@ -742,9 +736,7 @@
         feeValue: document.getElementById("feeValue"),
         totalValue: document.getElementById("totalValue"),
         selectionAlert: document.getElementById("selectionAlert"),
-        addToCartBtn: document.getElementById("addToCartBtn"),
-        proceedCheckoutBtn: document.getElementById("proceedCheckoutBtn"),
-        clearSelectionBtn: document.getElementById("clearSelectionBtn")
+        addToCartBtn: document.getElementById("addToCartBtn")
       };
 
       function formatCurrency(amount) {
@@ -936,8 +928,6 @@
         elements.selectionEmptyState.classList.toggle("d-none", hasItems);
         elements.selectionDetails.classList.toggle("d-none", !hasItems);
         elements.addToCartBtn.disabled = !hasItems;
-        elements.proceedCheckoutBtn.disabled = !hasItems;
-        elements.clearSelectionBtn.disabled = !hasItems;
 
         elements.selectedItemsChips.innerHTML = "";
         let subtotal = 0;
@@ -1085,7 +1075,6 @@
 
         elements.gaDecreaseBtn.addEventListener("click", () => updateGaQuantity(-1));
         elements.gaIncreaseBtn.addEventListener("click", () => updateGaQuantity(1));
-        elements.clearSelectionBtn.addEventListener("click", clearAllSelections);
 
         elements.addToCartBtn.addEventListener("click", () => {
           if (getTotalSelectedCount() === 0) {
@@ -1095,17 +1084,9 @@
           const savedCount = getTotalSelectedCount();
           clearAllSelections();
           showAlert(
-            `Added <strong>${savedCount}</strong> ${savedCount === 1 ? "ticket" : "tickets"} to your cart. <a href="my-tickets.html" class="text-decoration-underline fw-semibold">View My Tickets</a>`,
+            `Added <strong>${savedCount}</strong> ${savedCount === 1 ? "ticket" : "tickets"} to your cart. <a href="checkout.html?id=${encodeURIComponent(state.concert.id)}" class="text-decoration-underline fw-semibold">Proceed to Checkout</a> &bull; <a href="my-tickets.html" class="text-decoration-underline fw-semibold">View My Tickets</a>`,
             true
           );
-        });
-
-        elements.proceedCheckoutBtn.addEventListener("click", () => {
-          if (getTotalSelectedCount() === 0) {
-            return;
-          }
-          saveSelectionToCart();
-          window.location.href = `checkout.html?id=${encodeURIComponent(state.concert.id)}`;
         });
       }
 

@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Seats | SONORA — Live Concert Tickets</title>
+  <meta name="description" content="Choose your seats across VIP, Regular, and General Admission sections for upcoming live concerts on SONORA." />
+
+  <!-- Bootstrap 5 CSS (no jQuery) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Shared SONORA Theme Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- Page-specific Seat Map Styles -->
+  <style>
+    .sonora-breadcrumb {
+      font-size: 0.875rem;
+      color: var(--sonora-text-secondary);
+    }
+
+    .sonora-breadcrumb a {
+      color: var(--sonora-text-secondary);
+    }
+
+    .sonora-breadcrumb a:hover {
+      color: var(--sonora-accent);
+    }
+
+    /* Stage Bar */
+    .sonora-stage-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .sonora-stage-bar {
+      width: 100%;
+      max-width: 640px;
+      padding: 0.9rem 1.5rem;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(225, 29, 72, 0.28) 0%, rgba(32, 32, 37, 0.95) 100%);
+      border: 1px solid rgba(225, 29, 72, 0.55);
+      border-bottom: 3px solid var(--sonora-accent);
+      border-radius: 0.75rem 0.75rem 2.25rem 2.25rem;
+      box-shadow: 0 12px 32px rgba(225, 29, 72, 0.18);
+      letter-spacing: 0.28em;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      color: var(--sonora-text-primary);
+    }
+
+    .sonora-stage-caption {
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sonora-text-secondary);
+    }
+
+    /* Seating Sections */
+    .sonora-seat-section {
+      background-color: var(--sonora-bg-elevated);
+      border: 1px solid var(--sonora-border);
+      border-radius: var(--sonora-radius-md);
+      padding: 1.25rem;
+    }
+
+    .sonora-seat-section--vip {
+      border-color: rgba(225, 29, 72, 0.42);
+      background: linear-gradient(180deg, rgba(225, 29, 72, 0.07) 0%, var(--sonora-bg-elevated) 100%);
+    }
+
+    .sonora-seat-section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--sonora-border);
+    }
+
+    .sonora-seat-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+    }
+
+    .sonora-seat-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      min-width: max-content;
+      margin: 0 auto;
+    }
+
+    .sonora-row-label {
+      width: 2.1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--sonora-text-secondary);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .sonora-row-seats {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sonora-aisle-gap {
+      width: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    /* Individual Seat Button */
+    .sonora-seat {
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 0.45rem 0.45rem 0.25rem 0.25rem;
+      border: 1px solid var(--sonora-border-strong);
+      background-color: var(--sonora-bg-surface);
+      color: var(--sonora-text-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform var(--sonora-transition), background-color var(--sonora-transition), border-color var(--sonora-transition), box-shadow var(--sonora-transition);
+      padding: 0;
+    }
+
+    .sonora-seat--vip {
+      border-color: rgba(253, 164, 175, 0.45);
+    }
+
+    .sonora-seat:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--sonora-accent);
+      background-color: rgba(225, 29, 72, 0.2);
+    }
+
+    .sonora-seat.is-selected {
+      background-color: var(--sonora-accent);
+      border-color: var(--sonora-accent);
+      color: var(--sonora-text-primary);
+      box-shadow: var(--sonora-shadow-accent);
+    }
+
+    .sonora-seat:disabled,
+    .sonora-seat.is-occupied {
+      background-color: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: rgba(161, 161, 170, 0.45);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Legend Swatches */
+    .sonora-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: var(--sonora-text-secondary);
+    }
+
+    .sonora-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sonora-legend-box {
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 0.3rem;
+      display: inline-block;
+      border: 1px solid var(--sonora-border-strong);
+      background-color: var(--sonora-bg-surface);
+    }
+
+    .sonora-legend-box.is-selected {
+      background-color: var(--sonora-accent);
+      border-color: var(--sonora-accent);
+    }
+
+    .sonora-legend-box.is-occupied {
+      background-color: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* General Admission Zone */
+    .sonora-ga-zone {
+      background-color: var(--sonora-bg-surface);
+      border: 1px dashed var(--sonora-border-strong);
+      border-radius: var(--sonora-radius-sm);
+      padding: 1.25rem;
+    }
+
+    .sonora-qty-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background-color: var(--sonora-bg-primary);
+      border: 1px solid var(--sonora-border-strong);
+      border-radius: var(--sonora-radius-pill);
+      padding: 0.25rem 0.5rem;
+    }
+
+    .sonora-qty-btn {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: 1px solid var(--sonora-border-strong);
+      background-color: var(--sonora-bg-elevated);
+      color: var(--sonora-text-primary);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--sonora-transition), border-color var(--sonora-transition);
+    }
+
+    .sonora-qty-btn:hover:not(:disabled) {
+      background-color: var(--sonora-accent);
+      border-color: var(--sonora-accent);
+    }
+
+    .sonora-qty-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Summary Card */
+    .sonora-summary-card {
+      position: sticky;
+      top: 5.5rem;
+    }
+
+    .sonora-selected-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--sonora-radius-pill);
+      background-color: var(--sonora-accent-soft);
+      border: 1px solid rgba(225, 29, 72, 0.35);
+      color: #FDA4AF;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .sonora-selected-chip button {
+      background: none;
+      border: none;
+      color: inherit;
+      padding: 0;
+      line-height: 1;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .sonora-selected-chip button:hover {
+      color: var(--sonora-text-primary);
+    }
+
+    .sonora-feedback-banner {
+      background-color: var(--sonora-accent-soft);
+      border: 1px solid rgba(225, 29, 72, 0.45);
+      border-radius: var(--sonora-radius-sm);
+      color: var(--sonora-text-primary);
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Top Navigation Bar -->
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg sonora-navbar" aria-label="Primary navigation">
+      <div class="container">
+        <!-- Left: Logo + Brand Wordmark -->
+        <a class="sonora-brand" href="../index.html">
+          <img
+            src="../images/logo.svg"
+            alt="SONORA logo"
+            class="sonora-brand-logo"
+            width="40"
+            height="40"
+          />
+          <span class="sonora-brand-text">
+            <span class="sonora-brand-title">SONORA</span>
+            <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+          </span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button
+          class="navbar-toggler sonora-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sonoraNavbarNav"
+          aria-controls="sonoraNavbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Center Links + Right Actions -->
+        <div class="collapse navbar-collapse" id="sonoraNavbarNav">
+          <!-- Center Navigation Links -->
+          <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 gap-lg-1">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="events.html"
+                data-nav-link
+                data-nav-match="events.html,concerts.html,event-details.html,seats.html"
+              >
+                Concerts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="artists.html"
+                data-nav-link
+                data-nav-match="artists.html,artist-details.html"
+              >
+                Artists
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="venues.html"
+                data-nav-link
+                data-nav-match="venues.html,venue-details.html"
+              >
+                Venues
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="my-tickets.html"
+                data-nav-link
+                data-nav-match="my-tickets.html,checkout.html"
+              >
+                <span>My Tickets</span>
+                <span class="sonora-badge-count d-none" data-sonora-ticket-badge>0</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right Actions: Search Button + Sign In / Sign Up -->
+          <div class="d-flex align-items-center gap-2 sonora-nav-actions">
+            <button
+              type="button"
+              class="sonora-icon-btn"
+              data-bs-toggle="collapse"
+              data-bs-target="#sonoraSearchDrawer"
+              aria-expanded="false"
+              aria-controls="sonoraSearchDrawer"
+              aria-label="Toggle quick search"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path stroke-linecap="round" d="M20 20l-3.5-3.5" />
+              </svg>
+            </button>
+
+            <div id="sonoraAuthActions" class="d-flex align-items-center gap-2">
+              <a href="signin.html" class="btn btn-sonora-pill btn-sonora-outline">Sign In</a>
+              <a href="signup.html" class="btn btn-sonora-pill btn-sonora-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Collapsible Quick Search Bar -->
+    <div class="collapse sonora-search-drawer" id="sonoraSearchDrawer">
+      <div class="container py-3">
+        <form class="d-flex gap-2" role="search" data-sonora-search-form>
+          <label for="sonoraQuickSearchInput" class="visually-hidden">Search concerts, artists, or cities</label>
+          <input
+            id="sonoraQuickSearchInput"
+            name="search"
+            type="search"
+            class="form-control sonora-search-input"
+            placeholder="Search concerts, artists, genres, or cities..."
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-sonora-pill btn-sonora-primary px-4">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Seat Selection Content -->
+  <main class="py-4 py-md-5">
+    <div class="container">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="sonora-breadcrumb mb-3">
+        <a href="../index.html">Home</a>
+        <span class="mx-2">/</span>
+        <a href="events.html">Concerts</a>
+        <span class="mx-2">/</span>
+        <a id="concertDetailsLink" href="event-details.html">Concert Details</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">Seat Selection</span>
+      </nav>
+
+      <!-- Concert Header & Selector -->
+      <section class="sonora-surface p-4 mb-4" aria-labelledby="concertHeading">
+        <div class="row g-3 align-items-center justify-content-between">
+          <div class="col-lg-7">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+              <span id="concertGenreTag" class="sonora-tag">Synth-Pop</span>
+              <span id="concertAvailabilityTag" class="small text-muted-sonora">142 tickets remaining</span>
+            </div>
+            <h1 id="concertHeading" class="h2 mb-1">Midnight Neon Tour</h1>
+            <p id="concertMeta" class="text-muted-sonora mb-0">
+              Aria Vance &bull; Obsidian Arena, New York &bull; Dec 5, 2026 at 8:00 PM
+            </p>
+          </div>
+
+          <div class="col-lg-5">
+            <label for="concertSelector" class="form-label small text-muted-sonora mb-1">
+              Switch Concert Event
+            </label>
+            <select id="concertSelector" class="form-select sonora-select"></select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Venue Map + Order Summary Grid -->
+      <div class="row g-4 align-items-start">
+        <!-- Left Column: Stage Bar + Three Seating Sections -->
+        <div class="col-lg-8">
+          <section class="sonora-surface p-3 p-md-4" aria-label="Venue seating chart">
+            <!-- Stage Bar -->
+            <div class="sonora-stage-wrap">
+              <div class="sonora-stage-bar" role="region" aria-label="Main Stage">
+                Main Stage
+              </div>
+              <span class="sonora-stage-caption">All sections face directly toward the stage</span>
+            </div>
+
+            <!-- Seat Status Legend -->
+            <div class="sonora-legend mb-4" aria-label="Seat status legend">
+              <span class="sonora-legend-item">
+                <span class="sonora-legend-box" aria-hidden="true"></span>
+                Available
+              </span>
+              <span class="sonora-legend-item">
+                <span class="sonora-legend-box is-selected" aria-hidden="true"></span>
+                Selected
+              </span>
+              <span class="sonora-legend-item">
+                <span class="sonora-legend-box is-occupied" aria-hidden="true"></span>
+                Reserved
+              </span>
+            </div>
+
+            <!-- Section 1: VIP (2 Rows of Seats) -->
+            <section class="sonora-seat-section sonora-seat-section--vip mb-4" aria-labelledby="vipSectionTitle">
+              <header class="sonora-seat-section-header">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="sonora-tag">Section 1 &bull; VIP</span>
+                    <h2 id="vipSectionTitle" class="h5 mb-0">VIP Front Stage Seating</h2>
+                  </div>
+                  <p class="small text-muted-sonora mb-0">
+                    2 rows closest to the stage &bull; Priority lane entry &amp; commemorative laminate
+                  </p>
+                </div>
+                <div class="text-sm-end">
+                  <span id="vipPriceLabel" class="fw-bold fs-5 text-white">$149.00</span>
+                  <div class="small text-muted-sonora">per seat</div>
+                </div>
+              </header>
+
+              <div id="vipSeatRows" class="sonora-seat-rows" role="group" aria-label="VIP seating rows"></div>
+            </section>
+
+            <!-- Section 2: Regular Seating (3 Rows of Seats) -->
+            <section class="sonora-seat-section mb-4" aria-labelledby="regularSectionTitle">
+              <header class="sonora-seat-section-header">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="sonora-tag">Section 2 &bull; Regular</span>
+                    <h2 id="regularSectionTitle" class="h5 mb-0">Regular Reserved Seating</h2>
+                  </div>
+                  <p class="small text-muted-sonora mb-0">
+                    3 elevated rows with balanced acoustics and unobstructed center sightlines
+                  </p>
+                </div>
+                <div class="text-sm-end">
+                  <span id="regularPriceLabel" class="fw-bold fs-5 text-white">$89.00</span>
+                  <div class="small text-muted-sonora">per seat</div>
+                </div>
+              </header>
+
+              <div id="regularSeatRows" class="sonora-seat-rows" role="group" aria-label="Regular seating rows"></div>
+            </section>
+
+            <!-- Section 3: General Admission -->
+            <section class="sonora-seat-section" aria-labelledby="gaSectionTitle">
+              <header class="sonora-seat-section-header">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="sonora-tag">Section 3 &bull; GA</span>
+                    <h2 id="gaSectionTitle" class="h5 mb-0">General Admission</h2>
+                  </div>
+                  <p class="small text-muted-sonora mb-0">
+                    Open standing floor and rear concourse access &bull; Unreserved first-come, first-served entry
+                  </p>
+                </div>
+                <div class="text-sm-end">
+                  <span id="gaPriceLabel" class="fw-bold fs-5 text-white">$62.00</span>
+                  <div class="small text-muted-sonora">per pass</div>
+                </div>
+              </header>
+
+              <div class="sonora-ga-zone d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                <div>
+                  <p class="fw-semibold text-white mb-1">General Admission Standing Floor</p>
+                  <p class="small text-muted-sonora mb-0">
+                    No assigned seat numbers. Select the number of passes you need below (up to 8 tickets total per order).
+                  </p>
+                </div>
+
+                <div class="sonora-qty-control" role="group" aria-label="General Admission pass quantity">
+                  <button
+                    type="button"
+                    id="gaDecreaseBtn"
+                    class="sonora-qty-btn"
+                    aria-label="Decrease General Admission passes"
+                  >
+                    &minus;
+                  </button>
+                  <span id="gaCountDisplay" class="fw-bold px-2 text-white" aria-live="polite">0</span>
+                  <button
+                    type="button"
+                    id="gaIncreaseBtn"
+                    class="sonora-qty-btn"
+                    aria-label="Increase General Admission passes"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+
+        <!-- Right Column: Sticky Order Summary -->
+        <aside class="col-lg-4" aria-label="Ticket selection summary">
+          <div class="sonora-surface p-4 sonora-summary-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h2 class="h5 mb-0">Your Selection</h2>
+              <span id="selectionCountPill" class="sonora-tag">0 Tickets</span>
+            </div>
+
+            <div id="selectionEmptyState" class="py-3 border-top border-bottom" style="border-color: var(--sonora-border) !important;">
+              <p class="small text-muted-sonora mb-0">
+                Tap available seats in VIP or Regular sections, or add General Admission passes to build your order.
+              </p>
+            </div>
+
+            <div id="selectionDetails" class="d-none">
+              <div class="mb-3">
+                <p class="small text-muted-sonora mb-2">Selected Seats &amp; Passes</p>
+                <div id="selectedItemsChips" class="d-flex flex-wrap gap-2"></div>
+              </div>
+
+              <div class="border-top border-bottom py-3 mb-3" style="border-color: var(--sonora-border) !important;">
+                <div class="d-flex justify-content-between small mb-2">
+                  <span class="text-muted-sonora">Tickets Subtotal</span>
+                  <span id="subtotalValue" class="text-white fw-semibold">$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between small mb-2">
+                  <span class="text-muted-sonora">Venue Service Fee (8%)</span>
+                  <span id="feeValue" class="text-white fw-semibold">$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-baseline pt-2 border-top" style="border-color: var(--sonora-border) !important;">
+                  <span class="fw-bold text-white">Estimated Total</span>
+                  <span id="totalValue" class="h4 mb-0 text-white">$0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="selectionAlert" class="sonora-feedback-banner mb-3 d-none" role="status" aria-live="polite"></div>
+
+            <div class="d-grid gap-2 mt-3">
+              <button type="button" id="addToCartBtn" class="btn btn-sonora-pill btn-sonora-primary" disabled>
+                Add Selected to My Tickets
+              </button>
+              <button type="button" id="proceedCheckoutBtn" class="btn btn-sonora-pill btn-sonora-outline" disabled>
+                Proceed to Checkout
+              </button>
+              <button type="button" id="clearSelectionBtn" class="btn btn-sonora-pill btn-sonora-ghost" disabled>
+                Clear Selection
+              </button>
+            </div>
+
+            <p class="small text-muted-sonora mt-3 mb-0">
+              Maximum 8 tickets per order. Digital QR passes are delivered immediately after checkout.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Matching Dark Footer -->
+  <footer class="sonora-footer">
+    <div class="container">
+      <div class="row gy-4 align-items-center justify-content-between">
+        <div class="col-lg-5">
+          <a class="sonora-brand mb-3" href="../index.html">
+            <img
+              src="../images/logo.svg"
+              alt="SONORA logo"
+              class="sonora-brand-logo"
+              width="36"
+              height="36"
+            />
+            <span class="sonora-brand-text">
+              <span class="sonora-brand-title">SONORA</span>
+              <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+            </span>
+          </a>
+          <p class="text-muted-sonora small mb-0">
+            Your gateway to live music experiences, unforgettable tours, and instant digital concert passes.
+          </p>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column align-items-lg-end gap-3">
+          <ul class="sonora-footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+
+          <!-- AI Image Disclosure Placeholder -->
+          <div class="sonora-ai-disclosure w-100 text-lg-end" role="note">
+            AI Image Disclosure Placeholder: Promotional artist, venue, and concert imagery used on this site may include AI-generated visuals created for academic prototype demonstration.
+          </div>
+        </div>
+      </div>
+
+      <hr class="sonora-footer-divider my-4" />
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 small text-muted-sonora">
+        <span>&copy; <span data-sonora-year>2026</span> SONORA Live Concert Tickets. All rights reserved.</span>
+        <span>Built with Semantic HTML, Bootstrap 5 &amp; Vanilla JS.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle (no jQuery) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Shared SONORA Data & Core Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- Page-specific Seat Selection Logic -->
+  <script>
+    (function () {
+      "use strict";
+
+      const MAX_TICKETS_PER_ORDER = 8;
+      const SERVICE_FEE_RATE = 0.08;
+
+      // Seat layouts: 2 rows in VIP (10 seats each), 3 rows in Regular (12 seats each)
+      const VIP_ROWS = [
+        { label: "V1", count: 10, occupied: [4, 5] },
+        { label: "V2", count: 10, occupied: [2, 8, 9] }
+      ];
+
+      const REGULAR_ROWS = [
+        { label: "R1", count: 12, occupied: [5, 6, 7] },
+        { label: "R2", count: 12, occupied: [1, 10, 11] },
+        { label: "R3", count: 12, occupied: [3, 4] }
+      ];
+
+      const state = {
+        concert: null,
+        selectedSeats: new Map(), // key: seatId -> { id, section, row, number, price }
+        gaQuantity: 0
+      };
+
+      const elements = {
+        concertHeading: document.getElementById("concertHeading"),
+        concertGenreTag: document.getElementById("concertGenreTag"),
+        concertAvailabilityTag: document.getElementById("concertAvailabilityTag"),
+        concertMeta: document.getElementById("concertMeta"),
+        concertDetailsLink: document.getElementById("concertDetailsLink"),
+        concertSelector: document.getElementById("concertSelector"),
+        vipPriceLabel: document.getElementById("vipPriceLabel"),
+        regularPriceLabel: document.getElementById("regularPriceLabel"),
+        gaPriceLabel: document.getElementById("gaPriceLabel"),
+        vipSeatRows: document.getElementById("vipSeatRows"),
+        regularSeatRows: document.getElementById("regularSeatRows"),
+        gaDecreaseBtn: document.getElementById("gaDecreaseBtn"),
+        gaIncreaseBtn: document.getElementById("gaIncreaseBtn"),
+        gaCountDisplay: document.getElementById("gaCountDisplay"),
+        selectionCountPill: document.getElementById("selectionCountPill"),
+        selectionEmptyState: document.getElementById("selectionEmptyState"),
+        selectionDetails: document.getElementById("selectionDetails"),
+        selectedItemsChips: document.getElementById("selectedItemsChips"),
+        subtotalValue: document.getElementById("subtotalValue"),
+        feeValue: document.getElementById("feeValue"),
+        totalValue: document.getElementById("totalValue"),
+        selectionAlert: document.getElementById("selectionAlert"),
+        addToCartBtn: document.getElementById("addToCartBtn"),
+        proceedCheckoutBtn: document.getElementById("proceedCheckoutBtn"),
+        clearSelectionBtn: document.getElementById("clearSelectionBtn")
+      };
+
+      function formatCurrency(amount) {
+        return `$${Number(amount).toFixed(2)}`;
+      }
+
+      function formatEventDate(isoDate) {
+        const parsed = new Date(isoDate);
+        if (Number.isNaN(parsed.getTime())) {
+          return isoDate;
+        }
+        return parsed.toLocaleString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          hour: "numeric",
+          minute: "2-digit"
+        });
+      }
+
+      function getTierPrices(basePrice) {
+        const regular = Number(basePrice) || 75;
+        const vip = Math.round(regular * 1.65);
+        const ga = Math.max(25, Math.round(regular * 0.7));
+        return { vip, regular, ga };
+      }
+
+      function getTotalSelectedCount() {
+        return state.selectedSeats.size + state.gaQuantity;
+      }
+
+      function showAlert(message, isSuccess) {
+        if (!message) {
+          elements.selectionAlert.classList.add("d-none");
+          elements.selectionAlert.innerHTML = "";
+          return;
+        }
+        elements.selectionAlert.classList.remove("d-none");
+        elements.selectionAlert.style.borderColor = isSuccess
+          ? "rgba(255, 255, 255, 0.25)"
+          : "rgba(225, 29, 72, 0.45)";
+        elements.selectionAlert.innerHTML = message;
+      }
+
+      function renderConcertHeader() {
+        const concert = state.concert;
+        const artist = SONORA_DATA.getArtistById(concert.artistId);
+        const venue = SONORA_DATA.getVenueById(concert.venueId);
+        const prices = getTierPrices(concert.price);
+
+        elements.concertHeading.textContent = concert.title;
+        elements.concertGenreTag.textContent = concert.genre;
+        elements.concertAvailabilityTag.textContent = `${concert.seatsAvailable} tickets remaining`;
+
+        const artistName = artist ? artist.name : "Featured Artist";
+        const venueLabel = venue ? `${venue.name}, ${venue.city}` : concert.city;
+        elements.concertMeta.textContent = `${artistName} \u2022 ${venueLabel} \u2022 ${formatEventDate(concert.date)}`;
+        elements.concertDetailsLink.href = `event-details.html?id=${encodeURIComponent(concert.id)}`;
+
+        elements.vipPriceLabel.textContent = formatCurrency(prices.vip);
+        elements.regularPriceLabel.textContent = formatCurrency(prices.regular);
+        elements.gaPriceLabel.textContent = formatCurrency(prices.ga);
+        document.title = `Select Seats: ${concert.title} | SONORA — Live Concert Tickets`;
+      }
+
+      function createSeatButton(sectionName, rowLabel, seatNum, isOccupied, price, isVip) {
+        const seatId = `${rowLabel}-${seatNum}`;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `sonora-seat${isVip ? " sonora-seat--vip" : ""}${isOccupied ? " is-occupied" : ""}`;
+        button.textContent = String(seatNum);
+        button.dataset.seatId = seatId;
+
+        if (isOccupied) {
+          button.disabled = true;
+          button.setAttribute("aria-label", `${sectionName} Row ${rowLabel} Seat ${seatNum} — Reserved`);
+        } else {
+          button.setAttribute(
+            "aria-label",
+            `${sectionName} Row ${rowLabel} Seat ${seatNum} — ${formatCurrency(price)} — Available`
+          );
+          button.setAttribute("aria-pressed", "false");
+          button.addEventListener("click", () => {
+            toggleSeat({
+              id: seatId,
+              section: sectionName,
+              row: rowLabel,
+              number: seatNum,
+              price: price
+            }, button);
+          });
+        }
+
+        return button;
+      }
+
+      function renderSeatSection(container, rowsConfig, sectionName, unitPrice, isVip) {
+        container.innerHTML = "";
+
+        rowsConfig.forEach((row) => {
+          const rowEl = document.createElement("div");
+          rowEl.className = "sonora-seat-row";
+
+          const labelEl = document.createElement("span");
+          labelEl.className = "sonora-row-label";
+          labelEl.textContent = row.label;
+          rowEl.appendChild(labelEl);
+
+          const seatsWrap = document.createElement("div");
+          seatsWrap.className = "sonora-row-seats";
+
+          const midpoint = Math.floor(row.count / 2);
+          for (let seatNum = 1; seatNum <= row.count; seatNum += 1) {
+            if (seatNum === midpoint + 1) {
+              const aisle = document.createElement("span");
+              aisle.className = "sonora-aisle-gap";
+              aisle.setAttribute("aria-hidden", "true");
+              seatsWrap.appendChild(aisle);
+            }
+
+            const isOccupied = row.occupied.includes(seatNum);
+            const seatBtn = createSeatButton(sectionName, row.label, seatNum, isOccupied, unitPrice, isVip);
+            seatsWrap.appendChild(seatBtn);
+          }
+
+          rowEl.appendChild(seatsWrap);
+          container.appendChild(rowEl);
+        });
+      }
+
+      function toggleSeat(seatInfo, buttonEl) {
+        showAlert("", false);
+
+        if (state.selectedSeats.has(seatInfo.id)) {
+          state.selectedSeats.delete(seatInfo.id);
+          buttonEl.classList.remove("is-selected");
+          buttonEl.setAttribute("aria-pressed", "false");
+        } else {
+          if (getTotalSelectedCount() >= MAX_TICKETS_PER_ORDER) {
+            showAlert(`You can select up to ${MAX_TICKETS_PER_ORDER} tickets per order.`, false);
+            return;
+          }
+          state.selectedSeats.set(seatInfo.id, seatInfo);
+          buttonEl.classList.add("is-selected");
+          buttonEl.setAttribute("aria-pressed", "true");
+        }
+
+        renderSummary();
+      }
+
+      function removeSeatById(seatId) {
+        state.selectedSeats.delete(seatId);
+        const btn = document.querySelector(`.sonora-seat[data-seat-id="${seatId}"]`);
+        if (btn) {
+          btn.classList.remove("is-selected");
+          btn.setAttribute("aria-pressed", "false");
+        }
+        showAlert("", false);
+        renderSummary();
+      }
+
+      function updateGaQuantity(delta) {
+        showAlert("", false);
+        const nextQty = state.gaQuantity + delta;
+
+        if (nextQty < 0) {
+          return;
+        }
+        if (delta > 0 && getTotalSelectedCount() >= MAX_TICKETS_PER_ORDER) {
+          showAlert(`You can select up to ${MAX_TICKETS_PER_ORDER} tickets per order.`, false);
+          return;
+        }
+
+        state.gaQuantity = nextQty;
+        renderSummary();
+      }
+
+      function renderSummary() {
+        const prices = getTierPrices(state.concert.price);
+        const totalCount = getTotalSelectedCount();
+
+        elements.gaCountDisplay.textContent = String(state.gaQuantity);
+        elements.gaDecreaseBtn.disabled = state.gaQuantity === 0;
+        elements.gaIncreaseBtn.disabled = totalCount >= MAX_TICKETS_PER_ORDER;
+
+        elements.selectionCountPill.textContent = `${totalCount} ${totalCount === 1 ? "Ticket" : "Tickets"}`;
+
+        const hasItems = totalCount > 0;
+        elements.selectionEmptyState.classList.toggle("d-none", hasItems);
+        elements.selectionDetails.classList.toggle("d-none", !hasItems);
+        elements.addToCartBtn.disabled = !hasItems;
+        elements.proceedCheckoutBtn.disabled = !hasItems;
+        elements.clearSelectionBtn.disabled = !hasItems;
+
+        elements.selectedItemsChips.innerHTML = "";
+        let subtotal = 0;
+
+        state.selectedSeats.forEach((seat) => {
+          subtotal += seat.price;
+          const chip = document.createElement("span");
+          chip.className = "sonora-selected-chip";
+          chip.textContent = `${seat.section} ${seat.id} (${formatCurrency(seat.price)}) `;
+
+          const removeBtn = document.createElement("button");
+          removeBtn.type = "button";
+          removeBtn.setAttribute("aria-label", `Remove seat ${seat.id}`);
+          removeBtn.textContent = "\u00d7";
+          removeBtn.addEventListener("click", () => removeSeatById(seat.id));
+
+          chip.appendChild(removeBtn);
+          elements.selectedItemsChips.appendChild(chip);
+        });
+
+        if (state.gaQuantity > 0) {
+          const gaSubtotal = state.gaQuantity * prices.ga;
+          subtotal += gaSubtotal;
+
+          const gaChip = document.createElement("span");
+          gaChip.className = "sonora-selected-chip";
+          gaChip.textContent = `General Admission \u00d7${state.gaQuantity} (${formatCurrency(gaSubtotal)}) `;
+
+          const removeGaBtn = document.createElement("button");
+          removeGaBtn.type = "button";
+          removeGaBtn.setAttribute("aria-label", "Remove General Admission passes");
+          removeGaBtn.textContent = "\u00d7";
+          removeGaBtn.addEventListener("click", () => {
+            state.gaQuantity = 0;
+            showAlert("", false);
+            renderSummary();
+          });
+
+          gaChip.appendChild(removeGaBtn);
+          elements.selectedItemsChips.appendChild(gaChip);
+        }
+
+        const serviceFee = subtotal * SERVICE_FEE_RATE;
+        const grandTotal = subtotal + serviceFee;
+
+        elements.subtotalValue.textContent = formatCurrency(subtotal);
+        elements.feeValue.textContent = formatCurrency(serviceFee);
+        elements.totalValue.textContent = formatCurrency(grandTotal);
+      }
+
+      function saveSelectionToCart() {
+        const prices = getTierPrices(state.concert.price);
+        const cartKey = (window.SONORA_UI && window.SONORA_UI.STORAGE_KEYS.CART) || "sonora_cart";
+        let existingCart = [];
+
+        try {
+          const raw = window.localStorage.getItem(cartKey);
+          existingCart = raw ? JSON.parse(raw) : [];
+          if (!Array.isArray(existingCart)) {
+            existingCart = [];
+          }
+        } catch (error) {
+          existingCart = [];
+        }
+
+        const seatList = Array.from(state.selectedSeats.values()).map((seat) => ({
+          seatId: seat.id,
+          section: seat.section,
+          price: seat.price
+        }));
+
+        const orderItem = {
+          id: `${state.concert.id}-${Date.now()}`,
+          concertId: state.concert.id,
+          concertTitle: state.concert.title,
+          date: state.concert.date,
+          seats: seatList,
+          gaQuantity: state.gaQuantity,
+          gaUnitPrice: prices.ga,
+          quantity: getTotalSelectedCount(),
+          subtotal: seatList.reduce((sum, s) => sum + s.price, 0) + state.gaQuantity * prices.ga
+        };
+
+        existingCart.push(orderItem);
+        window.localStorage.setItem(cartKey, JSON.stringify(existingCart));
+
+        if (window.SONORA_UI && typeof window.SONORA_UI.refreshBadges === "function") {
+          window.SONORA_UI.refreshBadges();
+        }
+      }
+
+      function clearAllSelections() {
+        state.selectedSeats.clear();
+        state.gaQuantity = 0;
+        document.querySelectorAll(".sonora-seat.is-selected").forEach((btn) => {
+          btn.classList.remove("is-selected");
+          btn.setAttribute("aria-pressed", "false");
+        });
+        showAlert("", false);
+        renderSummary();
+      }
+
+      function loadConcert(concertId) {
+        const matched = SONORA_DATA.getConcertById(concertId) || SONORA_DATA.CONCERTS[0];
+        state.concert = matched;
+        state.selectedSeats.clear();
+        state.gaQuantity = 0;
+
+        renderConcertHeader();
+        const prices = getTierPrices(matched.price);
+        renderSeatSection(elements.vipSeatRows, VIP_ROWS, "VIP", prices.vip, true);
+        renderSeatSection(elements.regularSeatRows, REGULAR_ROWS, "Regular", prices.regular, false);
+        showAlert("", false);
+        renderSummary();
+      }
+
+      function populateConcertSelector(initialId) {
+        SONORA_DATA.CONCERTS.forEach((concert) => {
+          const artist = SONORA_DATA.getArtistById(concert.artistId);
+          const option = document.createElement("option");
+          option.value = concert.id;
+          option.textContent = `${concert.title} — ${artist ? artist.name : concert.city} (${concert.city})`;
+          if (concert.id === initialId) {
+            option.selected = true;
+          }
+          elements.concertSelector.appendChild(option);
+        });
+
+        elements.concertSelector.addEventListener("change", (event) => {
+          loadConcert(event.target.value);
+        });
+      }
+
+      function initSeatsPage() {
+        if (typeof SONORA_DATA === "undefined" || !Array.isArray(SONORA_DATA.CONCERTS) || !SONORA_DATA.CONCERTS.length) {
+          return;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const requestedId = params.get("id") || params.get("concert") || SONORA_DATA.CONCERTS[0].id;
+        const initialConcert = SONORA_DATA.getConcertById(requestedId) || SONORA_DATA.CONCERTS[0];
+
+        populateConcertSelector(initialConcert.id);
+        loadConcert(initialConcert.id);
+
+        elements.gaDecreaseBtn.addEventListener("click", () => updateGaQuantity(-1));
+        elements.gaIncreaseBtn.addEventListener("click", () => updateGaQuantity(1));
+        elements.clearSelectionBtn.addEventListener("click", clearAllSelections);
+
+        elements.addToCartBtn.addEventListener("click", () => {
+          if (getTotalSelectedCount() === 0) {
+            return;
+          }
+          saveSelectionToCart();
+          const savedCount = getTotalSelectedCount();
+          clearAllSelections();
+          showAlert(
+            `Added <strong>${savedCount}</strong> ${savedCount === 1 ? "ticket" : "tickets"} to your cart. <a href="my-tickets.html" class="text-decoration-underline fw-semibold">View My Tickets</a>`,
+            true
+          );
+        });
+
+        elements.proceedCheckoutBtn.addEventListener("click", () => {
+          if (getTotalSelectedCount() === 0) {
+            return;
+          }
+          saveSelectionToCart();
+          window.location.href = `checkout.html?id=${encodeURIComponent(state.concert.id)}`;
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", initSeatsPage);
+    })();
+  </script>
+</body>
+</html>

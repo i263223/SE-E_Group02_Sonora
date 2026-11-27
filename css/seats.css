@@ -1,0 +1,276 @@
+/* ==========================================================================
+   SONORA — Live Concert Tickets
+   Page-specific Seat Map Styles (pages/seats.html)
+   ========================================================================== */
+
+.sonora-breadcrumb {
+  font-size: 0.875rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-breadcrumb a {
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-breadcrumb a:hover {
+  color: var(--sonora-accent);
+}
+
+/* Stage Bar */
+.sonora-stage-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sonora-stage-bar {
+  width: 100%;
+  max-width: 640px;
+  padding: 0.9rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(225, 29, 72, 0.28) 0%, rgba(32, 32, 37, 0.95) 100%);
+  border: 1px solid rgba(225, 29, 72, 0.55);
+  border-bottom: 3px solid var(--sonora-accent);
+  border-radius: 0.75rem 0.75rem 2.25rem 2.25rem;
+  box-shadow: 0 12px 32px rgba(225, 29, 72, 0.18);
+  letter-spacing: 0.28em;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  color: var(--sonora-text-primary);
+}
+
+.sonora-stage-caption {
+  margin-top: 0.55rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sonora-text-secondary);
+}
+
+/* Seating Sections */
+.sonora-seat-section {
+  background-color: var(--sonora-bg-elevated);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-md);
+  padding: 1.25rem;
+}
+
+.sonora-seat-section--vip {
+  border-color: rgba(225, 29, 72, 0.42);
+  background: linear-gradient(180deg, rgba(225, 29, 72, 0.07) 0%, var(--sonora-bg-elevated) 100%);
+}
+
+.sonora-seat-section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.sonora-seat-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.sonora-seat-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-width: max-content;
+  margin: 0 auto;
+}
+
+.sonora-row-label {
+  width: 2.1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--sonora-text-secondary);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.sonora-row-seats {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sonora-aisle-gap {
+  width: 1.15rem;
+  flex-shrink: 0;
+}
+
+/* Individual Seat Button */
+.sonora-seat {
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 0.45rem 0.45rem 0.25rem 0.25rem;
+  border: 1px solid var(--sonora-border-strong);
+  background-color: var(--sonora-bg-surface);
+  color: var(--sonora-text-primary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--sonora-transition), background-color var(--sonora-transition), border-color var(--sonora-transition), box-shadow var(--sonora-transition);
+  padding: 0;
+}
+
+.sonora-seat--vip {
+  border-color: rgba(253, 164, 175, 0.45);
+}
+
+.sonora-seat:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--sonora-accent);
+  background-color: rgba(225, 29, 72, 0.2);
+}
+
+.sonora-seat.is-selected {
+  background-color: var(--sonora-accent);
+  border-color: var(--sonora-accent);
+  color: var(--sonora-text-primary);
+  box-shadow: var(--sonora-shadow-accent);
+}
+
+.sonora-seat:disabled,
+.sonora-seat.is-occupied {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(161, 161, 170, 0.45);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Legend Swatches */
+.sonora-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sonora-legend-box {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 0.3rem;
+  display: inline-block;
+  border: 1px solid var(--sonora-border-strong);
+  background-color: var(--sonora-bg-surface);
+}
+
+.sonora-legend-box.is-selected {
+  background-color: var(--sonora-accent);
+  border-color: var(--sonora-accent);
+}
+
+.sonora-legend-box.is-occupied {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* General Admission Zone */
+.sonora-ga-zone {
+  background-color: var(--sonora-bg-surface);
+  border: 1px dashed var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-sm);
+  padding: 1.25rem;
+}
+
+.sonora-qty-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-pill);
+  padding: 0.25rem 0.5rem;
+}
+
+.sonora-qty-btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--sonora-border-strong);
+  background-color: var(--sonora-bg-elevated);
+  color: var(--sonora-text-primary);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--sonora-transition), border-color var(--sonora-transition);
+}
+
+.sonora-qty-btn:hover:not(:disabled) {
+  background-color: var(--sonora-accent);
+  border-color: var(--sonora-accent);
+}
+
+.sonora-qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Summary Card */
+.sonora-summary-card {
+  position: sticky;
+  top: 5.5rem;
+}
+
+.sonora-selected-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  color: #FDA4AF;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.sonora-selected-chip button {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  line-height: 1;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sonora-selected-chip button:hover {
+  color: var(--sonora-text-primary);
+}
+
+.sonora-feedback-banner {
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+  border-radius: var(--sonora-radius-sm);
+  color: var(--sonora-text-primary);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}

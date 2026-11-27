@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Event | SONORA — Live Concert Tickets</title>
+  <meta name="description" content="SONORA — Submit a new live concert, configure GA and VIP ticket tiers, and preview your event card in real time." />
+
+  <!-- Bootstrap 5 CSS (no jQuery) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Shared SONORA Theme Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- Organizer Stylesheet -->
+  <link rel="stylesheet" href="../css/organizer.css" />
+</head>
+<body class="sonora-create-event-page">
+  <!-- Sticky Top Navigation Bar -->
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg sonora-navbar" aria-label="Primary navigation">
+      <div class="container">
+        <!-- Left: Logo + Brand Wordmark -->
+        <a class="sonora-brand" href="../index.html">
+          <img
+            src="../images/logo.svg"
+            alt="SONORA logo"
+            class="sonora-brand-logo"
+            width="40"
+            height="40"
+          />
+          <span class="sonora-brand-text">
+            <span class="sonora-brand-title">SONORA</span>
+            <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+          </span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button
+          class="navbar-toggler sonora-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sonoraNavbarNav"
+          aria-controls="sonoraNavbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Center Links + Right Actions -->
+        <div class="collapse navbar-collapse" id="sonoraNavbarNav">
+          <!-- Center Navigation Links -->
+          <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 gap-lg-1">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="events.html"
+                data-nav-link
+                data-nav-match="events.html,concerts.html,event-details.html"
+              >
+                Concerts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="artists.html"
+                data-nav-link
+                data-nav-match="artists.html,artist-details.html"
+              >
+                Artists
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="venues.html"
+                data-nav-link
+                data-nav-match="venues.html,venue-details.html"
+              >
+                Venues
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="my-tickets.html"
+                data-nav-link
+                data-nav-match="my-tickets.html,checkout.html"
+              >
+                <span>My Tickets</span>
+                <span class="sonora-badge-count d-none" data-sonora-ticket-badge>0</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right Actions: Search Button + Sign In / Sign Up -->
+          <div class="d-flex align-items-center gap-2 sonora-nav-actions">
+            <button
+              type="button"
+              class="sonora-icon-btn"
+              data-bs-toggle="collapse"
+              data-bs-target="#sonoraSearchDrawer"
+              aria-expanded="false"
+              aria-controls="sonoraSearchDrawer"
+              aria-label="Toggle quick search"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path stroke-linecap="round" d="M20 20l-3.5-3.5" />
+              </svg>
+            </button>
+
+            <div id="sonoraAuthActions" class="d-flex align-items-center gap-2">
+              <a href="signin.html" class="btn btn-sonora-pill btn-sonora-outline">Sign In</a>
+              <a href="signup.html" class="btn btn-sonora-pill btn-sonora-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Collapsible Quick Search Bar -->
+    <div class="collapse sonora-search-drawer" id="sonoraSearchDrawer">
+      <div class="container py-3">
+        <form class="d-flex gap-2" role="search" data-sonora-search-form>
+          <label for="sonoraQuickSearchInput" class="visually-hidden">Search concerts, artists, or cities</label>
+          <input
+            id="sonoraQuickSearchInput"
+            name="search"
+            type="search"
+            class="form-control sonora-search-input"
+            placeholder="Search concerts, artists, genres, or cities..."
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-sonora-pill btn-sonora-primary px-4">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Create Event Content Area -->
+  <main class="py-5">
+    <div class="container">
+      <!-- Page Intro Header -->
+      <div class="ce-page-header mb-4">
+        <span class="sonora-tag mb-2">Organizer Studio</span>
+        <h1 class="display-6 mb-2">Create a Concert</h1>
+        <p class="text-muted-sonora mb-0">
+          Enter your concert details and ticket tiers on the left, and preview your listing card live on the right.
+        </p>
+      </div>
+
+      <!-- Confirmation Banner (shown after saving draft or publishing) -->
+      <div
+        id="ce-confirmation-banner"
+        class="ce-banner ce-banner-success mb-4"
+        role="status"
+        aria-live="polite"
+        hidden
+      >
+        <div class="ce-banner-content">
+          <div class="ce-banner-icon" aria-hidden="true">&#10003;</div>
+          <div>
+            <strong id="ce-confirmation-title" class="d-block">Concert saved!</strong>
+            <span id="ce-confirmation-message" class="ce-banner-subtext"></span>
+          </div>
+        </div>
+        <a href="organizer-dashboard.html" class="btn btn-sonora-pill btn-sonora-primary">
+          View Organizer Dashboard &rarr;
+        </a>
+      </div>
+
+      <!-- Validation Error Banner (shown when required fields are missing or invalid) -->
+      <div
+        id="ce-error-banner"
+        class="ce-banner ce-banner-error mb-4"
+        role="alert"
+        hidden
+      >
+        <div class="ce-banner-content">
+          <div class="ce-banner-icon" aria-hidden="true">!</div>
+          <div>
+            <strong class="d-block">Please check the required fields</strong>
+            <span id="ce-error-message" class="ce-banner-subtext"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Responsive Layout -->
+      <div class="ce-layout">
+        <!-- Left Column: Submit a new Concert Form -->
+        <section class="sonora-surface ce-form-panel" aria-labelledby="ce-form-heading">
+          <div class="ce-panel-header">
+            <h2 id="ce-form-heading" class="h4 mb-1">Submit a new Concert</h2>
+            <p class="text-muted-sonora small mb-0">Fields marked with <span class="ce-required">*</span> are required.</p>
+          </div>
+
+          <form id="create-event-form" class="ce-form" novalidate>
+            <!-- Concert Title -->
+            <div class="ce-field">
+              <label for="concert-title" class="ce-label">
+                Concert Title <span class="ce-required">*</span>
+              </label>
+              <input
+                type="text"
+                id="concert-title"
+                name="concertTitle"
+                class="form-control sonora-input ce-input"
+                placeholder="e.g., Coke Studio Live Tour"
+                autocomplete="off"
+                required
+              />
+            </div>
+
+            <!-- Headlining Artist -->
+            <div class="ce-field">
+              <label for="headlining-artist" class="ce-label">
+                Headlining Artist <span class="ce-required">*</span>
+              </label>
+              <input
+                type="text"
+                id="headlining-artist"
+                name="headliningArtist"
+                class="form-control sonora-input ce-input"
+                placeholder="e.g., Atif Aslam"
+                autocomplete="off"
+                required
+              />
+            </div>
+
+            <!-- City & Venue -->
+            <div class="ce-row-two">
+              <div class="ce-field">
+                <label for="concert-city" class="ce-label">
+                  City <span class="ce-required">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="concert-city"
+                  name="concertCity"
+                  class="form-control sonora-input ce-input"
+                  placeholder="e.g., Islamabad"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+
+              <div class="ce-field">
+                <label for="concert-venue" class="ce-label">
+                  Venue <span class="ce-required">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="concert-venue"
+                  name="concertVenue"
+                  class="form-control sonora-input ce-input"
+                  placeholder="e.g., Jinnah Convention Center"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Date & Time -->
+            <div class="ce-row-two">
+              <div class="ce-field">
+                <label for="concert-date" class="ce-label">
+                  Date <span class="ce-required">*</span>
+                </label>
+                <input
+                  type="date"
+                  id="concert-date"
+                  name="concertDate"
+                  class="form-control sonora-input ce-input"
+                  required
+                />
+              </div>
+
+              <div class="ce-field">
+                <label for="concert-time" class="ce-label">
+                  Time <span class="ce-required">*</span>
+                </label>
+                <input
+                  type="time"
+                  id="concert-time"
+                  name="concertTime"
+                  class="form-control sonora-input ce-input"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Ticket Tiers Section -->
+            <div class="ce-tiers-block">
+              <h3 class="ce-tiers-title">Ticket Tiers &amp; Capacity</h3>
+
+              <!-- Row 1: GA Ticket Price & Capacity -->
+              <div class="ce-row-two mb-3">
+                <div class="ce-field">
+                  <label for="ga-price" class="ce-label">
+                    GA Ticket Price (PKR) <span class="ce-required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="ga-price"
+                    name="gaPrice"
+                    class="form-control sonora-input ce-input"
+                    placeholder="e.g., 3000"
+                    min="0"
+                    step="50"
+                    inputmode="numeric"
+                    required
+                  />
+                </div>
+
+                <div class="ce-field">
+                  <label for="ga-capacity" class="ce-label">
+                    GA Capacity <span class="ce-required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="ga-capacity"
+                    name="gaCapacity"
+                    class="form-control sonora-input ce-input"
+                    placeholder="e.g., 500"
+                    min="1"
+                    step="1"
+                    inputmode="numeric"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Row 2: VIP Ticket Price & Capacity -->
+              <div class="ce-row-two">
+                <div class="ce-field">
+                  <label for="vip-price" class="ce-label">
+                    VIP Ticket Price (PKR)
+                  </label>
+                  <input
+                    type="number"
+                    id="vip-price"
+                    name="vipPrice"
+                    class="form-control sonora-input ce-input"
+                    placeholder="e.g., 7500"
+                    min="0"
+                    step="50"
+                    inputmode="numeric"
+                  />
+                </div>
+
+                <div class="ce-field">
+                  <label for="vip-capacity" class="ce-label">
+                    VIP Capacity
+                  </label>
+                  <input
+                    type="number"
+                    id="vip-capacity"
+                    name="vipCapacity"
+                    class="form-control sonora-input ce-input"
+                    placeholder="e.g., 100"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="ce-actions">
+              <button
+                type="button"
+                id="save-draft-btn"
+                class="btn btn-sonora-pill btn-sonora-outline ce-action-btn"
+              >
+                Save as Draft
+              </button>
+              <button
+                type="submit"
+                id="publish-concert-btn"
+                class="btn btn-sonora-pill btn-sonora-primary ce-action-btn"
+              >
+                Publish Concert
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Right Column: LIVE CARD PREVIEW -->
+        <aside class="ce-preview-column" aria-labelledby="ce-preview-heading">
+          <div class="ce-preview-card">
+            <div class="ce-preview-header">
+              <span class="ce-preview-dot" aria-hidden="true"></span>
+              <h2 id="ce-preview-heading" class="ce-preview-heading mb-0">LIVE CARD PREVIEW</h2>
+            </div>
+
+            <!-- Concert Stage Banner Graphic with Stage Lights / Spotlight SVG -->
+            <div class="ce-stage-banner">
+              <svg
+                class="ce-stage-svg"
+                viewBox="0 0 420 210"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Concert stage spotlight illustration"
+              >
+                <defs>
+                  <linearGradient id="ceStageSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#09090b" />
+                    <stop offset="65%" stop-color="#18181b" />
+                    <stop offset="100%" stop-color="#27121b" />
+                  </linearGradient>
+                  <linearGradient id="ceBeamLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e11d48" stop-opacity="0.55" />
+                    <stop offset="100%" stop-color="#e11d48" stop-opacity="0" />
+                  </linearGradient>
+                  <linearGradient id="ceBeamCenter" x1="50%" y1="0%" x2="50%" y2="100%">
+                    <stop offset="0%" stop-color="#fda4af" stop-opacity="0.45" />
+                    <stop offset="100%" stop-color="#e11d48" stop-opacity="0" />
+                  </linearGradient>
+                  <linearGradient id="ceBeamRight" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.5" />
+                    <stop offset="100%" stop-color="#f43f5e" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Dark Stage Backdrop -->
+                <rect width="420" height="210" fill="url(#ceStageSky)" />
+
+                <!-- Spotlight Beams -->
+                <polygon points="75,26 15,180 175,180" fill="url(#ceBeamLeft)" />
+                <polygon points="210,26 125,180 295,180" fill="url(#ceBeamCenter)" />
+                <polygon points="345,26 245,180 405,180" fill="url(#ceBeamRight)" />
+
+                <!-- Overhead Lighting Truss -->
+                <line x1="28" y1="22" x2="392" y2="22" stroke="#3f3f46" stroke-width="4" stroke-linecap="round" />
+                <circle cx="75" cy="24" r="6" fill="#fda4af" />
+                <circle cx="145" cy="24" r="4.5" fill="#e11d48" />
+                <circle cx="210" cy="24" r="6.5" fill="#ffffff" />
+                <circle cx="275" cy="24" r="4.5" fill="#e11d48" />
+                <circle cx="345" cy="24" r="6" fill="#fda4af" />
+
+                <!-- Stage Platform Glow & Floor -->
+                <ellipse cx="210" cy="176" rx="150" ry="18" fill="rgba(225, 29, 72, 0.22)" />
+                <rect x="0" y="176" width="420" height="34" fill="#121214" />
+                <line x1="0" y1="176" x2="420" y2="176" stroke="#e11d48" stroke-opacity="0.5" stroke-width="2" />
+
+                <!-- Subtle Crowd / Performer Silhouettes -->
+                <circle cx="210" cy="144" r="8" fill="#09090b" />
+                <path d="M196 176 C196 158, 224 158, 224 176 Z" fill="#09090b" />
+                <line x1="210" y1="150" x2="210" y2="176" stroke="#52525b" stroke-width="2" />
+                <path d="M25 196 Q60 180 95 196 T165 196 T235 196 T305 196 T375 196 L420 196 L420 210 L0 210 L0 196 Z" fill="#09090b" />
+              </svg>
+
+              <span class="ce-stage-badge">SONORA LIVE</span>
+            </div>
+
+            <!-- Live Preview Details -->
+            <div class="ce-preview-body">
+              <div class="ce-preview-top-meta">
+                <span class="ce-preview-artist" id="preview-artist">Headlining Artist</span>
+                <span class="ce-price-badge" id="preview-price-badge">From PKR 0</span>
+              </div>
+
+              <h3 class="ce-preview-title" id="preview-title">Your Concert Title</h3>
+
+              <ul class="ce-preview-meta-list">
+                <li class="ce-preview-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.33-6-10a6 6 0 1 1 12 0c0 4.67-6 10-6 10z" />
+                    <circle cx="12" cy="11" r="2.2" />
+                  </svg>
+                  <span id="preview-location">Venue, City</span>
+                </li>
+                <li class="ce-preview-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <path stroke-linecap="round" d="M16 2v4M8 2v4M3 10h18" />
+                  </svg>
+                  <span id="preview-datetime">Date &amp; Time TBD</span>
+                </li>
+              </ul>
+
+              <div class="ce-preview-footer">
+                <span class="ce-preview-capacity" id="preview-capacity">0 total seats</span>
+                <span class="ce-preview-cta-pill">Get Tickets</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Matching Dark Footer -->
+  <footer class="sonora-footer">
+    <div class="container">
+      <div class="row gy-4 align-items-center justify-content-between">
+        <div class="col-lg-5">
+          <a class="sonora-brand mb-3" href="../index.html">
+            <img
+              src="../images/logo.svg"
+              alt="SONORA logo"
+              class="sonora-brand-logo"
+              width="36"
+              height="36"
+            />
+            <span class="sonora-brand-text">
+              <span class="sonora-brand-title">SONORA</span>
+              <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+            </span>
+          </a>
+          <p class="text-muted-sonora small mb-0">
+            Your gateway to live music experiences, unforgettable tours, and instant digital concert passes.
+          </p>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column align-items-lg-end gap-3">
+          <ul class="sonora-footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+
+          <!-- AI Image Disclosure Placeholder -->
+          <div class="sonora-ai-disclosure w-100 text-lg-end" role="note">
+            AI Image Disclosure Placeholder: Promotional artist, venue, and concert imagery used on this site may include AI-generated visuals created for academic prototype demonstration.
+          </div>
+        </div>
+      </div>
+
+      <hr class="sonora-footer-divider my-4" />
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 small text-muted-sonora">
+        <span>&copy; <span data-sonora-year>2026</span> SONORA Live Concert Tickets. All rights reserved.</span>
+        <span>Built with Semantic HTML, Bootstrap 5 &amp; Vanilla JS.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle (no jQuery) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Shared SONORA Data & Core Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- Organizer Scripts -->
+  <script src="../js/organizer.js"></script>
+</body>
+</html>

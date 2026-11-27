@@ -528,3 +528,376 @@ a {
     text-align: center;
   }
 }
+
+/* =========================================================
+   9. Create Event Page — Shared SONORA Dark Theme & Layout
+   Appended for pages/create-event.html using css/style.css tokens
+   ========================================================= */
+
+/* Preserve shared style.css dark theme when organizer.css loads after style.css */
+body.sonora-create-event-page {
+  background-color: var(--sonora-bg-primary);
+  color: var(--sonora-text-primary);
+  font-family: var(--sonora-font-sans);
+  line-height: 1.6;
+}
+
+.sonora-create-event-page .container {
+  max-width: 1320px;
+  padding-left: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
+  padding-right: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
+}
+
+.sonora-create-event-page .sonora-navbar .navbar-nav .nav-link {
+  border-bottom: none;
+  padding: 0.5rem 0.95rem;
+}
+
+.sonora-create-event-page .btn-sonora-pill {
+  border-radius: var(--sonora-radius-pill);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-width: 1px;
+}
+
+/* Page Intro */
+.ce-page-header {
+  max-width: 720px;
+}
+
+/* Confirmation & Validation Banners */
+.ce-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  border-radius: var(--sonora-radius-md);
+  border: 1px solid var(--sonora-border-strong);
+}
+
+.ce-banner[hidden] {
+  display: none !important;
+}
+
+.ce-banner-success {
+  background-color: rgba(22, 163, 74, 0.14);
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+.ce-banner-error {
+  background-color: rgba(225, 29, 72, 0.14);
+  border-color: rgba(225, 29, 72, 0.5);
+}
+
+.ce-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.ce-banner-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--sonora-radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.ce-banner-success .ce-banner-icon {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+.ce-banner-error .ce-banner-icon {
+  background-color: var(--sonora-accent);
+  color: #ffffff;
+}
+
+.ce-banner-subtext {
+  font-size: 0.9rem;
+  color: var(--sonora-text-secondary);
+}
+
+/* 2-Column Responsive Grid */
+.ce-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Left Column: Form Panel */
+.ce-form-panel {
+  padding: 2rem;
+}
+
+.ce-panel-header {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.ce-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.ce-row-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ce-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ce-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--sonora-text-primary);
+}
+
+.ce-required {
+  color: var(--sonora-accent);
+}
+
+.ce-input {
+  padding: 0.65rem 0.9rem;
+  font-size: 0.95rem;
+  color-scheme: dark;
+}
+
+.ce-input.is-invalid {
+  border-color: var(--sonora-accent);
+  box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.25);
+}
+
+/* Ticket Tiers Block */
+.ce-tiers-block {
+  background-color: var(--sonora-bg-elevated);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-md);
+  padding: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.ce-tiers-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sonora-text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Form Action Buttons */
+.ce-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--sonora-border);
+}
+
+.ce-action-btn {
+  padding: 0.65rem 1.5rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Right Column: Live Card Preview */
+.ce-preview-column {
+  position: sticky;
+  top: 96px;
+}
+
+.ce-preview-card {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--sonora-shadow-card);
+}
+
+.ce-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.25rem;
+  background-color: var(--sonora-bg-elevated);
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.ce-preview-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.75);
+}
+
+.ce-preview-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sonora-text-secondary);
+}
+
+.ce-stage-banner {
+  position: relative;
+  background-color: #09090b;
+  border-bottom: 1px solid var(--sonora-border);
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+}
+
+.ce-stage-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ce-stage-badge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--sonora-radius-pill);
+  background-color: rgba(18, 18, 20, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--sonora-text-primary);
+}
+
+.ce-preview-body {
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.ce-preview-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ce-preview-artist {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fda4af;
+}
+
+.ce-price-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--sonora-radius-pill);
+  background-color: rgba(22, 163, 74, 0.18);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  color: #4ade80;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.ce-preview-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--sonora-text-primary);
+  margin: 0;
+  word-break: break-word;
+}
+
+.ce-preview-meta-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.ce-preview-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  color: var(--sonora-text-secondary);
+}
+
+.ce-preview-meta-item svg {
+  flex-shrink: 0;
+  color: var(--sonora-accent);
+}
+
+.ce-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.85rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid var(--sonora-border);
+}
+
+.ce-preview-capacity {
+  font-size: 0.82rem;
+  color: var(--sonora-text-secondary);
+}
+
+.ce-preview-cta-pill {
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+  color: #fda4af;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Responsive Breakpoints for Create Event Page */
+@media (max-width: 991.98px) {
+  .ce-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ce-preview-column {
+    position: static;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .ce-form-panel {
+    padding: 1.25rem;
+  }
+
+  .ce-row-two {
+    grid-template-columns: 1fr;
+  }
+
+  .ce-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .ce-action-btn {
+    width: 100%;
+  }
+}

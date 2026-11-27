@@ -345,7 +345,12 @@
 
     const artistIdLower = String(artist.id).toLowerCase();
     const concerts = getConcertsList()
-      .filter((concert) => String(concert.artistId || "").toLowerCase() === artistIdLower)
+      .filter(
+      (concert) =>
+        String(concert.artistId || "").toLowerCase() === artistIdLower ||
+        (Array.isArray(concert.lineup) &&
+          concert.lineup.some((id) => String(id || "").toLowerCase() === artistIdLower))
+    )
       .slice()
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 

@@ -7,7 +7,6 @@
   "use strict";
 
   const MAX_TICKETS_PER_ORDER = 8;
-  const SERVICE_FEE_RATE = 0.08;
 
   // Seat layouts: 2 rows in VIP (10 seats each), 3 rows in Regular (12 seats each)
   const VIP_ROWS = [
@@ -47,7 +46,6 @@
     selectionDetails: document.getElementById("selectionDetails"),
     selectedItemsChips: document.getElementById("selectedItemsChips"),
     subtotalValue: document.getElementById("subtotalValue"),
-    feeValue: document.getElementById("feeValue"),
     totalValue: document.getElementById("totalValue"),
     selectionAlert: document.getElementById("selectionAlert"),
     addToCartBtn: document.getElementById("addToCartBtn")
@@ -284,11 +282,9 @@
       elements.selectedItemsChips.appendChild(gaChip);
     }
 
-    const serviceFee = subtotal * SERVICE_FEE_RATE;
-    const grandTotal = subtotal + serviceFee;
+    const grandTotal = subtotal;
 
     elements.subtotalValue.textContent = formatCurrency(subtotal);
-    elements.feeValue.textContent = formatCurrency(serviceFee);
     elements.totalValue.textContent = formatCurrency(grandTotal);
   }
 

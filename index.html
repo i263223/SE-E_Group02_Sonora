@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SONORA — Live Concert Tickets</title>
+  <meta
+    name="description"
+    content="SONORA — Feel the Beat. Live. Discover trending concerts, explore touring artists and iconic venues, and book your digital concert tickets."
+  />
+
+  <!-- Bootstrap 5 CSS (no jQuery) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Shared SONORA Theme Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Homepage-Specific Styles -->
+  <style>
+    .sonora-hero {
+      position: relative;
+      overflow: hidden;
+      padding: 5.5rem 0 4.5rem;
+      border-bottom: 1px solid var(--sonora-border);
+      background:
+        radial-gradient(
+          ellipse 75% 65% at 50% 10%,
+          rgba(225, 29, 72, 0.22) 0%,
+          rgba(225, 29, 72, 0.07) 45%,
+          transparent 75%
+        ),
+        var(--sonora-bg-primary);
+    }
+
+    .sonora-hero-subtitle {
+      max-width: 38rem;
+      color: var(--sonora-text-secondary);
+    }
+
+    .sonora-hero-search {
+      max-width: 40rem;
+    }
+
+    .sonora-hero-search .sonora-search-input.is-invalid {
+      border-color: var(--sonora-accent);
+      box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.25);
+    }
+
+    .sonora-search-error {
+      color: #FDA4AF;
+      font-size: 0.875rem;
+      font-weight: 500;
+      min-height: 1.25rem;
+    }
+
+    .sonora-section-link {
+      color: #FDA4AF;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sonora-section-link:hover {
+      color: var(--sonora-text-primary);
+    }
+
+    .sonora-price-badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--sonora-text-primary);
+    }
+
+    .sonora-seats-low {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--sonora-radius-pill);
+      background-color: var(--sonora-accent-soft);
+      border: 1px solid rgba(225, 29, 72, 0.4);
+      color: #FDA4AF;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .sonora-artist-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: var(--sonora-radius-md);
+      transition: transform var(--sonora-transition);
+    }
+
+    .sonora-artist-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .sonora-artist-avatar-wrap {
+      width: 100%;
+      max-width: 148px;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto 0.85rem;
+    }
+
+    .sonora-artist-avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 2px solid var(--sonora-border-strong);
+      background-color: var(--sonora-bg-surface);
+      transition: border-color var(--sonora-transition), box-shadow var(--sonora-transition);
+    }
+
+    .sonora-artist-card:hover .sonora-artist-avatar,
+    .sonora-artist-card:focus-visible .sonora-artist-avatar {
+      border-color: #E11D48;
+      box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.22);
+    }
+
+    .sonora-artist-name {
+      color: var(--sonora-text-primary);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+      transition: color var(--sonora-transition);
+    }
+
+    .sonora-artist-card:hover .sonora-artist-name {
+      color: #FDA4AF;
+    }
+
+    .sonora-artist-genre {
+      color: var(--sonora-text-secondary);
+      font-size: 0.825rem;
+    }
+
+    @media (max-width: 575.98px) {
+      .sonora-hero {
+        padding: 4rem 0 3.25rem;
+      }
+
+      .sonora-hero-search-row {
+        flex-direction: column;
+      }
+
+      .sonora-hero-search-row .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Top Navigation Bar -->
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg sonora-navbar" aria-label="Primary navigation">
+      <div class="container">
+        <!-- Left: Logo + Brand Wordmark -->
+        <a class="sonora-brand" href="index.html">
+          <img
+            src="images/logo.svg"
+            alt="SONORA logo"
+            class="sonora-brand-logo"
+            width="40"
+            height="40"
+          />
+          <span class="sonora-brand-text">
+            <span class="sonora-brand-title">SONORA</span>
+            <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+          </span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button
+          class="navbar-toggler sonora-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sonoraNavbarNav"
+          aria-controls="sonoraNavbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Center Links + Right Actions -->
+        <div class="collapse navbar-collapse" id="sonoraNavbarNav">
+          <!-- Center Navigation Links -->
+          <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 gap-lg-1">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="pages/events.html"
+                data-nav-link
+                data-nav-match="events.html,concerts.html,event-details.html"
+              >
+                Concerts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="pages/artists.html"
+                data-nav-link
+                data-nav-match="artists.html,artist-details.html"
+              >
+                Artists
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="pages/venues.html"
+                data-nav-link
+                data-nav-match="venues.html,venue-details.html"
+              >
+                Venues
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="pages/my-tickets.html"
+                data-nav-link
+                data-nav-match="my-tickets.html,checkout.html"
+              >
+                <span>My Tickets</span>
+                <span class="sonora-badge-count d-none" data-sonora-ticket-badge>0</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right Actions: Search Button + Sign In / Sign Up -->
+          <div class="d-flex align-items-center gap-2 sonora-nav-actions">
+            <button
+              type="button"
+              class="sonora-icon-btn"
+              data-bs-toggle="collapse"
+              data-bs-target="#sonoraSearchDrawer"
+              aria-expanded="false"
+              aria-controls="sonoraSearchDrawer"
+              aria-label="Toggle quick search"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path stroke-linecap="round" d="M20 20l-3.5-3.5" />
+              </svg>
+            </button>
+
+            <div id="sonoraAuthActions" class="d-flex align-items-center gap-2">
+              <a href="pages/signin.html" class="btn btn-sonora-pill btn-sonora-outline">Sign In</a>
+              <a href="pages/signup.html" class="btn btn-sonora-pill btn-sonora-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Collapsible Quick Search Bar -->
+    <div class="collapse sonora-search-drawer" id="sonoraSearchDrawer">
+      <div class="container py-3">
+        <form class="d-flex gap-2" role="search" data-sonora-search-form>
+          <label for="sonoraQuickSearchInput" class="visually-hidden">Search concerts, artists, or cities</label>
+          <input
+            id="sonoraQuickSearchInput"
+            name="search"
+            type="search"
+            class="form-control sonora-search-input"
+            placeholder="Search concerts, artists, genres, or cities..."
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-sonora-pill btn-sonora-primary px-4">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Homepage Content -->
+  <main>
+    <!-- 1. Hero Section -->
+    <section class="sonora-hero text-center" aria-labelledby="heroHeading">
+      <div class="container">
+        <span class="sonora-tag mb-3">Live Music &amp; Tour Passes</span>
+        <h1 id="heroHeading" class="display-4 fw-bold mb-3">Feel the Beat. Live.</h1>
+        <p class="lead sonora-hero-subtitle mx-auto mb-4">
+          Discover upcoming arena tours, intimate theater sessions, and instant digital tickets for your favorite live artists.
+        </p>
+
+        <form
+          id="heroSearchForm"
+          class="sonora-hero-search mx-auto"
+          role="search"
+          novalidate
+        >
+          <div class="d-flex gap-2 sonora-hero-search-row">
+            <label for="heroSearchInput" class="visually-hidden">
+              Search concerts, artists, genres, or cities
+            </label>
+            <input
+              id="heroSearchInput"
+              name="search"
+              type="search"
+              class="form-control sonora-search-input"
+              placeholder="Search concerts, artists, genres, or cities..."
+              autocomplete="off"
+              aria-describedby="heroSearchError"
+            />
+            <button type="submit" class="btn btn-sonora-pill btn-sonora-primary px-4">
+              Find Tickets
+            </button>
+          </div>
+          <div
+            id="heroSearchError"
+            class="sonora-search-error text-start px-3 mt-2 d-none"
+            aria-live="polite"
+          ></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 2. Trending Concerts Section -->
+    <section class="py-5" aria-labelledby="trendingConcertsHeading">
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-4">
+          <div>
+            <h2 id="trendingConcertsHeading" class="h2 mb-1">Trending Concerts</h2>
+            <p class="text-muted-sonora mb-0">
+              Explore all upcoming live dates across premier venues.
+            </p>
+          </div>
+          <a href="pages/events.html" class="sonora-section-link">
+            View All Concerts <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+
+        <div
+          id="trendingConcertsGrid"
+          class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+        ></div>
+      </div>
+    </section>
+
+    <!-- 3. Popular Artists Section -->
+    <section class="py-5 border-top border-secondary border-opacity-25" aria-labelledby="popularArtistsHeading">
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-4">
+          <div>
+            <h2 id="popularArtistsHeading" class="h2 mb-1">Popular Artists</h2>
+            <p class="text-muted-sonora mb-0">
+              Follow the touring acts lighting up stages this season.
+            </p>
+          </div>
+          <a href="pages/artists.html" class="sonora-section-link">
+            All Artists <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+
+        <div
+          id="popularArtistsGrid"
+          class="row row-cols-2 row-cols-sm-3 row-cols-lg-6 g-4 text-center"
+        ></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Matching Dark Footer -->
+  <footer class="sonora-footer">
+    <div class="container">
+      <div class="row gy-4 align-items-center justify-content-between">
+        <div class="col-lg-5">
+          <a class="sonora-brand mb-3" href="index.html">
+            <img
+              src="images/logo.svg"
+              alt="SONORA logo"
+              class="sonora-brand-logo"
+              width="36"
+              height="36"
+            />
+            <span class="sonora-brand-text">
+              <span class="sonora-brand-title">SONORA</span>
+              <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+            </span>
+          </a>
+          <p class="text-muted-sonora small mb-0">
+            Your gateway to live music experiences, unforgettable tours, and instant digital concert passes.
+          </p>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column align-items-lg-end gap-3">
+          <ul class="sonora-footer-links">
+            <li><a href="pages/about.html">About</a></li>
+            <li><a href="pages/faq.html">FAQ</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+          </ul>
+
+          <!-- AI Image Disclosure Placeholder -->
+          <div class="sonora-ai-disclosure w-100 text-lg-end" role="note">
+            AI Image Disclosure Placeholder: Promotional artist, venue, and concert imagery used on this site may include AI-generated visuals created for academic prototype demonstration.
+          </div>
+        </div>
+      </div>
+
+      <hr class="sonora-footer-divider my-4" />
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 small text-muted-sonora">
+        <span>&copy; <span data-sonora-year>2026</span> SONORA Live Concert Tickets. All rights reserved.</span>
+        <span>Built with Semantic HTML, Bootstrap 5 &amp; Vanilla JS.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle (no jQuery) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Shared SONORA Data & Core Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Homepage Logic: Hero Search Validation, Trending Concerts, Popular Artists -->
+  <script>
+    (function () {
+      "use strict";
+
+      /**
+       * Escapes HTML special characters to prevent markup injection.
+       */
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      /**
+       * Generates a dark/crimson SVG data URI fallback so broken or missing
+       * concert and artist images never display browser broken-image icons.
+       */
+      function createSvgFallback(label, isAvatar) {
+        const cleanLabel = String(label || "SONORA").slice(0, 26);
+        const safeText = escapeHtml(cleanLabel);
+
+        const svg = isAvatar
+          ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+               <rect width="240" height="240" fill="#18181B"/>
+               <circle cx="120" cy="120" r="88" fill="none" stroke="#E11D48" stroke-width="3" opacity="0.55"/>
+               <circle cx="120" cy="94" r="32" fill="#202025" stroke="#A1A1AA" stroke-width="2.5"/>
+               <path d="M62 186c10-30 32-46 58-46s48 16 58 46" fill="#202025" stroke="#A1A1AA" stroke-width="2.5" stroke-linecap="round"/>
+               <circle cx="120" cy="120" r="5" fill="#E11D48"/>
+             </svg>`
+          : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+               <defs>
+                 <radialGradient id="g" cx="50%" cy="35%" r="65%">
+                   <stop offset="0%" stop-color="#E11D48" stop-opacity="0.28"/>
+                   <stop offset="100%" stop-color="#18181B" stop-opacity="1"/>
+                 </radialGradient>
+               </defs>
+               <rect width="640" height="400" fill="url(#g)"/>
+               <circle cx="320" cy="176" r="58" fill="none" stroke="#FFFFFF" stroke-width="2.5" opacity="0.7"/>
+               <circle cx="320" cy="176" r="38" fill="none" stroke="#E11D48" stroke-width="2.5" opacity="0.9"/>
+               <circle cx="320" cy="176" r="10" fill="#E11D48"/>
+               <text x="320" y="278" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700">${safeText}</text>
+               <text x="320" y="308" text-anchor="middle" fill="#A1A1AA" font-family="system-ui, -apple-system, sans-serif" font-size="14" letter-spacing="2">SONORA LIVE</text>
+             </svg>`;
+
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+      }
+
+      /**
+       * Returns the global SONORA_DATA namespace when available.
+       */
+      function getSonoraData() {
+        return window.SONORA_DATA || (typeof SONORA_DATA !== "undefined" ? SONORA_DATA : null);
+      }
+
+      /**
+       * Attaches an image source with an SVG fallback registered before loading begins.
+       */
+      function setImageWithFallback(img, src, fallbackLabel, isAvatar) {
+        if (!img) {
+          return;
+        }
+        img.onerror = function () {
+          this.onerror = null;
+          this.src = createSvgFallback(fallbackLabel, isAvatar);
+        };
+        img.src = src || createSvgFallback(fallbackLabel, isAvatar);
+      }
+
+      /**
+       * Formats an ISO date string into a concise human-readable date (e.g., Dec 5, 2026).
+       */
+      function formatConcertDate(isoDate) {
+        const parsed = new Date(isoDate);
+        if (Number.isNaN(parsed.getTime())) {
+          return "Date TBA";
+        }
+        return new Intl.DateTimeFormat("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        }).format(parsed);
+      }
+
+      /**
+       * Handles hero search submission with inline validation for empty queries.
+       */
+      function initHeroSearch() {
+        const form = document.getElementById("heroSearchForm");
+        const input = document.getElementById("heroSearchInput");
+        const errorBox = document.getElementById("heroSearchError");
+
+        if (!form || !input || !errorBox) {
+          return;
+        }
+
+        const clearError = () => {
+          errorBox.textContent = "";
+          errorBox.classList.add("d-none");
+          input.classList.remove("is-invalid");
+          input.removeAttribute("aria-invalid");
+        };
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const query = input.value.trim();
+
+          if (!query) {
+            errorBox.textContent = "Please enter a concert, artist, genre, or city to search.";
+            errorBox.classList.remove("d-none");
+            input.classList.add("is-invalid");
+            input.setAttribute("aria-invalid", "true");
+            input.focus();
+            return;
+          }
+
+          clearError();
+          window.location.href = `pages/events.html?search=${encodeURIComponent(query)}`;
+        });
+
+        input.addEventListener("input", () => {
+          if (input.value.trim().length > 0 && input.classList.contains("is-invalid")) {
+            clearError();
+          }
+        });
+      }
+
+      /**
+       * Renders all concerts from SONORA_DATA.CONCERTS into #trendingConcertsGrid.
+       */
+      function renderTrendingConcerts() {
+        const grid = document.getElementById("trendingConcertsGrid");
+        if (!grid) {
+          return;
+        }
+
+        const dataApi = getSonoraData();
+        const concerts = dataApi && Array.isArray(dataApi.CONCERTS) ? dataApi.CONCERTS : [];
+
+        if (concerts.length === 0) {
+          grid.className = "row";
+          grid.innerHTML = `
+            <div class="col-12">
+              <div class="sonora-surface p-4 text-center">
+                <p class="text-muted-sonora mb-3">
+                  No trending concerts are currently scheduled. Check back soon for newly announced tour dates.
+                </p>
+                <a href="pages/events.html" class="btn btn-sonora-pill btn-sonora-outline">
+                  Browse Events Page
+                </a>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        concerts.forEach((concert) => {
+          const artist = dataApi.getArtistById ? dataApi.getArtistById(concert.artistId) : null;
+          const venue = dataApi.getVenueById ? dataApi.getVenueById(concert.venueId) : null;
+
+          const artistName = artist ? artist.name : "Featured Artist";
+          const venueName = venue ? venue.name : "Live Venue";
+          const formattedDate = formatConcertDate(concert.date);
+          const numericPrice = Number(concert.price);
+          const formattedPrice = Number.isFinite(numericPrice) ? numericPrice.toFixed(2) : "0.00";
+          const seatsLeft = Number(concert.seatsAvailable);
+          const isLowSeats = Number.isFinite(seatsLeft) && seatsLeft < 60;
+
+          const col = document.createElement("div");
+          col.className = "col";
+
+          const seatsMarkup = isLowSeats
+            ? `<span class="sonora-seats-low">${escapeHtml(seatsLeft)} seats left</span>`
+            : `<span>${escapeHtml(seatsLeft)} seats left</span>`;
+
+          col.innerHTML = `
+            <article class="sonora-card">
+              <div class="sonora-card-img-wrap">
+                <img
+                  alt="${escapeHtml(concert.title)} — ${escapeHtml(artistName)}"
+                  loading="lazy"
+                />
+              </div>
+              <div class="sonora-card-body">
+                <div class="mb-2">
+                  <span class="sonora-tag">${escapeHtml(concert.genre)}</span>
+                </div>
+                <h3 class="sonora-card-title">${escapeHtml(concert.title)}</h3>
+                <div class="sonora-card-meta mb-3">
+                  <p class="mb-1 text-white fw-semibold">${escapeHtml(artistName)}</p>
+                  <p class="mb-1">${escapeHtml(venueName)} &bull; ${escapeHtml(concert.city)}</p>
+                  <p class="mb-2">${escapeHtml(formattedDate)}</p>
+                  <div class="d-flex justify-content-between align-items-center gap-2 pt-1">
+                    <span class="sonora-price-badge">$${escapeHtml(formattedPrice)}</span>
+                    ${seatsMarkup}
+                  </div>
+                </div>
+                <a
+                  href="pages/event-details.html?id=${encodeURIComponent(concert.id)}"
+                  class="btn btn-sonora-pill btn-sonora-primary mt-auto"
+                >
+                  Get Tickets
+                </a>
+              </div>
+            </article>
+          `;
+
+          setImageWithFallback(col.querySelector("img"), concert.image, concert.title, false);
+          fragment.appendChild(col);
+        });
+
+        grid.innerHTML = "";
+        grid.appendChild(fragment);
+      }
+
+      /**
+       * Renders all artists from SONORA_DATA.ARTISTS into #popularArtistsGrid.
+       */
+      function renderPopularArtists() {
+        const grid = document.getElementById("popularArtistsGrid");
+        if (!grid) {
+          return;
+        }
+
+        const dataApi = getSonoraData();
+        const artists = dataApi && Array.isArray(dataApi.ARTISTS) ? dataApi.ARTISTS : [];
+
+        if (artists.length === 0) {
+          grid.className = "row";
+          grid.innerHTML = `
+            <div class="col-12">
+              <div class="sonora-surface p-4 text-center">
+                <p class="text-muted-sonora mb-0">
+                  No artists are currently available to display.
+                </p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        artists.forEach((artist) => {
+          const col = document.createElement("div");
+          col.className = "col";
+
+          col.innerHTML = `
+            <a
+              href="pages/artist-details.html?id=${encodeURIComponent(artist.id)}"
+              class="sonora-artist-card"
+            >
+              <div class="sonora-artist-avatar-wrap">
+                <img
+                  alt="${escapeHtml(artist.name)}"
+                  class="rounded-circle sonora-artist-avatar"
+                  loading="lazy"
+                />
+              </div>
+              <h3 class="sonora-artist-name">${escapeHtml(artist.name)}</h3>
+              <span class="sonora-artist-genre">${escapeHtml(artist.genre)}</span>
+            </a>
+          `;
+
+          setImageWithFallback(col.querySelector("img"), artist.image, artist.name, true);
+          fragment.appendChild(col);
+        });
+
+        grid.innerHTML = "";
+        grid.appendChild(fragment);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initHeroSearch();
+        renderTrendingConcerts();
+        renderPopularArtists();
+      });
+    })();
+  </script>
+</body>
+</html>

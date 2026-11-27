@@ -1,9 +1,10 @@
 /* =========================================================
-   Sonora - Organizer / Host Page Script (js/organizer.js)
+   Sonora - Organizer Pages Script (js/organizer.js)
    Handles:
-     1. Mobile Hamburger Menu Toggle
-     2. Live Payout & Fee Calculator (5% fee)
-     3. Organizer FAQ Accordion ([+] / [-] toggle)
+     1. Legacy Mobile Hamburger Menu Toggle (no-op when Bootstrap navbar is used)
+     2. Live Payout & Fee Calculator (5% fee) on pages/host.html
+     3. Organizer FAQ Accordion ([+] / [-] toggle) on pages/host.html
+     4. Create Event Live Preview & Form Handling on pages/create-event.html
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {

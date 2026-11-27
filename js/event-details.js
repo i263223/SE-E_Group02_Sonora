@@ -21,10 +21,20 @@
     if (!assetPath) {
       return "";
     }
-    if (/^(https?:)?\/\//i.test(assetPath) || assetPath.startsWith("../") || assetPath.startsWith("/")) {
-      return assetPath;
+    const normalized = String(assetPath).trim().replace(/\\/g, "/");
+    if (!normalized) {
+      return "";
     }
-    return `../${assetPath}`;
+    if (
+      /^(?:https?:)?\/\//i.test(normalized) ||
+      /^(?:data|blob):/i.test(normalized) ||
+      normalized.startsWith("../") ||
+      normalized.startsWith("/")
+    ) {
+      return normalized;
+    }
+    const cleanPath = normalized.replace(/^\.\//, "");
+    return `../${cleanPath}`;
   }
 
   /**
@@ -152,19 +162,35 @@
   }
 
   /**
-   * Finds a concert by ?id= query param (defaults to first concert when omitted/empty).
+   * Reads the stored selected event payload from localStorage if available.
    */
-  function resolveConcert(rawId) {
+  function readSelectedEvent() {
+    try {
+      const raw = window.localStorage.getItem(SELECTED_EVENT_KEY);
+      if (!raw) {
+        return null;
+      }
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" ? parsed : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  /**
+   * Finds a fresh concert object in js/data.js by ID or title/slug.
+   */
+  function findConcertInCatalog(rawId) {
     const concerts = getConcertsList();
-    if (!concerts.length) {
+    if (!concerts.length || rawId === null || rawId === undefined) {
       return null;
     }
 
-    if (rawId === null || rawId === undefined || !String(rawId).trim()) {
-      return concerts[0] || null;
+    const query = String(rawId).trim();
+    if (!query) {
+      return null;
     }
 
-    const query = String(rawId).trim();
     const normalized = query.toLowerCase();
     const querySlug = toSlug(query);
 
@@ -186,6 +212,36 @@
         return titleLower === normalized || (querySlug && toSlug(concert.title) === querySlug);
       }) || null
     );
+  }
+
+  /**
+   * Finds a fresh concert from js/data.js by ?id= query param.
+   * When ?id= is omitted, prefers matching fresh catalog data for any stored
+   * selection over stale localStorage fields, or defaults to the first concert.
+   */
+  function resolveConcert(rawId) {
+    const concerts = getConcertsList();
+    if (!concerts.length) {
+      return null;
+    }
+
+    if (rawId !== null && rawId !== undefined && String(rawId).trim()) {
+      return findConcertInCatalog(rawId);
+    }
+
+    const storedSelection = readSelectedEvent();
+    if (storedSelection) {
+      const freshFromStoredId = findConcertInCatalog(storedSelection.id);
+      if (freshFromStoredId) {
+        return freshFromStoredId;
+      }
+      const freshFromStoredTitle = findConcertInCatalog(storedSelection.title);
+      if (freshFromStoredTitle) {
+        return freshFromStoredTitle;
+      }
+    }
+
+    return concerts[0] || null;
   }
 
   /**
@@ -239,20 +295,35 @@
       bannerEl.appendChild(fallback);
     };
 
-    const headliner = lineup[0] || findArtistById(concert.artistId);
-    const isMultiArtistFestival = Boolean(concert.isFestival || lineup.length > 1);
-    const primaryRaw =
-      concert.banner || (isMultiArtistFestival ? DEFAULT_BANNER_FALLBACK : concert.image);
+    const freshConcert = (concert && concert.id ? findConcertInCatalog(concert.id) : null) || concert;
+    const headliner = lineup[0] || findArtistById(freshConcert.artistId);
+    const isFestivalEvent = Boolean(freshConcert.isFestival || lineup.length > 1);
+    const soloArtistBanner =
+      headliner && (headliner.banner || headliner.image) ? headliner.banner || headliner.image : "";
+    const primaryRaw = isFestivalEvent
+      ? freshConcert.banner || DEFAULT_BANNER_FALLBACK
+      : freshConcert.banner || soloArtistBanner || freshConcert.image;
+
+    const candidatePaths = isFestivalEvent
+      ? [
+          primaryRaw,
+          freshConcert.bannerFallback,
+          DEFAULT_BANNER_FALLBACK,
+          SECONDARY_BANNER_FALLBACK
+        ]
+      : [
+          primaryRaw,
+          soloArtistBanner,
+          headliner && headliner.image ? headliner.image : "",
+          freshConcert.image,
+          freshConcert.bannerFallback,
+          DEFAULT_BANNER_FALLBACK,
+          SECONDARY_BANNER_FALLBACK
+        ];
 
     const candidates = [];
     const seenCandidates = new Set();
-    [
-      primaryRaw,
-      concert.bannerFallback,
-      !isMultiArtistFestival && headliner && headliner.image ? headliner.image : "",
-      DEFAULT_BANNER_FALLBACK,
-      SECONDARY_BANNER_FALLBACK
-    ].forEach((rawPath) => {
+    candidatePaths.forEach((rawPath) => {
       const resolved = resolveAssetPath(rawPath);
       if (resolved && !seenCandidates.has(resolved)) {
         seenCandidates.add(resolved);
@@ -472,6 +543,8 @@
         city: concert.city,
         price: concert.price,
         image: concert.image,
+        banner: concert.banner || "",
+        isFestival: Boolean(concert.isFestival),
         selectedAt: new Date().toISOString()
       };
 

@@ -1,0 +1,218 @@
+/* ==========================================================================
+   SONORA — Live Concert Tickets
+   Page-specific Cart Styles (pages/cart.html)
+   ========================================================================== */
+
+.sonora-breadcrumb {
+  font-size: 0.875rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-breadcrumb a {
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-breadcrumb a:hover {
+  color: var(--sonora-accent);
+}
+
+/* Cart Header */
+.sonora-cart-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.sonora-cart-feedback {
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+  border-radius: var(--sonora-radius-sm);
+  color: var(--sonora-text-primary);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* Empty State */
+.sonora-empty-cart {
+  background-color: var(--sonora-bg-elevated);
+  border: 1px dashed var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-md);
+}
+
+.sonora-empty-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  color: #FDA4AF;
+}
+
+/* Cart Item Card */
+.sonora-cart-item {
+  background-color: var(--sonora-bg-elevated);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-md);
+  padding: 1.25rem;
+  transition: border-color var(--sonora-transition), box-shadow var(--sonora-transition);
+}
+
+.sonora-cart-item:hover {
+  border-color: var(--sonora-border-strong);
+}
+
+.sonora-cart-item-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.sonora-cart-title-link {
+  color: var(--sonora-text-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.sonora-cart-title-link:hover {
+  color: var(--sonora-accent);
+}
+
+.sonora-cart-item-price {
+  text-align: right;
+}
+
+.sonora-cart-remove-btn {
+  border-radius: var(--sonora-radius-pill);
+  border: 1px solid var(--sonora-border-strong);
+  background-color: transparent;
+  color: var(--sonora-text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  transition: all var(--sonora-transition);
+}
+
+.sonora-cart-remove-btn:hover {
+  color: var(--sonora-text-primary);
+  border-color: var(--sonora-accent);
+  background-color: var(--sonora-accent-soft);
+}
+
+/* Seat Chips inside Cart Item */
+.sonora-seat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.32rem 0.7rem;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  color: #FDA4AF;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.sonora-seat-chip button {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  line-height: 1;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.sonora-seat-chip button:hover {
+  color: var(--sonora-text-primary);
+}
+
+/* GA Pass Quantity Row */
+.sonora-ga-row {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-sm);
+  padding: 0.75rem 1rem;
+}
+
+.sonora-qty-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-pill);
+  padding: 0.2rem 0.45rem;
+}
+
+.sonora-qty-btn {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  border: 1px solid var(--sonora-border-strong);
+  background-color: var(--sonora-bg-elevated);
+  color: var(--sonora-text-primary);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--sonora-transition), border-color var(--sonora-transition);
+}
+
+.sonora-qty-btn:hover:not(:disabled) {
+  background-color: var(--sonora-accent);
+  border-color: var(--sonora-accent);
+}
+
+.sonora-qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Order Summary Card */
+.sonora-summary-card {
+  position: sticky;
+  top: 5.5rem;
+}
+
+.sonora-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid var(--sonora-border);
+}
+
+.sonora-summary-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+#proceedCheckoutBtn.disabled,
+#proceedCheckoutBtn[aria-disabled="true"] {
+  opacity: 0.48;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 575.98px) {
+  .sonora-cart-item-price {
+    text-align: left;
+  }
+}

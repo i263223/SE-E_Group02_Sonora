@@ -1,0 +1,466 @@
+/* ==========================================================================
+   SONORA — Live Concert Tickets
+   Shared Global Stylesheet (Bootstrap 5 + Custom Dark Theme)
+   ========================================================================== */
+
+:root {
+  /* Core Theme Palette */
+  --sonora-bg-primary: #121214;
+  --sonora-bg-surface: #18181B;
+  --sonora-bg-elevated: #202025;
+  --sonora-accent: #E11D48;
+  --sonora-accent-hover: #BE123C;
+  --sonora-accent-soft: rgba(225, 29, 72, 0.15);
+  --sonora-text-primary: #FFFFFF;
+  --sonora-text-secondary: #A1A1AA;
+  --sonora-border: rgba(255, 255, 255, 0.1);
+  --sonora-border-strong: rgba(255, 255, 255, 0.18);
+
+  /* Typography & Layout */
+  --sonora-font-sans: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --sonora-radius-sm: 0.5rem;
+  --sonora-radius-md: 0.875rem;
+  --sonora-radius-lg: 1.25rem;
+  --sonora-radius-pill: 9999px;
+  --sonora-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --sonora-shadow-card: 0 12px 30px rgba(0, 0, 0, 0.38);
+  --sonora-shadow-accent: 0 6px 20px rgba(225, 29, 72, 0.32);
+}
+
+/* ==========================================================================
+   Base & Typography
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--sonora-bg-primary);
+  color: var(--sonora-text-primary);
+  font-family: var(--sonora-font-sans);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  color: var(--sonora-text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p,
+.text-muted-sonora {
+  color: var(--sonora-text-secondary);
+}
+
+a {
+  color: var(--sonora-text-primary);
+  text-decoration: none;
+  transition: color var(--sonora-transition);
+}
+
+a:hover {
+  color: var(--sonora-accent);
+}
+
+/* Focus visibility for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--sonora-accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Sticky Top Navbar
+   ========================================================================== */
+
+.sonora-navbar {
+  background-color: rgba(18, 18, 20, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--sonora-border);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  z-index: 1030;
+}
+
+.sonora-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.sonora-brand:hover {
+  opacity: 0.92;
+}
+
+.sonora-brand-logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  transition: transform 0.35s ease;
+}
+
+.sonora-brand:hover .sonora-brand-logo {
+  transform: rotate(24deg);
+}
+
+.sonora-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.sonora-brand-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sonora-text-primary);
+}
+
+.sonora-brand-subtitle {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sonora-text-secondary);
+  margin-top: 0.15rem;
+}
+
+/* Navigation links */
+.sonora-navbar .navbar-nav .nav-link {
+  color: var(--sonora-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--sonora-radius-pill);
+  transition: color var(--sonora-transition), background-color var(--sonora-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.sonora-navbar .navbar-nav .nav-link:hover,
+.sonora-navbar .navbar-nav .nav-link:focus {
+  color: var(--sonora-text-primary);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.sonora-navbar .navbar-nav .nav-link.active {
+  color: var(--sonora-text-primary);
+  background-color: var(--sonora-accent-soft);
+  box-shadow: inset 0 0 0 1px rgba(225, 29, 72, 0.45);
+}
+
+/* Ticket / Cart Badge Counter */
+.sonora-badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--sonora-text-primary);
+  background-color: var(--sonora-accent);
+  border-radius: var(--sonora-radius-pill);
+}
+
+.sonora-badge-count.d-none {
+  display: none !important;
+}
+
+/* Mobile hamburger toggle */
+.sonora-toggler {
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-sm);
+  padding: 0.4rem 0.6rem;
+  color: var(--sonora-text-primary);
+}
+
+.sonora-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.35);
+}
+
+.sonora-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Search icon button & collapsible search bar */
+.sonora-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--sonora-radius-pill);
+  border: 1px solid var(--sonora-border-strong);
+  background-color: var(--sonora-bg-surface);
+  color: var(--sonora-text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color var(--sonora-transition), border-color var(--sonora-transition), color var(--sonora-transition);
+}
+
+.sonora-icon-btn:hover,
+.sonora-icon-btn[aria-expanded="true"] {
+  background-color: var(--sonora-bg-elevated);
+  border-color: var(--sonora-accent);
+  color: var(--sonora-accent);
+}
+
+.sonora-search-drawer {
+  background-color: var(--sonora-bg-surface);
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.sonora-search-input {
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  color: var(--sonora-text-primary);
+  border-radius: var(--sonora-radius-pill);
+  padding: 0.6rem 1.2rem;
+}
+
+.sonora-search-input::placeholder {
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-search-input:focus {
+  background-color: var(--sonora-bg-primary);
+  color: var(--sonora-text-primary);
+  border-color: var(--sonora-accent);
+  box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.25);
+}
+
+/* ==========================================================================
+   Pill Buttons & Interactive Controls
+   ========================================================================== */
+
+.btn-sonora-pill {
+  border-radius: var(--sonora-radius-pill);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all var(--sonora-transition);
+  white-space: nowrap;
+}
+
+.btn-sonora-primary {
+  background-color: var(--sonora-accent);
+  border: 1px solid var(--sonora-accent);
+  color: var(--sonora-text-primary);
+}
+
+.btn-sonora-primary:hover,
+.btn-sonora-primary:focus {
+  background-color: var(--sonora-accent-hover);
+  border-color: var(--sonora-accent-hover);
+  color: var(--sonora-text-primary);
+  box-shadow: var(--sonora-shadow-accent);
+  transform: translateY(-1px);
+}
+
+.btn-sonora-outline {
+  background-color: transparent;
+  border: 1px solid var(--sonora-border-strong);
+  color: var(--sonora-text-primary);
+}
+
+.btn-sonora-outline:hover,
+.btn-sonora-outline:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--sonora-text-primary);
+  color: var(--sonora-text-primary);
+}
+
+.btn-sonora-ghost {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border);
+  color: var(--sonora-text-secondary);
+}
+
+.btn-sonora-ghost:hover {
+  background-color: var(--sonora-bg-elevated);
+  color: var(--sonora-text-primary);
+  border-color: var(--sonora-border-strong);
+}
+
+/* ==========================================================================
+   Cards & Surfaces
+   ========================================================================== */
+
+.sonora-surface {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-lg);
+}
+
+.sonora-card {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-md);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--sonora-transition), border-color var(--sonora-transition), box-shadow var(--sonora-transition);
+}
+
+.sonora-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(225, 29, 72, 0.5);
+  box-shadow: var(--sonora-shadow-card);
+}
+
+.sonora-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--sonora-bg-elevated);
+  aspect-ratio: 16 / 10;
+}
+
+.sonora-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.sonora-card:hover .sonora-card-img-wrap img {
+  transform: scale(1.04);
+}
+
+.sonora-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.sonora-card-title {
+  color: var(--sonora-text-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.sonora-card-meta {
+  color: var(--sonora-text-secondary);
+  font-size: 0.875rem;
+}
+
+.sonora-tag {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--sonora-accent-soft);
+  color: #FDA4AF;
+  border: 1px solid rgba(225, 29, 72, 0.35);
+}
+
+/* Form controls on dark theme */
+.sonora-input,
+.sonora-select {
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  color: var(--sonora-text-primary);
+  border-radius: var(--sonora-radius-sm);
+}
+
+.sonora-input::placeholder {
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-input:focus,
+.sonora-select:focus {
+  background-color: var(--sonora-bg-primary);
+  color: var(--sonora-text-primary);
+  border-color: var(--sonora-accent);
+  box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.25);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.sonora-footer {
+  background-color: var(--sonora-bg-surface);
+  border-top: 1px solid var(--sonora-border);
+  padding: 3rem 0 2rem;
+  margin-top: auto;
+}
+
+.sonora-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.sonora-footer-links a {
+  color: var(--sonora-text-secondary);
+  font-size: 0.925rem;
+  font-weight: 500;
+}
+
+.sonora-footer-links a:hover {
+  color: var(--sonora-text-primary);
+}
+
+.sonora-ai-disclosure {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-footer-divider {
+  border-color: var(--sonora-border);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+  .sonora-navbar .navbar-collapse {
+    padding-top: 1rem;
+    margin-top: 0.75rem;
+    border-top: 1px solid var(--sonora-border);
+  }
+
+  .sonora-nav-actions {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--sonora-border);
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

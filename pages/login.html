@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In &amp; Sign Up | SONORA — Live Concert Tickets</title>
+  <meta
+    name="description"
+    content="Sign in or create your SONORA account to access instant QR tickets, save favorite concerts, and walk straight into the venue."
+  />
+
+  <!-- Bootstrap 5 CSS (no jQuery) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Shared SONORA Theme Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- Login / Auth Page Stylesheet -->
+  <link rel="stylesheet" href="../css/login.css" />
+</head>
+<body class="sonora-login-page">
+  <!-- Sticky Top Navigation Bar (Matches pages/_template.html) -->
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg sonora-navbar" aria-label="Primary navigation">
+      <div class="container">
+        <!-- Left: Logo + Brand Wordmark -->
+        <a class="sonora-brand" href="../index.html">
+          <img
+            src="../images/logo.svg"
+            alt="SONORA logo"
+            class="sonora-brand-logo"
+            width="40"
+            height="40"
+          />
+          <span class="sonora-brand-text">
+            <span class="sonora-brand-title">SONORA</span>
+            <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+          </span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button
+          class="navbar-toggler sonora-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sonoraNavbarNav"
+          aria-controls="sonoraNavbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Center Links + Right Actions -->
+        <div class="collapse navbar-collapse" id="sonoraNavbarNav">
+          <!-- Center Navigation Links -->
+          <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 gap-lg-1">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="events.html"
+                data-nav-link
+                data-nav-match="events.html,concerts.html,event-details.html"
+              >
+                Concerts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="artists.html"
+                data-nav-link
+                data-nav-match="artists.html,artist-details.html"
+              >
+                Artists
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="venues.html"
+                data-nav-link
+                data-nav-match="venues.html,venue-details.html"
+              >
+                Venues
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="my-tickets.html"
+                data-nav-link
+                data-nav-match="my-tickets.html,checkout.html"
+              >
+                <span>My Tickets</span>
+                <span class="sonora-badge-count d-none" data-sonora-ticket-badge>0</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right Actions: Search Button + Sign In / Sign Up -->
+          <div class="d-flex align-items-center gap-2 sonora-nav-actions">
+            <button
+              type="button"
+              class="sonora-icon-btn"
+              data-bs-toggle="collapse"
+              data-bs-target="#sonoraSearchDrawer"
+              aria-expanded="false"
+              aria-controls="sonoraSearchDrawer"
+              aria-label="Toggle quick search"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path stroke-linecap="round" d="M20 20l-3.5-3.5" />
+              </svg>
+            </button>
+
+            <div id="sonoraAuthActions" class="d-flex align-items-center gap-2">
+              <a href="signin.html" class="btn btn-sonora-pill btn-sonora-outline">Sign In</a>
+              <a href="signup.html" class="btn btn-sonora-pill btn-sonora-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Collapsible Quick Search Bar -->
+    <div class="collapse sonora-search-drawer" id="sonoraSearchDrawer">
+      <div class="container py-3">
+        <form class="d-flex gap-2" role="search" data-sonora-search-form>
+          <label for="sonoraQuickSearchInput" class="visually-hidden">Search concerts, artists, or cities</label>
+          <input
+            id="sonoraQuickSearchInput"
+            name="search"
+            type="search"
+            class="form-control sonora-search-input"
+            placeholder="Search concerts, artists, genres, or cities..."
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-sonora-pill btn-sonora-primary px-4">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Authentication Split Layout -->
+  <main class="sonora-auth-main d-flex align-items-center">
+    <div class="container">
+      <div class="row g-4 g-lg-5 align-items-center justify-content-between">
+        <!-- Left Column: Brand Promise & 3 Feature Rows -->
+        <section class="col-12 col-lg-6" aria-labelledby="authHeroHeading">
+          <div class="sonora-auth-eyebrow">
+            <span class="sonora-auth-eyebrow-dot" aria-hidden="true"></span>
+            <span>YOUR SONORA ACCOUNT</span>
+          </div>
+
+          <h1 id="authHeroHeading" class="sonora-auth-heading">
+            Your front row starts here.
+          </h1>
+
+          <p class="sonora-auth-subtitle">
+            Sign in to see your tickets, save the shows you love and walk straight in with QR code.
+          </p>
+
+          <ul class="sonora-feature-list">
+            <li class="sonora-feature-item">
+              <span class="sonora-feature-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <path stroke-linecap="round" d="M14 14h3v3m4-3v7h-7" />
+                </svg>
+              </span>
+              <div>
+                <h2 class="sonora-feature-title">Instant QR tickets</h2>
+                <p class="sonora-feature-desc">Scan at the gate, no printout, no waiting.</p>
+              </div>
+            </li>
+
+            <li class="sonora-feature-item">
+              <span class="sonora-feature-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.5s-7-4.35-9-8.5C1.5 8.85 3.6 5.5 7 5.5c2 0 3.5 1.1 5 2.7 1.5-1.6 3-2.7 5-2.7 3.4 0 5.5 3.35 4 6.5-2 4.15-9 8.5-9 8.5z" />
+                </svg>
+              </span>
+              <div>
+                <h2 class="sonora-feature-title">Save the show you love</h2>
+                <p class="sonora-feature-desc">Wishlist concerts and book when you are ready.</p>
+              </div>
+            </li>
+
+            <li class="sonora-feature-item">
+              <span class="sonora-feature-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v5.5c0 4.5-3 8.3-7 9.5-4-1.2-7-5-7-9.5V6l7-3z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
+                </svg>
+              </span>
+              <div>
+                <h2 class="sonora-feature-title">Ticket guarantee</h2>
+                <p class="sonora-feature-desc">Every ticket verified.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Right Column: Interactive Auth Card -->
+        <section class="col-12 col-lg-6 col-xl-5" aria-label="Account authentication">
+          <div class="sonora-auth-card">
+            <!-- Top Pill Tabs -->
+            <div id="authTabsContainer" class="sonora-auth-tabs" role="tablist" aria-label="Authentication mode">
+              <button
+                type="button"
+                id="tabSignIn"
+                class="sonora-auth-tab is-active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panelSignIn"
+                tabindex="0"
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                id="tabSignUp"
+                class="sonora-auth-tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panelSignUp"
+                tabindex="-1"
+              >
+                Sign up
+              </button>
+            </div>
+
+            <!-- Sign In Panel -->
+            <div id="panelSignIn" class="sonora-auth-panel" role="tabpanel" aria-labelledby="tabSignIn">
+              <h2 class="sonora-panel-title">Welcome Back</h2>
+              <p class="sonora-panel-subtitle">Sign in to open your tickets.</p>
+
+              <!-- State 2 Top Alert Banner -->
+              <div id="signInErrorBanner" class="sonora-form-alert sonora-form-alert-error" role="alert" aria-live="assertive" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path stroke-linecap="round" d="M12 8v4m0 4h.01" />
+                </svg>
+                <span>Please fix the highlighted fields</span>
+              </div>
+
+              <!-- Confirmation Banner -->
+              <div id="signInSuccessBanner" class="sonora-form-alert sonora-form-alert-success" role="status" aria-live="polite" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.5l2.3 2.3 4.7-4.8" />
+                </svg>
+                <span data-success-text>Signed in! Redirecting to My Tickets...</span>
+              </div>
+
+              <form id="signInForm" novalidate>
+                <!-- Email -->
+                <div class="sonora-field-group">
+                  <label for="signInEmail" class="sonora-field-label">Email</label>
+                  <div class="sonora-input-wrap">
+                    <input
+                      type="email"
+                      id="signInEmail"
+                      name="email"
+                      class="sonora-auth-input"
+                      placeholder="you@example.com"
+                      autocomplete="email"
+                      aria-describedby="signInEmailError"
+                      required
+                    />
+                    <span class="sonora-valid-icon" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div id="signInEmailError" class="sonora-field-error" role="alert"></div>
+                </div>
+
+                <!-- Password -->
+                <div class="sonora-field-group">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <label for="signInPassword" class="sonora-field-label mb-0">Password</label>
+                    <button type="button" id="forgotPasswordToggleBtn" class="sonora-forgot-link">
+                      Forgot Password?
+                    </button>
+                  </div>
+                  <div class="sonora-input-wrap sonora-input-wrap-password">
+                    <input
+                      type="password"
+                      id="signInPassword"
+                      name="password"
+                      class="sonora-auth-input sonora-auth-input-password"
+                      placeholder="Enter your password"
+                      autocomplete="current-password"
+                      aria-describedby="signInPasswordError"
+                      required
+                    />
+                    <span class="sonora-valid-icon" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <button
+                      type="button"
+                      class="sonora-pwd-toggle"
+                      data-password-toggle="signInPassword"
+                      aria-label="Show password"
+                      aria-pressed="false"
+                    >
+                      <svg data-eye-show xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                      <svg data-eye-hide class="d-none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.2A10.4 10.4 0 0112 5c6.2 0 10 7 10 7a16.8 16.8 0 01-3.1 4.2M6.6 6.6A16.5 16.5 0 002 12s3.8 7 10 7a9.9 9.9 0 004.3-.9" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div id="signInPasswordError" class="sonora-field-error" role="alert"></div>
+                </div>
+
+                <!-- Inline Forgot Password Recovery Box -->
+                <div id="forgotPasswordBox" class="sonora-forgot-box" hidden>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small fw-semibold text-white">Reset your password</span>
+                    <button type="button" id="forgotCloseBtn" class="btn-close btn-close-white btn-sm" aria-label="Close password reset"></button>
+                  </div>
+                  <label for="forgotEmailInput" class="visually-hidden">Account email for password reset</label>
+                  <div class="d-flex gap-2">
+                    <input
+                      type="email"
+                      id="forgotEmailInput"
+                      class="form-control form-control-sm sonora-input"
+                      placeholder="you@example.com"
+                    />
+                    <button type="button" id="forgotSendBtn" class="btn btn-sonora-pill btn-sonora-primary btn-sm px-3">
+                      Send
+                    </button>
+                  </div>
+                  <p id="forgotFeedback" class="small mt-2 mb-0" aria-live="polite"></p>
+                </div>
+
+                <!-- Keep Me Signed In -->
+                <div class="form-check sonora-checkbox-wrap mb-4">
+                  <input class="form-check-input" type="checkbox" id="keepSignedIn" checked />
+                  <label class="form-check-label" for="keepSignedIn">
+                    Keep me signed in
+                  </label>
+                </div>
+
+                <button type="submit" id="signInSubmitBtn" class="btn btn-sonora-auth-submit">
+                  Sign In
+                </button>
+              </form>
+
+              <div class="sonora-auth-switch">
+                <span>New to Sonora?</span>
+                <button type="button" id="switchToSignUpBtn" class="sonora-switch-btn">
+                  Create an account
+                </button>
+              </div>
+            </div>
+
+            <!-- Sign Up Panel -->
+            <div id="panelSignUp" class="sonora-auth-panel" role="tabpanel" aria-labelledby="tabSignUp" hidden>
+              <h2 class="sonora-panel-title">Create your account</h2>
+              <p class="sonora-panel-subtitle">Join Sonora to save shows and unlock instant QR passes.</p>
+
+              <!-- State 2 Top Alert Banner -->
+              <div id="signUpErrorBanner" class="sonora-form-alert sonora-form-alert-error" role="alert" aria-live="assertive" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path stroke-linecap="round" d="M12 8v4m0 4h.01" />
+                </svg>
+                <span>Please fix the highlighted fields</span>
+              </div>
+
+              <!-- Confirmation Banner -->
+              <div id="signUpSuccessBanner" class="sonora-form-alert sonora-form-alert-success" role="status" aria-live="polite" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.5l2.3 2.3 4.7-4.8" />
+                </svg>
+                <span data-success-text>Account created! Redirecting to My Tickets...</span>
+              </div>
+
+              <form id="signUpForm" novalidate>
+                <!-- Full Name -->
+                <div class="sonora-field-group">
+                  <label for="signUpName" class="sonora-field-label">Full Name</label>
+                  <div class="sonora-input-wrap">
+                    <input
+                      type="text"
+                      id="signUpName"
+                      name="fullName"
+                      class="sonora-auth-input"
+                      placeholder="Alex Rivera"
+                      autocomplete="name"
+                      aria-describedby="signUpNameError"
+                      required
+                    />
+                    <span class="sonora-valid-icon" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div id="signUpNameError" class="sonora-field-error" role="alert"></div>
+                </div>
+
+                <!-- Email -->
+                <div class="sonora-field-group">
+                  <label for="signUpEmail" class="sonora-field-label">Email</label>
+                  <div class="sonora-input-wrap">
+                    <input
+                      type="email"
+                      id="signUpEmail"
+                      name="email"
+                      class="sonora-auth-input"
+                      placeholder="you@example.com"
+                      autocomplete="email"
+                      aria-describedby="signUpEmailError"
+                      required
+                    />
+                    <span class="sonora-valid-icon" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div id="signUpEmailError" class="sonora-field-error" role="alert"></div>
+                </div>
+
+                <!-- Password -->
+                <div class="sonora-field-group">
+                  <label for="signUpPassword" class="sonora-field-label">Password</label>
+                  <div class="sonora-input-wrap sonora-input-wrap-password">
+                    <input
+                      type="password"
+                      id="signUpPassword"
+                      name="password"
+                      class="sonora-auth-input sonora-auth-input-password"
+                      placeholder="At least 6 characters"
+                      autocomplete="new-password"
+                      aria-describedby="signUpPasswordError"
+                      required
+                    />
+                    <span class="sonora-valid-icon" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <button
+                      type="button"
+                      class="sonora-pwd-toggle"
+                      data-password-toggle="signUpPassword"
+                      aria-label="Show password"
+                      aria-pressed="false"
+                    >
+                      <svg data-eye-show xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                      <svg data-eye-hide class="d-none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.2A10.4 10.4 0 0112 5c6.2 0 10 7 10 7a16.8 16.8 0 01-3.1 4.2M6.6 6.6A16.5 16.5 0 002 12s3.8 7 10 7a9.9 9.9 0 004.3-.9" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div id="signUpPasswordError" class="sonora-field-error" role="alert"></div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="sonora-field-group">
+                  <label for="signUpConfirm" class="sonora-field-label">Confirm Password</label>
+                  <div class="sonora-input-wrap sonora-input-wrap-password">
+                    <input
+                      type="password"
+                      id="signUpConfirm"
+                      name="confirmPassword"
+                      class="sonora-auth-input sonora-auth-input-password"
+                      placeholder="Re-enter your password"
+                      autocomplete="new-password"
+                      aria-describedby="signUpConfirmError"
+                      required
+                    />
+                    <span class="sonora-valid-icon" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <button
+                      type="button"
+                      class="sonora-pwd-toggle"
+                      data-password-toggle="signUpConfirm"
+                      aria-label="Show confirm password"
+                      aria-pressed="false"
+                    >
+                      <svg data-eye-show xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                      <svg data-eye-hide class="d-none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.2A10.4 10.4 0 0112 5c6.2 0 10 7 10 7a16.8 16.8 0 01-3.1 4.2M6.6 6.6A16.5 16.5 0 002 12s3.8 7 10 7a9.9 9.9 0 004.3-.9" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div id="signUpConfirmError" class="sonora-field-error" role="alert"></div>
+                </div>
+
+                <button type="submit" id="signUpSubmitBtn" class="btn btn-sonora-auth-submit mt-2">
+                  Create Account
+                </button>
+              </form>
+
+              <div class="sonora-auth-switch">
+                <span>Already have an account?</span>
+                <button type="button" id="switchToSignInBtn" class="sonora-switch-btn">
+                  Sign in
+                </button>
+              </div>
+            </div>
+
+            <!-- Already Logged-In Session View -->
+            <div id="authSessionBox" class="sonora-session-box text-center py-2" hidden>
+              <div id="sessionAvatar" class="sonora-session-avatar mx-auto mb-3" aria-hidden="true">S</div>
+              <span class="sonora-tag mb-2">Signed In</span>
+              <h2 id="sessionName" class="h4 mt-2 mb-1">SONORA Fan</h2>
+              <p id="sessionEmail" class="text-muted-sonora small mb-4">you@example.com</p>
+
+              <div class="d-grid gap-2">
+                <a href="my-tickets.html" class="btn btn-sonora-auth-submit text-decoration-none">
+                  Open My Tickets
+                </a>
+                <a href="events.html" class="btn btn-sonora-pill btn-sonora-outline py-2">
+                  Browse Concerts
+                </a>
+                <button type="button" id="sessionSignOutBtn" class="btn btn-sonora-pill btn-sonora-ghost py-2 mt-1">
+                  Sign Out &amp; Switch Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Matching Dark Footer (Matches pages/_template.html) -->
+  <footer class="sonora-footer">
+    <div class="container">
+      <div class="row gy-4 align-items-center justify-content-between">
+        <div class="col-lg-5">
+          <a class="sonora-brand mb-3" href="../index.html">
+            <img
+              src="../images/logo.svg"
+              alt="SONORA logo"
+              class="sonora-brand-logo"
+              width="36"
+              height="36"
+            />
+            <span class="sonora-brand-text">
+              <span class="sonora-brand-title">SONORA</span>
+              <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+            </span>
+          </a>
+          <p class="text-muted-sonora small mb-0">
+            Your gateway to live music experiences, unforgettable tours, and instant digital concert passes.
+          </p>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column align-items-lg-end gap-3">
+          <ul class="sonora-footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+
+          <!-- AI Image Disclosure Placeholder -->
+          <div class="sonora-ai-disclosure w-100 text-lg-end" role="note">
+            AI Image Disclosure Placeholder: Promotional artist, venue, and concert imagery used on this site may include AI-generated visuals created for academic prototype demonstration.
+          </div>
+        </div>
+      </div>
+
+      <hr class="sonora-footer-divider my-4" />
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 small text-muted-sonora">
+        <span>&copy; <span data-sonora-year>2026</span> SONORA Live Concert Tickets. All rights reserved.</span>
+        <span>Built with Semantic HTML, Bootstrap 5 &amp; Vanilla JS.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle (no jQuery) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Shared SONORA Data & Core Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+</html>

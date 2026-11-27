@@ -1,0 +1,535 @@
+/* ==========================================================================
+   SONORA — Live Concert Tickets
+   Login & Sign Up Page Stylesheet (css/login.css)
+   Uses shared dark theme variables from css/style.css.
+   Scoped to body.sonora-login-page (pages/login.html).
+   ========================================================================== */
+
+body.sonora-login-page {
+  --sonora-auth-cta: linear-gradient(135deg, #e11d48 0%, #f43f5e 52%, #fb4b2b 100%);
+  --sonora-auth-cta-hover: linear-gradient(135deg, #be123c 0%, #e11d48 60%, #ea3c1f 100%);
+  --sonora-valid: #22c55e;
+  --sonora-valid-soft: rgba(34, 197, 94, 0.14);
+  --sonora-error: #f43f5e;
+  --sonora-error-text: #fda4af;
+  --sonora-error-soft: rgba(244, 63, 94, 0.14);
+}
+
+/* Main Stage Background */
+.sonora-login-page .sonora-auth-main {
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 0 4.5rem;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 18% 15%,
+      rgba(225, 29, 72, 0.16) 0%,
+      rgba(225, 29, 72, 0.04) 48%,
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 85% 80%,
+      rgba(251, 75, 43, 0.1) 0%,
+      transparent 70%
+    ),
+    var(--sonora-bg-primary);
+}
+
+/* ==========================================================================
+   Left Column: Account Value Proposition & Feature Rows
+   ========================================================================== */
+
+.sonora-login-page .sonora-auth-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--sonora-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fda4af;
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.38);
+  margin-bottom: 1.25rem;
+}
+
+.sonora-login-page .sonora-auth-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--sonora-accent);
+  box-shadow: 0 0 8px rgba(225, 29, 72, 0.85);
+}
+
+.sonora-login-page .sonora-auth-heading {
+  font-size: clamp(2.1rem, 4vw, 3.15rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--sonora-text-primary);
+  margin-bottom: 1rem;
+}
+
+.sonora-login-page .sonora-auth-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--sonora-text-secondary);
+  max-width: 34rem;
+  margin-bottom: 2.25rem;
+}
+
+.sonora-login-page .sonora-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 32rem;
+}
+
+.sonora-login-page .sonora-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: var(--sonora-radius-md);
+  background-color: rgba(24, 24, 27, 0.72);
+  border: 1px solid var(--sonora-border);
+  transition: border-color var(--sonora-transition), transform var(--sonora-transition);
+}
+
+.sonora-login-page .sonora-feature-item:hover {
+  border-color: var(--sonora-border-strong);
+  transform: translateX(3px);
+}
+
+.sonora-login-page .sonora-feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 0.75rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  color: #fda4af;
+}
+
+.sonora-login-page .sonora-feature-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--sonora-text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.sonora-login-page .sonora-feature-desc {
+  font-size: 0.88rem;
+  color: var(--sonora-text-secondary);
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Right Column: Interactive Auth Card
+   ========================================================================== */
+
+.sonora-login-page .sonora-auth-card {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--sonora-shadow-card), 0 0 45px rgba(0, 0, 0, 0.45);
+}
+
+/* Top Pill Switcher */
+.sonora-login-page .sonora-auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border);
+  margin-bottom: 1.65rem;
+}
+
+.sonora-login-page .sonora-auth-tab {
+  appearance: none;
+  border: none;
+  border-radius: var(--sonora-radius-pill);
+  padding: 0.62rem 1rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--sonora-text-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: color var(--sonora-transition), background var(--sonora-transition), box-shadow var(--sonora-transition);
+}
+
+.sonora-login-page .sonora-auth-tab:hover {
+  color: var(--sonora-text-primary);
+}
+
+.sonora-login-page .sonora-auth-tab.is-active {
+  color: var(--sonora-text-primary);
+  background: var(--sonora-auth-cta);
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.38);
+}
+
+/* Tab Panels */
+.sonora-login-page .sonora-auth-panel {
+  animation: sonoraAuthFade 0.22s ease;
+}
+
+.sonora-login-page .sonora-auth-panel[hidden] {
+  display: none !important;
+}
+
+@keyframes sonoraAuthFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sonora-login-page .sonora-panel-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.sonora-login-page .sonora-panel-subtitle {
+  font-size: 0.92rem;
+  color: var(--sonora-text-secondary);
+  margin-bottom: 1.35rem;
+}
+
+/* ==========================================================================
+   Alert Banners (Error Summary & Success Confirmation)
+   ========================================================================== */
+
+.sonora-login-page .sonora-form-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.78rem 0.95rem;
+  border-radius: var(--sonora-radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1.15rem;
+}
+
+.sonora-login-page .sonora-form-alert[hidden] {
+  display: none !important;
+}
+
+.sonora-login-page .sonora-form-alert-error {
+  background-color: var(--sonora-error-soft);
+  border: 1px solid rgba(244, 63, 94, 0.55);
+  color: var(--sonora-error-text);
+}
+
+.sonora-login-page .sonora-form-alert-success {
+  background-color: var(--sonora-valid-soft);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  color: #86efac;
+}
+
+/* ==========================================================================
+   3-State Form Controls (Default / Error / Valid Checkmark)
+   ========================================================================== */
+
+.sonora-login-page .sonora-field-group {
+  margin-bottom: 1.05rem;
+}
+
+.sonora-login-page .sonora-field-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--sonora-text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.sonora-login-page .sonora-forgot-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fda4af;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sonora-login-page .sonora-forgot-link:hover {
+  color: var(--sonora-text-primary);
+  text-decoration: underline;
+}
+
+.sonora-login-page .sonora-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sonora-login-page .sonora-auth-input {
+  width: 100%;
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  color: var(--sonora-text-primary);
+  border-radius: var(--sonora-radius-sm);
+  padding: 0.68rem 2.65rem 0.68rem 0.9rem;
+  font-size: 0.95rem;
+  transition: border-color var(--sonora-transition), box-shadow var(--sonora-transition), background-color var(--sonora-transition);
+}
+
+.sonora-login-page .sonora-auth-input-password {
+  padding-right: 4.6rem;
+}
+
+.sonora-login-page .sonora-auth-input::placeholder {
+  color: #71717a;
+}
+
+.sonora-login-page .sonora-auth-input:focus {
+  outline: none;
+  background-color: #0e0e10;
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.22);
+}
+
+/* State 2: Error */
+.sonora-login-page .sonora-field-group.is-error .sonora-auth-input {
+  border-color: var(--sonora-error);
+  box-shadow: 0 0 0 0.18rem rgba(244, 63, 94, 0.2);
+}
+
+/* State 3: Valid */
+.sonora-login-page .sonora-field-group.is-valid .sonora-auth-input {
+  border-color: rgba(34, 197, 94, 0.72);
+  box-shadow: 0 0 0 0.16rem rgba(34, 197, 94, 0.14);
+}
+
+/* Green Checkmark Icon Inside Valid Input */
+.sonora-login-page .sonora-valid-icon {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%) scale(0.85);
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sonora-valid);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.sonora-login-page .sonora-input-wrap-password .sonora-valid-icon {
+  right: 2.65rem;
+}
+
+.sonora-login-page .sonora-field-group.is-valid .sonora-valid-icon {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Show / Hide Password Toggle Button */
+.sonora-login-page .sonora-pwd-toggle {
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--sonora-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color var(--sonora-transition), background-color var(--sonora-transition);
+}
+
+.sonora-login-page .sonora-pwd-toggle:hover {
+  color: var(--sonora-text-primary);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Inline Error Message */
+.sonora-login-page .sonora-field-error {
+  display: none;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--sonora-error-text);
+}
+
+.sonora-login-page .sonora-field-group.is-error .sonora-field-error {
+  display: block;
+}
+
+/* Keep Me Signed In Checkbox */
+.sonora-login-page .sonora-checkbox-wrap .form-check-input {
+  background-color: var(--sonora-bg-primary);
+  border-color: var(--sonora-border-strong);
+  cursor: pointer;
+}
+
+.sonora-login-page .sonora-checkbox-wrap .form-check-input:checked {
+  background-color: var(--sonora-accent);
+  border-color: var(--sonora-accent);
+}
+
+.sonora-login-page .sonora-checkbox-wrap .form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.25);
+  border-color: var(--sonora-accent);
+}
+
+.sonora-login-page .sonora-checkbox-wrap .form-check-label {
+  font-size: 0.88rem;
+  color: var(--sonora-text-secondary);
+  cursor: pointer;
+}
+
+/* Vibrant Orange-Red Submit CTA */
+.sonora-login-page .btn-sonora-auth-submit {
+  width: 100%;
+  border: none;
+  border-radius: var(--sonora-radius-pill);
+  padding: 0.78rem 1.5rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--sonora-text-primary);
+  background: var(--sonora-auth-cta);
+  box-shadow: 0 8px 22px rgba(225, 29, 72, 0.35);
+  transition: transform var(--sonora-transition), box-shadow var(--sonora-transition), background var(--sonora-transition);
+}
+
+.sonora-login-page .btn-sonora-auth-submit:hover,
+.sonora-login-page .btn-sonora-auth-submit:focus {
+  color: var(--sonora-text-primary);
+  background: var(--sonora-auth-cta-hover);
+  box-shadow: 0 10px 26px rgba(225, 29, 72, 0.48);
+  transform: translateY(-1px);
+}
+
+.sonora-login-page .btn-sonora-auth-submit:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Bottom Switch Prompt */
+.sonora-login-page .sonora-auth-switch {
+  margin-top: 1.3rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--sonora-border);
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-login-page .sonora-switch-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 700;
+  color: #fda4af;
+  cursor: pointer;
+  margin-left: 0.2rem;
+}
+
+.sonora-login-page .sonora-switch-btn:hover {
+  color: var(--sonora-text-primary);
+  text-decoration: underline;
+}
+
+/* Forgot Password Inline Panel */
+.sonora-login-page .sonora-forgot-box {
+  background-color: var(--sonora-bg-elevated);
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-md);
+  padding: 1rem;
+  margin-bottom: 1.15rem;
+}
+
+.sonora-login-page .sonora-forgot-box[hidden] {
+  display: none !important;
+}
+
+/* Already Logged-In Session View */
+.sonora-login-page .sonora-session-box[hidden] {
+  display: none !important;
+}
+
+.sonora-login-page .sonora-session-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--sonora-auth-cta);
+  color: var(--sonora-text-primary);
+  font-size: 1.35rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(225, 29, 72, 0.35);
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (min-width: 768px) {
+  .sonora-login-page .sonora-auth-card {
+    padding: 2.15rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .sonora-login-page .sonora-auth-main {
+    padding: 2.25rem 0 3.25rem;
+  }
+
+  .sonora-login-page .sonora-auth-subtitle {
+    margin-bottom: 1.5rem;
+  }
+
+  .sonora-login-page .sonora-feature-list {
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .sonora-login-page .sonora-auth-card {
+    padding: 1.35rem;
+    border-radius: var(--sonora-radius-md);
+  }
+
+  .sonora-login-page .sonora-feature-item {
+    padding: 0.85rem 0.95rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sonora-login-page .sonora-auth-panel,
+  .sonora-login-page .sonora-feature-item,
+  .sonora-login-page .btn-sonora-auth-submit {
+    animation: none;
+    transition: none;
+  }
+}

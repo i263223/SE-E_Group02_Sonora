@@ -391,12 +391,8 @@
         return;
       }
       saveSelectionToCart();
-      const savedCount = getTotalSelectedCount();
       clearAllSelections();
-      showAlert(
-        `Added <strong>${savedCount}</strong> ${savedCount === 1 ? "ticket" : "tickets"} to your cart. <a href="checkout.html?id=${encodeURIComponent(state.concert.id)}" class="text-decoration-underline fw-semibold">Proceed to Checkout</a> &bull; <a href="my-tickets.html" class="text-decoration-underline fw-semibold">View My Tickets</a>`,
-        true
-      );
+      window.location.href = "cart.html";
     });
   }
 

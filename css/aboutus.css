@@ -1,0 +1,900 @@
+:root {
+  --color-white: #FFFFFF;
+  --color-bg-lavender: #F9F9FF;
+  --color-card-lavender: #EAE9FE;
+  --color-indigo: #3B38D8;
+  --color-indigo-hover: #5B56F6;
+  --color-navy: #14152E;
+  --color-slate: #3F4262;
+  --color-muted: #646787;
+  --color-footer-bg: #0D102B;
+  --color-footer-text: #D7D9EC;
+  --color-border-subtle: rgba(20, 21, 46, 0.08);
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --container-max: 1180px;
+  --radius-btn: 10px;
+  --radius-card: 24px;
+  --transition: 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-navy);
+  background-color: var(--color-bg-lavender);
+  line-height: 1.6;
+}
+
+img,
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-btn);
+  transition: background-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--color-indigo);
+  color: var(--color-white);
+  box-shadow: 0 6px 18px rgba(59, 56, 216, 0.22);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background-color: var(--color-indigo-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(91, 86, 246, 0.28);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:focus-visible,
+.nav-link:focus-visible,
+.icon-btn:focus-visible,
+.footer-link:focus-visible,
+.social-link:focus-visible {
+  outline: 2px solid var(--color-indigo-hover);
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   1. Navigation Bar (Header)
+   ========================================== */
+.site-header {
+  position: relative;
+  z-index: 50;
+  background-color: var(--color-white);
+  border-bottom: 1px solid rgba(20, 21, 46, 0.05);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 84px;
+  gap: 24px;
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.brand-ticket-icon {
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.brand-logo:hover .brand-ticket-icon {
+  transform: rotate(-6deg) scale(1.04);
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-navy);
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.96875rem;
+  font-weight: 500;
+  color: var(--color-navy);
+  background: transparent;
+  border: none;
+  padding: 6px 2px;
+  transition: color var(--transition);
+}
+
+.nav-link:hover,
+.nav-link--active {
+  color: var(--color-indigo);
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.chevron-icon {
+  transition: transform var(--transition);
+}
+
+.nav-dropdown-trigger[aria-expanded="true"] .chevron-icon {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 210px;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(20, 21, 46, 0.12);
+  z-index: 60;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-navy);
+  border-radius: 8px;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-bg-lavender);
+  color: var(--color-indigo);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--color-navy);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.icon-btn:hover {
+  background-color: var(--color-bg-lavender);
+  color: var(--color-indigo);
+}
+
+.btn-signin {
+  padding: 11px 24px;
+  font-size: 0.9375rem;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background-color: transparent;
+  color: var(--color-navy);
+}
+
+.mobile-menu-toggle:hover {
+  background-color: var(--color-bg-lavender);
+}
+
+/* Search Panel */
+.search-panel {
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-lavender);
+  padding: 14px 0;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--color-white);
+  border: 1px solid rgba(59, 56, 216, 0.18);
+  border-radius: 12px;
+  padding: 6px 6px 6px 16px;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-navy);
+  background: transparent;
+}
+
+.search-input::placeholder {
+  color: var(--color-muted);
+}
+
+.btn-sm {
+  padding: 9px 18px;
+  font-size: 0.875rem;
+}
+
+/* Mobile Nav */
+.mobile-nav {
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-white);
+  padding: 16px 0 22px;
+}
+
+.mobile-nav-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-nav-link {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-navy);
+}
+
+.mobile-nav-link--active,
+.mobile-nav-link:hover {
+  background-color: var(--color-bg-lavender);
+  color: var(--color-indigo);
+}
+
+.mobile-signin {
+  margin-top: 8px;
+  padding: 12px 20px;
+  width: 100%;
+}
+
+/* ==========================================
+   2. Hero Banner
+   ========================================== */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  min-height: 410px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: #F4F3FF;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/hero-concert.jpg");
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #F7F6FF 0%,
+    #F3F2FF 30%,
+    rgba(243, 242, 255, 0.86) 46%,
+    rgba(243, 242, 255, 0.35) 64%,
+    rgba(243, 242, 255, 0) 82%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.hero-text {
+  max-width: 520px;
+}
+
+.hero-title {
+  margin: 0 0 18px;
+  font-size: clamp(2.5rem, 4.4vw, 3.625rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--color-navy);
+}
+
+.hero-subtitle {
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.55vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--color-slate);
+}
+
+/* ==========================================
+   3. Our Mission Section
+   ========================================== */
+.mission-section {
+  background-color: var(--color-bg-lavender);
+  padding: 104px 0 88px;
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 370px) minmax(0, 1fr);
+  align-items: center;
+  gap: 72px;
+  max-width: 1060px;
+}
+
+.mission-card {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-card-lavender);
+  border-radius: var(--radius-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+}
+
+.mission-ticket-svg {
+  width: 68%;
+  height: 68%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mission-card:hover .mission-ticket-svg {
+  transform: scale(1.04) rotate(3deg);
+}
+
+.section-heading {
+  margin: 0 0 22px;
+  font-size: clamp(1.875rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--color-navy);
+}
+
+.mission-text {
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.4vw, 1.21875rem);
+  font-weight: 400;
+  line-height: 1.72;
+  color: var(--color-slate);
+  max-width: 530px;
+}
+
+.mission-text strong {
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+/* ==========================================
+   4. Call-to-Action (CTA) Section
+   ========================================== */
+.cta-section {
+  background-color: var(--color-bg-lavender);
+  padding: 32px 0 104px;
+}
+
+.cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  max-width: 1060px;
+  padding-top: 56px;
+  border-top: 1px solid rgba(59, 56, 216, 0.09);
+}
+
+.cta-heading {
+  margin: 0 0 12px;
+  font-size: clamp(1.625rem, 2.5vw, 2.125rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-navy);
+}
+
+.cta-subtext {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-slate);
+}
+
+.cta-action {
+  flex-shrink: 0;
+}
+
+.btn-cta {
+  padding: 16px 30px;
+  font-size: 1.03125rem;
+}
+
+.arrow-icon {
+  transition: transform var(--transition);
+}
+
+.btn-cta:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* ==========================================
+   5. Footer
+   ========================================== */
+.site-footer {
+  background-color: var(--color-footer-bg);
+  color: var(--color-white);
+  padding: 34px 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.footer-brand-name {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 36px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-link {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-footer-text);
+  transition: color var(--transition);
+}
+
+.footer-link:hover {
+  color: var(--color-white);
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--color-footer-text);
+  transition: color var(--transition), background-color var(--transition), transform var(--transition);
+}
+
+.social-link:hover {
+  color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+/* ==========================================
+   Responsive Breakpoints
+   ========================================== */
+@media (max-width: 960px) {
+  .mission-grid {
+    grid-template-columns: minmax(240px, 310px) minmax(0, 1fr);
+    gap: 44px;
+  }
+
+  .hero-banner {
+    min-height: 360px;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      90deg,
+      #F7F6FF 0%,
+      rgba(243, 242, 255, 0.92) 42%,
+      rgba(243, 242, 255, 0.55) 68%,
+      rgba(243, 242, 255, 0.1) 92%
+    );
+  }
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    min-height: 72px;
+  }
+
+  .main-nav,
+  .btn-signin {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+  }
+
+  .hero-banner {
+    min-height: 320px;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      180deg,
+      rgba(247, 246, 255, 0.94) 0%,
+      rgba(243, 242, 255, 0.88) 52%,
+      rgba(243, 242, 255, 0.48) 100%
+    );
+  }
+
+  .hero-content {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .hero-break,
+  .cta-break {
+    display: none;
+  }
+
+  .mission-section {
+    padding: 68px 0 56px;
+  }
+
+  .mission-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .mission-card {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .mission-copy {
+    text-align: center;
+  }
+
+  .mission-text {
+    margin: 0 auto;
+  }
+
+  .cta-section {
+    padding: 20px 0 72px;
+  }
+
+  .cta-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 44px;
+    gap: 24px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 22px;
+  }
+
+  .footer-links {
+    gap: 24px;
+  }
+}
+
+/* ==========================================
+   Ticket Guarantee Page Styles
+   ========================================== */
+.guarantee-hero {
+  position: relative;
+  width: 100%;
+  background-color: #EFEFFE;
+  overflow: hidden;
+}
+
+.guarantee-hero-waves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.guarantee-hero-waves svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.guarantee-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  padding-top: 76px;
+  padding-bottom: 76px;
+}
+
+.guarantee-hero-copy {
+  max-width: 600px;
+}
+
+.guarantee-hero-title {
+  margin: 0 0 16px;
+  font-size: clamp(2.5rem, 4.4vw, 3.625rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--color-navy);
+}
+
+.guarantee-hero-subtitle {
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.55vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-slate);
+}
+
+.guarantee-hero-shield {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 16px;
+}
+
+.hero-shield-svg {
+  filter: drop-shadow(0 18px 34px rgba(79, 70, 229, 0.24));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.guarantee-hero:hover .hero-shield-svg {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* 3. Three-Column Trust Features Section */
+.trust-section {
+  background-color: var(--color-bg-lavender);
+  padding: 96px 0 72px;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+}
+
+.trust-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  transition: transform var(--transition);
+}
+
+.trust-item:hover .trust-icon {
+  transform: translateY(-3px);
+}
+
+.trust-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: -0.015em;
+  color: var(--color-navy);
+}
+
+/* 4. Guarantee Callout Banner */
+.guarantee-callout-section {
+  background-color: var(--color-bg-lavender);
+  padding: 16px 0 104px;
+}
+
+.guarantee-callout-card {
+  max-width: 920px;
+  margin: 0 auto;
+  background-color: var(--color-card-lavender);
+  border-radius: 16px;
+  padding: 34px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.callout-badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.callout-text {
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.45vw, 1.21875rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--color-navy);
+}
+
+@media (max-width: 960px) {
+  .guarantee-hero-inner {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    gap: 32px;
+  }
+
+  .hero-shield-svg {
+    width: 148px;
+    height: 164px;
+  }
+
+  .trust-grid {
+    gap: 32px;
+  }
+
+  .guarantee-callout-card {
+    padding: 28px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .guarantee-hero-inner {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+
+  .guarantee-hero-shield {
+    padding-right: 0;
+  }
+
+  .hero-shield-svg {
+    width: 132px;
+    height: 146px;
+  }
+
+  .trust-section {
+    padding: 64px 0 48px;
+  }
+
+  .trust-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .guarantee-callout-section {
+    padding: 12px 0 72px;
+  }
+
+  .guarantee-callout-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px 24px;
+    gap: 16px;
+  }
+
+  .guarantee-break {
+    display: none;
+  }
+}

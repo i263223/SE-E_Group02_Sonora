@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQs — Sonora</title>
+  <meta name="description" content="Find answers to common questions about booking tickets, refunds, transfers, payment security, and support at Sonora." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/faq.css" />
+</head>
+<body>
+  <!-- 1. Navigation Bar (Header) -->
+  <header class="faq-header">
+    <div class="container header-inner">
+      <a href="index.html" class="wordmark" aria-label="Sonora Home">Sonora</a>
+
+      <nav class="main-nav" aria-label="Primary Navigation">
+        <ul class="nav-list">
+          <li><a href="index.html#events" class="nav-link">Events</a></li>
+          <li><a href="aboutus.html" class="nav-link">About</a></li>
+          <li><a href="faq.html" class="nav-link nav-link--active" aria-current="page">Help</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="icon-btn search-toggle" aria-label="Search FAQs and events" aria-expanded="false" aria-controls="search-panel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.9" />
+            <path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" />
+          </svg>
+        </button>
+        <a href="#login" class="btn-login">Login</a>
+        <button type="button" class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Expandable Search Bar -->
+    <div id="search-panel" class="search-panel" hidden>
+      <div class="container">
+        <form class="search-form" role="search" id="faq-search-form">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="#A5B4FC" stroke-width="2" />
+            <path d="M16.2 16.2L20.5 20.5" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <input type="search" class="search-input" placeholder="Search FAQs (e.g., refund, transfer, payment)..." aria-label="Search FAQs" />
+          <button type="submit" class="btn-login btn-search-submit">Search</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-nav" class="mobile-nav" hidden>
+      <div class="container mobile-nav-inner">
+        <a href="index.html#events" class="mobile-nav-link">Events</a>
+        <a href="aboutus.html" class="mobile-nav-link">About</a>
+        <a href="faq.html" class="mobile-nav-link mobile-nav-link--active" aria-current="page">Help</a>
+        <a href="#login" class="btn-login mobile-login">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. Hero Banner -->
+    <section class="faq-hero" aria-labelledby="faq-hero-heading">
+      <div class="faq-hero-photo" aria-hidden="true"></div>
+      <div class="faq-hero-overlay" aria-hidden="true"></div>
+
+      <div class="container faq-hero-content">
+        <div class="faq-hero-cluster">
+          <div class="faq-badge" aria-hidden="true">
+            <span class="faq-badge-mark">?</span>
+          </div>
+          <div class="faq-hero-text">
+            <h1 id="faq-hero-heading" class="faq-hero-title">FAQs</h1>
+            <p class="faq-hero-subtitle">Find answers to common questions.</p>
+          </div>
+        </div>
+      </div>
+
+      <svg class="hero-diagonal" viewBox="0 0 1440 64" preserveAspectRatio="none" aria-hidden="true">
+        <polygon points="0,64 1440,0 1440,64" fill="#FFFFFF" />
+      </svg>
+    </section>
+
+    <!-- 3. Interactive FAQ Accordion Section -->
+    <section class="faq-section" aria-label="Frequently Asked Questions">
+      <div class="faq-container">
+        <div class="faq-list">
+          <!-- Item 1 -->
+          <div class="faq-item">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-answer-1" id="faq-question-1">
+              <span class="faq-question">How do I book tickets?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="icon-horizontal" d="M4 10H16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                  <path class="icon-vertical" d="M10 4V16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                </svg>
+              </span>
+            </button>
+            <div class="faq-panel" id="faq-answer-1" role="region" aria-labelledby="faq-question-1">
+              <div class="faq-panel-inner">
+                <p>
+                  Browse upcoming concerts or shows under <strong>Events</strong>, choose your preferred date and seats on the interactive venue map, and complete checkout in seconds. Once confirmed, your digital tickets are delivered instantly to your Sonora account and email.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="faq-item">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-answer-2" id="faq-question-2">
+              <span class="faq-question">Can I get a refund?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="icon-horizontal" d="M4 10H16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                  <path class="icon-vertical" d="M10 4V16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                </svg>
+              </span>
+            </button>
+            <div class="faq-panel" id="faq-answer-2" role="region" aria-labelledby="faq-question-2">
+              <div class="faq-panel-inner">
+                <p>
+                  Under Sonora&rsquo;s <a href="ticket-guarantee.html" class="faq-inline-link">Ticket Guarantee</a>, if an event is cancelled or significantly changed, you&rsquo;ll automatically receive a full refund to your original payment method or a credit for a future event. Standard refund eligibility for other orders depends on the event organizer&rsquo;s policy shown at checkout.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="faq-item">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-answer-3" id="faq-question-3">
+              <span class="faq-question">Are tickets transferable?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="icon-horizontal" d="M4 10H16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                  <path class="icon-vertical" d="M10 4V16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                </svg>
+              </span>
+            </button>
+            <div class="faq-panel" id="faq-answer-3" role="region" aria-labelledby="faq-question-3">
+              <div class="faq-panel-inner">
+                <p>
+                  Yes! For most events, you can transfer tickets securely to friends or family directly from <strong>My Tickets</strong> by entering their name and email address. Once they accept the transfer, a fresh verified barcode is issued to them at no extra cost.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="faq-item">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-answer-4" id="faq-question-4">
+              <span class="faq-question">Is my payment secure?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="icon-horizontal" d="M4 10H16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                  <path class="icon-vertical" d="M10 4V16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                </svg>
+              </span>
+            </button>
+            <div class="faq-panel" id="faq-answer-4" role="region" aria-labelledby="faq-question-4">
+              <div class="faq-panel-inner">
+                <p>
+                  Absolutely. Every Sonora transaction is protected by end-to-end TLS encryption and PCI-DSS compliant payment processing. We never store your raw card numbers, and every ticket is verified for 100% authenticity before entry.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="faq-item">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-answer-5" id="faq-question-5">
+              <span class="faq-question">How can I contact support?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="icon-horizontal" d="M4 10H16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                  <path class="icon-vertical" d="M10 4V16" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" />
+                </svg>
+              </span>
+            </button>
+            <div class="faq-panel" id="faq-answer-5" role="region" aria-labelledby="faq-question-5">
+              <div class="faq-panel-inner">
+                <p>
+                  Our fan support team is available 7 days a week via live chat in your Sonora account, or by email at <strong>support@sonoraevents.com</strong>. On event days, priority assistance is available right up until doors close.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 4. Footer -->
+  <footer class="faq-footer">
+    <div class="container footer-grid">
+      <div class="footer-col-brand">
+        <a href="index.html" class="wordmark footer-wordmark" aria-label="Sonora Home">Sonora</a>
+      </div>
+
+      <div class="footer-col">
+        <h2 class="footer-heading">Quick Links</h2>
+        <ul class="footer-list">
+          <li><a href="index.html#events" class="footer-link">Events</a></li>
+          <li><a href="aboutus.html" class="footer-link">About</a></li>
+          <li><a href="faq.html" class="footer-link">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2 class="footer-heading">Support</h2>
+        <ul class="footer-list">
+          <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+          <li><a href="ticket-guarantee.html" class="footer-link">Refund Policy</a></li>
+          <li><a href="ticket-guarantee.html" class="footer-link">Ticket Guarantee</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col-socials">
+        <div class="footer-socials" aria-label="Social Media">
+          <a href="https://instagram.com" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.75" />
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.75" />
+              <circle cx="17.4" cy="6.6" r="1" fill="currentColor" />
+            </svg>
+          </a>
+          <a href="https://x.com" class="social-link" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 4L10.8 13.1L4.3 20H6.7L11.9 14.5L16.1 20H20L12.9 10.5L19 4H16.6L11.8 9.1L8 4H4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="https://youtube.com" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2.5" y="5.5" width="19" height="13" rx="4" stroke="currentColor" stroke-width="1.75" />
+              <path d="M10.2 9.2L15.4 12L10.2 14.8V9.2Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/faq.js"></script>
+</body>
+</html>

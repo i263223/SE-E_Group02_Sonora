@@ -1,0 +1,780 @@
+/* ==========================================================================
+   SONORA — Live Concert Tickets
+   My Tickets Page Stylesheet (css/my-tickets.css)
+   Scoped to body.sonora-tickets-page
+   Extends shared dark theme variables from css/style.css.
+   ========================================================================== */
+
+body.sonora-tickets-page {
+  --mt-green:        #22c55e;
+  --mt-green-soft:   rgba(34, 197, 94, 0.14);
+  --mt-green-border: rgba(34, 197, 94, 0.45);
+  --mt-gold:         #f59e0b;
+  --mt-gold-soft:    rgba(245, 158, 11, 0.14);
+  --mt-gold-border:  rgba(245, 158, 11, 0.45);
+  --mt-blue:         #60a5fa;
+  --mt-blue-soft:    rgba(96, 165, 250, 0.14);
+  --mt-past-border:  rgba(255, 255, 255, 0.07);
+}
+
+/* ==========================================================================
+   Account Sub-Navigation Bar
+   ========================================================================== */
+
+.sonora-account-subnav {
+  background-color: var(--sonora-bg-surface);
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.sonora-account-subnav .container {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sonora-account-subnav .container::-webkit-scrollbar {
+  display: none;
+}
+
+.sonora-subnav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.78rem 1.1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--sonora-text-secondary);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color var(--sonora-transition), border-color var(--sonora-transition);
+}
+
+.sonora-subnav-link:hover {
+  color: var(--sonora-text-primary);
+  border-bottom-color: var(--sonora-border-strong);
+}
+
+.sonora-subnav-link.is-active {
+  color: var(--sonora-text-primary);
+  border-bottom-color: var(--sonora-accent);
+}
+
+.sonora-subnav-signout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.78rem 1.1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--sonora-text-secondary);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--sonora-transition);
+  margin-left: auto;
+}
+
+.sonora-subnav-signout:hover {
+  color: var(--sonora-accent);
+}
+
+/* ==========================================================================
+   Page Header Section
+   ========================================================================== */
+
+.sonora-tickets-header {
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(225, 29, 72, 0.1) 0%, transparent 70%),
+    var(--sonora-bg-primary);
+  border-bottom: 1px solid var(--sonora-border);
+  padding: 2.5rem 0 2rem;
+}
+
+.sonora-tickets-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--sonora-radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fda4af;
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  margin-bottom: 0.9rem;
+}
+
+.sonora-tickets-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--sonora-accent);
+  box-shadow: 0 0 7px rgba(225, 29, 72, 0.9);
+  flex-shrink: 0;
+}
+
+.sonora-tickets-heading {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--sonora-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.sonora-tickets-subtitle {
+  font-size: 1rem;
+  color: var(--sonora-text-secondary);
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Filter Tabs (Upcoming / Past)
+   ========================================================================== */
+
+.sonora-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sonora-filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.52rem 1.15rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--sonora-radius-pill);
+  border: 1px solid var(--sonora-border-strong);
+  background: transparent;
+  color: var(--sonora-text-secondary);
+  cursor: pointer;
+  transition: all var(--sonora-transition);
+}
+
+.sonora-filter-tab:hover {
+  color: var(--sonora-text-primary);
+  border-color: var(--sonora-border-strong);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sonora-filter-tab.is-active {
+  background-color: var(--sonora-accent);
+  border-color: var(--sonora-accent);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
+}
+
+.sonora-filter-tab .tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  padding: 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: var(--sonora-radius-pill);
+  background-color: rgba(255, 255, 255, 0.18);
+  color: inherit;
+  transition: background-color var(--sonora-transition);
+}
+
+.sonora-filter-tab.is-active .tab-count {
+  background-color: rgba(255, 255, 255, 0.28);
+}
+
+/* ==========================================================================
+   Ticket Cards
+   ========================================================================== */
+
+.sonora-ticket-card {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-lg);
+  overflow: hidden;
+  transition: border-color var(--sonora-transition), box-shadow var(--sonora-transition);
+  position: relative;
+}
+
+.sonora-ticket-card:hover {
+  border-color: rgba(225, 29, 72, 0.4);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Past ticket dim state */
+.sonora-ticket-card.is-past {
+  opacity: 0.78;
+  border-color: var(--mt-past-border);
+}
+
+.sonora-ticket-card.is-past:hover {
+  opacity: 1;
+  border-color: var(--sonora-border-strong);
+}
+
+/* Left colored accent strip */
+.sonora-ticket-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--sonora-accent);
+  border-radius: 0;
+}
+
+.sonora-ticket-card.is-past::before {
+  background: var(--sonora-border-strong);
+}
+
+.sonora-ticket-card.is-vip::before {
+  background: linear-gradient(180deg, var(--mt-gold) 0%, var(--sonora-accent) 100%);
+}
+
+/* Card inner layout */
+.sonora-ticket-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.25rem;
+  padding: 1.5rem 1.5rem 1.5rem 1.75rem;
+  align-items: start;
+}
+
+@media (max-width: 575.98px) {
+  .sonora-ticket-inner {
+    grid-template-columns: 1fr;
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+  }
+}
+
+/* Badges row */
+.sonora-ticket-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.sonora-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.22rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--sonora-radius-pill);
+}
+
+.sonora-badge-confirmed {
+  background-color: var(--mt-green-soft);
+  border: 1px solid var(--mt-green-border);
+  color: var(--mt-green);
+}
+
+.sonora-badge-vip {
+  background-color: var(--mt-gold-soft);
+  border: 1px solid var(--mt-gold-border);
+  color: var(--mt-gold);
+}
+
+.sonora-badge-ga {
+  background-color: var(--mt-blue-soft);
+  border: 1px solid rgba(96, 165, 250, 0.45);
+  color: var(--mt-blue);
+}
+
+.sonora-badge-past {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--sonora-border-strong);
+  color: var(--sonora-text-secondary);
+}
+
+/* Title / details */
+.sonora-ticket-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--sonora-text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+  line-height: 1.25;
+}
+
+.sonora-ticket-artist {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fda4af;
+  margin-bottom: 0.65rem;
+}
+
+.sonora-ticket-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.sonora-ticket-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.84rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-ticket-meta-item svg {
+  flex-shrink: 0;
+  color: var(--sonora-accent);
+  opacity: 0.75;
+}
+
+.sonora-ticket-price-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin-top: 0.5rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--sonora-border);
+}
+
+.sonora-ticket-price-item {
+  font-size: 0.82rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-ticket-price-item strong {
+  color: var(--sonora-text-primary);
+}
+
+/* Action buttons */
+.sonora-ticket-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-ticket-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.48rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--sonora-radius-pill);
+  border: 1px solid var(--sonora-border-strong);
+  background-color: var(--sonora-bg-elevated);
+  color: var(--sonora-text-primary);
+  cursor: pointer;
+  transition: all var(--sonora-transition);
+  white-space: nowrap;
+}
+
+.btn-ticket-action:hover,
+.btn-ticket-action:focus-visible {
+  background-color: var(--sonora-accent);
+  border-color: var(--sonora-accent);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-ticket-action.btn-transfer:hover,
+.btn-ticket-action.btn-transfer:focus-visible {
+  background-color: var(--mt-blue);
+  border-color: var(--mt-blue);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(96, 165, 250, 0.3);
+}
+
+/* QR code panel */
+.sonora-ticket-qr-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.sonora-qr-wrap {
+  width: 108px;
+  height: 108px;
+  background-color: #fff;
+  border-radius: var(--sonora-radius-sm);
+  padding: 6px;
+  cursor: pointer;
+  transition: transform var(--sonora-transition), box-shadow var(--sonora-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.sonora-qr-wrap:hover,
+.sonora-qr-wrap:focus-visible {
+  transform: scale(1.07);
+  box-shadow: 0 0 0 3px var(--sonora-accent);
+  border-color: var(--sonora-accent);
+  outline: none;
+}
+
+.sonora-qr-wrap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sonora-ticket-id {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--sonora-text-secondary);
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* ==========================================================================
+   Empty State Card
+   ========================================================================== */
+
+.sonora-empty-state {
+  background-color: var(--sonora-bg-surface);
+  border: 1px dashed var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-lg);
+  padding: 3.5rem 2rem;
+  text-align: center;
+}
+
+.sonora-empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--sonora-accent-soft);
+  border: 1px solid rgba(225, 29, 72, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fda4af;
+  margin-bottom: 1.25rem;
+}
+
+.sonora-empty-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--sonora-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.sonora-empty-desc {
+  font-size: 0.92rem;
+  color: var(--sonora-text-secondary);
+  margin-bottom: 1.5rem;
+  max-width: 24rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sonora-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Support Banner
+   ========================================================================== */
+
+.sonora-support-banner {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-md);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sonora-support-banner-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--mt-green-soft);
+  border: 1px solid var(--mt-green-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mt-green);
+  flex-shrink: 0;
+}
+
+.sonora-support-banner p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-support-banner a {
+  color: #fda4af;
+  font-weight: 600;
+}
+
+.sonora-support-banner a:hover {
+  color: var(--sonora-accent);
+}
+
+/* ==========================================================================
+   Modals (QR, PDF, Transfer)
+   ========================================================================== */
+
+.sonora-modal .modal-content {
+  background-color: var(--sonora-bg-surface);
+  border: 1px solid var(--sonora-border-strong);
+  border-radius: var(--sonora-radius-lg);
+  color: var(--sonora-text-primary);
+}
+
+.sonora-modal .modal-header {
+  border-bottom: 1px solid var(--sonora-border);
+  padding: 1.25rem 1.5rem;
+}
+
+.sonora-modal .modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sonora-modal .modal-body {
+  padding: 1.5rem;
+}
+
+.sonora-modal .modal-footer {
+  border-top: 1px solid var(--sonora-border);
+  padding: 1rem 1.5rem;
+}
+
+.sonora-modal .btn-close {
+  filter: invert(1) grayscale(1);
+  opacity: 0.6;
+}
+
+.sonora-modal .btn-close:hover {
+  opacity: 1;
+}
+
+/* Large QR display inside modal */
+.sonora-modal-qr-wrap {
+  width: 220px;
+  height: 220px;
+  background-color: #fff;
+  border-radius: var(--sonora-radius-md);
+  padding: 10px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sonora-modal-qr-wrap svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sonora-modal-ticket-id {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--sonora-text-secondary);
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* PDF receipt inside modal */
+.sonora-pdf-receipt {
+  background-color: var(--sonora-bg-elevated);
+  border: 1px solid var(--sonora-border);
+  border-radius: var(--sonora-radius-md);
+  padding: 1.5rem;
+}
+
+.sonora-pdf-receipt-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.sonora-pdf-receipt-logo {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--sonora-accent);
+}
+
+.sonora-pdf-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  font-size: 0.84rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sonora-pdf-row:last-child {
+  border-bottom: none;
+}
+
+.sonora-pdf-label {
+  color: var(--sonora-text-secondary);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.sonora-pdf-value {
+  color: var(--sonora-text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Transfer modal input */
+.sonora-transfer-input {
+  width: 100%;
+  background-color: var(--sonora-bg-primary);
+  border: 1px solid var(--sonora-border-strong);
+  color: var(--sonora-text-primary);
+  border-radius: var(--sonora-radius-sm);
+  padding: 0.68rem 0.9rem;
+  font-size: 0.95rem;
+  transition: border-color var(--sonora-transition), box-shadow var(--sonora-transition);
+}
+
+.sonora-transfer-input::placeholder {
+  color: #71717a;
+}
+
+.sonora-transfer-input:focus {
+  outline: none;
+  border-color: var(--sonora-accent);
+  box-shadow: 0 0 0 0.2rem rgba(225, 29, 72, 0.22);
+}
+
+.sonora-transfer-input.is-invalid {
+  border-color: #f43f5e;
+  box-shadow: 0 0 0 0.18rem rgba(244, 63, 94, 0.2);
+}
+
+.sonora-transfer-error {
+  font-size: 0.8rem;
+  color: #fda4af;
+  margin-top: 0.35rem;
+  min-height: 1.1em;
+}
+
+/* ==========================================================================
+   Print Styles — PDF modal
+   ========================================================================== */
+
+@media print {
+  body > *:not(#sonoraModalPdf) { display: none !important; }
+  #sonoraModalPdf .modal-dialog { margin: 0; max-width: 100%; }
+  #sonoraModalPdf .modal-footer,
+  #sonoraModalPdf .btn-close { display: none !important; }
+  #sonoraModalPdf .modal-content { border: none; box-shadow: none; }
+}
+
+/* ==========================================================================
+   Misc Utilities
+   ========================================================================== */
+
+.sonora-section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sonora-text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Animate cards in */
+@keyframes sonoraTicketFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sonora-ticket-card {
+  animation: sonoraTicketFadeIn 0.3s ease both;
+}
+
+.sonora-ticket-card:nth-child(2) { animation-delay: 0.06s; }
+.sonora-ticket-card:nth-child(3) { animation-delay: 0.12s; }
+.sonora-ticket-card:nth-child(4) { animation-delay: 0.18s; }
+.sonora-ticket-card:nth-child(5) { animation-delay: 0.24s; }
+
+/* ==========================================================================
+   Responsive Tweaks
+   ========================================================================== */
+
+@media (max-width: 767.98px) {
+  .sonora-tickets-header {
+    padding: 1.75rem 0 1.5rem;
+  }
+
+  .sonora-tickets-heading {
+    font-size: 1.75rem;
+  }
+
+  .sonora-ticket-qr-panel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .sonora-qr-wrap {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .sonora-ticket-actions {
+    flex-direction: column;
+  }
+
+  .btn-ticket-action {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sonora-modal-qr-wrap {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sonora-ticket-card,
+  .sonora-qr-wrap,
+  .btn-ticket-action {
+    animation: none;
+    transition: none;
+  }
+}

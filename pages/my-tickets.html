@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Tickets | SONORA — Live Concert Tickets</title>
+  <meta
+    name="description"
+    content="View your SONORA concert tickets, download QR passes, transfer tickets, and manage your upcoming and past events."
+  />
+
+  <!-- Bootstrap 5 CSS (no jQuery) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Shared SONORA Theme -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- My Tickets Page Styles -->
+  <link rel="stylesheet" href="../css/my-tickets.css" />
+</head>
+<body class="sonora-tickets-page">
+
+  <!-- ======================================================================
+       STICKY TOP NAVIGATION BAR
+       ====================================================================== -->
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg sonora-navbar" aria-label="Primary navigation">
+      <div class="container">
+
+        <!-- Brand -->
+        <a class="sonora-brand" href="../index.html">
+          <img
+            src="../images/logo.svg"
+            alt="SONORA logo"
+            class="sonora-brand-logo"
+            width="40"
+            height="40"
+          />
+          <span class="sonora-brand-text">
+            <span class="sonora-brand-title">SONORA</span>
+            <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+          </span>
+        </a>
+
+        <!-- Mobile toggle -->
+        <button
+          class="navbar-toggler sonora-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sonoraNavbarNav"
+          aria-controls="sonoraNavbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible links + right actions -->
+        <div class="collapse navbar-collapse" id="sonoraNavbarNav">
+          <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 gap-lg-1">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="events.html"
+                data-nav-link
+                data-nav-match="events.html,concerts.html,event-details.html"
+              >Concerts</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="artists.html"
+                data-nav-link
+                data-nav-match="artists.html,artist-details.html"
+              >Artists</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="venues.html"
+                data-nav-link
+                data-nav-match="venues.html,venue-details.html"
+              >Venues</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                href="my-tickets.html"
+                aria-current="page"
+                data-nav-link
+                data-nav-match="my-tickets.html,checkout.html"
+              >
+                <span>My Tickets</span>
+                <span class="sonora-badge-count d-none" data-sonora-ticket-badge>0</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right: Search + Auth -->
+          <div class="d-flex align-items-center gap-2 sonora-nav-actions">
+            <button
+              type="button"
+              class="sonora-icon-btn"
+              data-bs-toggle="collapse"
+              data-bs-target="#sonoraSearchDrawer"
+              aria-expanded="false"
+              aria-controls="sonoraSearchDrawer"
+              aria-label="Toggle quick search"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/>
+                <path stroke-linecap="round" d="M20 20l-3.5-3.5"/>
+              </svg>
+            </button>
+
+            <div id="sonoraAuthActions" class="d-flex align-items-center gap-2">
+              <a href="login.html" class="btn btn-sonora-pill btn-sonora-outline">Sign In</a>
+              <a href="login.html#signup" class="btn btn-sonora-pill btn-sonora-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Quick Search Drawer -->
+    <div class="collapse sonora-search-drawer" id="sonoraSearchDrawer">
+      <div class="container py-3">
+        <form class="d-flex gap-2" role="search" data-sonora-search-form>
+          <label for="sonoraQuickSearchInput" class="visually-hidden">Search concerts, artists, or cities</label>
+          <input
+            id="sonoraQuickSearchInput"
+            name="search"
+            type="search"
+            class="form-control sonora-search-input"
+            placeholder="Search concerts, artists, genres, or cities..."
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-sonora-pill btn-sonora-primary px-4">Search</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       ACCOUNT SUB-NAVIGATION BAR
+       ====================================================================== -->
+  <nav class="sonora-account-subnav" aria-label="Account navigation">
+    <div class="container">
+      <a
+        href="my-tickets.html"
+        class="sonora-subnav-link is-active"
+        aria-current="page"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 5H9a2 2 0 00-2 2v13l3-2 2 2 2-2 3 2V7a2 2 0 00-2-2z"/>
+        </svg>
+        My Tickets
+      </a>
+      <a href="saved.html" class="sonora-subnav-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.5s-7-4.35-9-8.5C1.5 8.85 3.6 5.5 7 5.5c2 0 3.5 1.1 5 2.7 1.5-1.6 3-2.7 5-2.7 3.4 0 5.5 3.35 4 6.5-2 4.15-9 8.5-9 8.5z"/>
+        </svg>
+        Saved
+      </a>
+      <button
+        type="button"
+        id="sonoraSubnavSignOut"
+        class="sonora-subnav-signout"
+        aria-label="Sign out of your SONORA account"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-6 0v-1m6-8V7a3 3 0 00-6 0v1"/>
+        </svg>
+        Sign out
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======================================================================
+       MAIN CONTENT
+       ====================================================================== -->
+  <main>
+
+    <!-- Page Header -------------------------------------------------------- -->
+    <section class="sonora-tickets-header" aria-labelledby="myTicketsHeading">
+      <div class="container">
+        <span class="sonora-tickets-eyebrow">
+          <span class="sonora-tickets-eyebrow-dot" aria-hidden="true"></span>
+          My Account
+        </span>
+        <h1 id="myTicketsHeading" class="sonora-tickets-heading">My Tickets</h1>
+        <p class="sonora-tickets-subtitle">
+          Show the QR code at the gate. Each code works once.
+        </p>
+      </div>
+    </section>
+
+    <!-- Filter + Ticket List ----------------------------------------------- -->
+    <section class="py-5" aria-labelledby="ticketFilterLabel">
+      <div class="container">
+
+        <!-- Filter bar -->
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+          <div
+            class="sonora-filter-bar"
+            role="tablist"
+            aria-label="Filter tickets by status"
+            id="ticketFilterLabel"
+          >
+            <button
+              type="button"
+              id="filterUpcoming"
+              class="sonora-filter-tab is-active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="ticketListContainer"
+              tabindex="0"
+            >
+              Upcoming
+              <span class="tab-count" aria-label="count">2</span>
+            </button>
+            <button
+              type="button"
+              id="filterPast"
+              class="sonora-filter-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="ticketListContainer"
+              tabindex="-1"
+            >
+              Past
+              <span class="tab-count" aria-label="count">3</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Ticket cards -->
+        <div
+          id="ticketListContainer"
+          role="tabpanel"
+          aria-live="polite"
+          aria-atomic="false"
+          class="d-flex flex-column gap-3"
+        >
+          <!-- Rendered by my-tickets.js -->
+          <p class="text-muted-sonora small">Loading tickets…</p>
+        </div>
+
+        <!-- Support Banner ------------------------------------------------- -->
+        <div class="sonora-support-banner mt-5" role="note" aria-label="Ticket verification notice">
+          <span class="sonora-support-banner-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v5.5c0 4.5-3 8.3-7 9.5-4-1.2-7-5-7-9.5V6l7-3z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
+            </svg>
+          </span>
+          <p>
+            Every Sonora ticket is verified and protected.&nbsp;
+            <a href="contact.html" aria-label="Contact SONORA support">Contact Support</a>
+            &nbsp;if you have any issues with your booking.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer class="sonora-footer">
+    <div class="container">
+      <div class="row gy-4 align-items-center justify-content-between">
+        <div class="col-lg-5">
+          <a class="sonora-brand mb-3" href="../index.html">
+            <img
+              src="../images/logo.svg"
+              alt="SONORA logo"
+              class="sonora-brand-logo"
+              width="36"
+              height="36"
+            />
+            <span class="sonora-brand-text">
+              <span class="sonora-brand-title">SONORA</span>
+              <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+            </span>
+          </a>
+          <p class="text-muted-sonora small mb-0">
+            Your gateway to live music experiences, unforgettable tours, and instant digital concert passes.
+          </p>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column align-items-lg-end gap-3">
+          <ul class="sonora-footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+          <div class="sonora-ai-disclosure w-100 text-lg-end" role="note">
+            AI Image Disclosure Placeholder: Promotional artist, venue, and concert imagery used on this site may include AI-generated visuals created for academic prototype demonstration.
+          </div>
+        </div>
+      </div>
+
+      <hr class="sonora-footer-divider my-4" />
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 small text-muted-sonora">
+        <span>&copy; <span data-sonora-year>2026</span> SONORA Live Concert Tickets. All rights reserved.</span>
+        <span>Built with Semantic HTML, Bootstrap 5 &amp; Vanilla JS.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       MODAL — QR Code Gate Entry
+       ====================================================================== -->
+  <div
+    class="modal fade sonora-modal"
+    id="sonoraModalQr"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="qrModalTitle"
+    aria-modal="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="qrModalTitle">Gate Entry QR Code</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close QR modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <!-- QR rendered by JS -->
+          <div
+            id="qrModalQrWrap"
+            class="sonora-modal-qr-wrap"
+            aria-label="Scannable QR code for gate entry"
+          ></div>
+          <p id="qrModalTicketId" class="sonora-modal-ticket-id" aria-label="Ticket ID"></p>
+
+          <div class="text-start mt-3">
+            <p class="mb-1">
+              <strong id="qrModalConcert" class="text-white"></strong>
+            </p>
+            <p class="text-muted-sonora small mb-1" id="qrModalDate"></p>
+            <p class="text-muted-sonora small mb-1" id="qrModalVenue"></p>
+            <p class="text-muted-sonora small mb-0" id="qrModalSeat"></p>
+          </div>
+
+          <div class="mt-3 p-3" style="background:var(--sonora-bg-elevated);border-radius:var(--sonora-radius-sm);border:1px solid var(--sonora-border);">
+            <p class="small text-muted-sonora mb-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/></svg>
+              Present this QR at the gate. Valid for a single scan. Keep it private.
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sonora-pill btn-sonora-outline" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL — PDF / Print Receipt
+       ====================================================================== -->
+  <div
+    class="modal fade sonora-modal"
+    id="sonoraModalPdf"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="pdfModalTitle"
+    aria-modal="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="pdfModalTitle">Ticket Receipt</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close PDF modal"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Receipt rendered by JS -->
+          <div id="pdfReceiptBody"></div>
+        </div>
+        <div class="modal-footer gap-2">
+          <button
+            type="button"
+            id="btnPrintPdf"
+            class="btn btn-sonora-pill btn-sonora-primary"
+            aria-label="Print or save this receipt as PDF"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+            Print / Save PDF
+          </button>
+          <button type="button" class="btn btn-sonora-pill btn-sonora-outline" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL — Transfer Ticket
+       ====================================================================== -->
+  <div
+    class="modal fade sonora-modal"
+    id="sonoraModalTransfer"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="transferModalTitle"
+    aria-modal="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="transferModalTitle">Transfer Ticket</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close transfer modal"></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Concert info -->
+          <div class="mb-3 p-3" style="background:var(--sonora-bg-elevated);border:1px solid var(--sonora-border);border-radius:var(--sonora-radius-sm);">
+            <p class="small text-muted-sonora mb-0">Transferring ticket for:</p>
+            <p id="transferModalConcertName" class="mb-0 fw-semibold text-white small mt-1"></p>
+          </div>
+
+          <!-- Success banner (hidden by default) -->
+          <div
+            id="transferSuccessBanner"
+            class="p-3 mb-3 d-flex align-items-center gap-2"
+            style="background:var(--mt-green-soft);border:1px solid var(--mt-green-border);border-radius:var(--sonora-radius-sm);"
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.5l2.3 2.3 4.7-4.8"/></svg>
+            <span class="small" style="color:#86efac;">
+              Ticket transferred successfully to <strong id="transferSuccessEmail"></strong>. They will receive an email confirmation.
+            </span>
+          </div>
+
+          <!-- Email input -->
+          <div class="mb-1">
+            <label for="transferEmailInput" class="sonora-field-label d-block mb-2" style="font-size:0.88rem;font-weight:600;">
+              Recipient Email Address
+            </label>
+            <input
+              type="email"
+              id="transferEmailInput"
+              class="sonora-transfer-input"
+              placeholder="friend@example.com"
+              autocomplete="email"
+              aria-describedby="transferEmailError"
+              aria-required="true"
+            />
+            <div id="transferEmailError" class="sonora-transfer-error" role="alert" aria-live="polite"></div>
+          </div>
+
+          <p class="small text-muted-sonora mt-3 mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/></svg>
+            This action is permanent. The recipient will receive the QR code and ticket details. You will no longer be able to use this ticket.
+          </p>
+        </div>
+        <div class="modal-footer gap-2">
+          <button
+            type="button"
+            id="btnConfirmTransfer"
+            class="btn btn-sonora-pill btn-sonora-primary"
+            aria-label="Confirm ticket transfer"
+          >
+            Transfer Ticket
+          </button>
+          <button type="button" class="btn btn-sonora-pill btn-sonora-outline" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       SCRIPTS
+       ====================================================================== -->
+
+  <!-- Bootstrap 5 JS Bundle (no jQuery) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Shared SONORA Data & Core Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- My Tickets Page Script -->
+  <script src="../js/my-tickets.js"></script>
+
+</body>
+</html>

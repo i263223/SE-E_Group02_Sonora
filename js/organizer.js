@@ -5,13 +5,123 @@
      2. Live Payout & Fee Calculator (5% fee) on pages/host.html
      3. Organizer FAQ Accordion ([+] / [-] toggle) on pages/host.html
      4. Create Event Live Preview & Form Handling on pages/create-event.html
+     5. Organizer Dashboard (KPIs, Filters, Status Toggle & Delete) on pages/organizer-dashboard.html
    ========================================================= */
+
+const ORGANIZER_EVENTS_KEY = "sonora_organizer_events";
+
+/**
+ * Returns the 3 default sample organizer concerts for initial seeding.
+ */
+function getDefaultOrganizerEvents() {
+  return [
+    {
+      id: "seed-our-neighbourhood",
+      title: "Our Neighbourhood",
+      artist: "The Neighbourhood",
+      city: "Chicago",
+      venue: "United Center",
+      date: "2026-12-05",
+      time: "20:00",
+      dateTime: "2026-12-05T20:00",
+      gaPrice: 4000,
+      gaCapacity: 400,
+      vipPrice: 0,
+      vipCapacity: 0,
+      startingPrice: 4000,
+      totalCapacity: 400,
+      ticketsSold: 320,
+      revenue: 1280000,
+      status: "Published",
+      createdAt: "2026-11-01T10:00:00.000Z"
+    },
+    {
+      id: "seed-young-stunners-night",
+      title: "Young Stunners Night",
+      artist: "Young Stunners",
+      city: "Karachi",
+      venue: "Beach Park Clifton",
+      date: "2026-12-12",
+      time: "20:30",
+      dateTime: "2026-12-12T20:30",
+      gaPrice: 3900,
+      gaCapacity: 400,
+      vipPrice: 0,
+      vipCapacity: 0,
+      startingPrice: 3900,
+      totalCapacity: 400,
+      ticketsSold: 300,
+      revenue: 1170000,
+      status: "Published",
+      createdAt: "2026-11-02T10:00:00.000Z"
+    },
+    {
+      id: "seed-acoustic-evening",
+      title: "Acoustic Evening",
+      artist: "Camille Laurent",
+      city: "Paris",
+      venue: "Le Trianon",
+      date: "2026-12-20",
+      time: "19:30",
+      dateTime: "2026-12-20T19:30",
+      gaPrice: 3500,
+      gaCapacity: 150,
+      vipPrice: 0,
+      vipCapacity: 0,
+      startingPrice: 3500,
+      totalCapacity: 150,
+      ticketsSold: 0,
+      revenue: 0,
+      status: "Draft",
+      createdAt: "2026-11-03T10:00:00.000Z"
+    }
+  ];
+}
+
+/**
+ * Reads organizer events from localStorage, seeding the 3 sample concerts if empty.
+ */
+function loadOrSeedOrganizerEvents() {
+  try {
+    const raw = window.localStorage.getItem(ORGANIZER_EVENTS_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed;
+    }
+  } catch (error) {
+    // Fall through to seeding defaults when storage is unreadable or malformed
+  }
+
+  const seeded = getDefaultOrganizerEvents();
+  saveOrganizerEvents(seeded);
+  return seeded;
+}
+
+/**
+ * Persists the organizer events array to localStorage.
+ */
+function saveOrganizerEvents(events) {
+  try {
+    window.localStorage.setItem(ORGANIZER_EVENTS_KEY, JSON.stringify(events));
+  } catch (error) {
+    // Ignore storage quota errors gracefully
+  }
+}
+
+/**
+ * Formats a non-negative amount as "PKR 1,280,000".
+ */
+function formatOrganizerPKR(amount) {
+  const safeAmount = Number.isFinite(Number(amount)) && Number(amount) > 0 ? Number(amount) : 0;
+  return "PKR " + safeAmount.toLocaleString("en-US");
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   initMobileMenu();
   initPayoutCalculator();
   initFaqAccordion();
   initCreateEventPage();
+  initOrganizerDashboard();
 });
 
 /**
@@ -128,8 +238,6 @@ function initCreateEventPage() {
   if (!form) {
     return;
   }
-
-  const ORGANIZER_EVENTS_KEY = "sonora_organizer_events";
 
   // Form inputs
   const titleInput = document.getElementById("concert-title");
@@ -359,19 +467,6 @@ function initCreateEventPage() {
   }
 
   /**
-   * Reads the stored organizer events array safely from localStorage.
-   */
-  function readOrganizerEvents() {
-    try {
-      const raw = window.localStorage.getItem(ORGANIZER_EVENTS_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  /**
    * Validates, builds the event record, saves it to localStorage, and displays confirmation.
    */
   function handleSaveEvent(statusLabel) {
@@ -418,13 +513,14 @@ function initCreateEventPage() {
       startingPrice: startingPrice,
       totalCapacity: totalCapacity,
       ticketsSold: 0,
+      revenue: 0,
       status: statusLabel,
       createdAt: new Date().toISOString()
     };
 
-    const existingEvents = readOrganizerEvents();
+    const existingEvents = loadOrSeedOrganizerEvents();
     existingEvents.push(newEvent);
-    window.localStorage.setItem(ORGANIZER_EVENTS_KEY, JSON.stringify(existingEvents));
+    saveOrganizerEvents(existingEvents);
 
     // Show confirmation banner
     if (confirmationBanner && confirmationTitle && confirmationMessage) {
@@ -473,4 +569,394 @@ function initCreateEventPage() {
 
   // Initialize preview placeholders on load
   updateLivePreview();
+}
+
+/**
+ * 5. Organizer Dashboard (pages/organizer-dashboard.html)
+ * Loads/seeds sonora_organizer_events, calculates KPIs, filters by city & search,
+ * and handles Draft/Published status toggles and event deletions.
+ */
+function initOrganizerDashboard() {
+  const tbody = document.getElementById("dash-events-tbody");
+  if (!tbody) {
+    return;
+  }
+
+  const cityFilter = document.getElementById("dash-city-filter");
+  const searchInput = document.getElementById("dash-search-input");
+  const kpiTotalRevenue = document.getElementById("kpi-total-revenue");
+  const kpiTicketsSold = document.getElementById("kpi-tickets-sold");
+  const kpiActiveConcerts = document.getElementById("kpi-active-concerts");
+  const kpiAvgTicket = document.getElementById("kpi-avg-ticket");
+  const eventCountEl = document.getElementById("dash-event-count");
+  const tableWrap = document.querySelector(".dash-table-wrap");
+  const emptyStateEl = document.getElementById("dash-empty-state");
+  const emptyMessageEl = document.getElementById("dash-empty-message");
+  const resetFiltersBtn = document.getElementById("dash-reset-filters-btn");
+
+  const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  let events = loadOrSeedOrganizerEvents();
+
+  function getTicketsSold(ev) {
+    const sold = Number(ev.ticketsSold);
+    return Number.isFinite(sold) && sold >= 0 ? Math.floor(sold) : 0;
+  }
+
+  function getTotalCapacity(ev) {
+    const explicitCap = Number(ev.totalCapacity);
+    if (Number.isFinite(explicitCap) && explicitCap > 0) {
+      return Math.floor(explicitCap);
+    }
+    const gaCap = Number(ev.gaCapacity);
+    const vipCap = Number(ev.vipCapacity);
+    const combined = (Number.isFinite(gaCap) && gaCap > 0 ? gaCap : 0) +
+      (Number.isFinite(vipCap) && vipCap > 0 ? vipCap : 0);
+    return Math.floor(combined);
+  }
+
+  function getEventRevenue(ev) {
+    if (typeof ev.revenue === "number" && Number.isFinite(ev.revenue) && ev.revenue >= 0) {
+      return Math.round(ev.revenue);
+    }
+    const sold = getTicketsSold(ev);
+    const unitPrice = Number(ev.startingPrice || ev.gaPrice || 0);
+    if (sold > 0 && Number.isFinite(unitPrice) && unitPrice > 0) {
+      return Math.round(sold * unitPrice);
+    }
+    return 0;
+  }
+
+  function formatDashboardDate(dateStr) {
+    if (!dateStr) {
+      return "Date TBD";
+    }
+    const parts = String(dateStr).split("-");
+    if (parts.length === 3) {
+      const monthIndex = Number(parts[1]) - 1;
+      const day = Number(parts[2]);
+      if (monthIndex >= 0 && monthIndex < 12 && Number.isFinite(day) && day > 0) {
+        return String(day).padStart(2, "0") + " " + MONTH_NAMES[monthIndex];
+      }
+    }
+    return String(dateStr);
+  }
+
+  function getNormalizedStatus(ev) {
+    return ev.status === "Published" ? "Published" : "Draft";
+  }
+
+  function populateCityFilter() {
+    if (!cityFilter) {
+      return;
+    }
+    const previousValue = cityFilter.value || "all";
+    const cityMap = new Map();
+
+    events.forEach(function (ev) {
+      const city = (ev.city || "").trim();
+      if (city) {
+        const key = city.toLowerCase();
+        if (!cityMap.has(key)) {
+          cityMap.set(key, city);
+        }
+      }
+    });
+
+    const sortedCities = Array.from(cityMap.values()).sort(function (a, b) {
+      return a.localeCompare(b);
+    });
+
+    cityFilter.innerHTML = "";
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = "All Cities";
+    cityFilter.appendChild(allOption);
+
+    sortedCities.forEach(function (city) {
+      const option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      cityFilter.appendChild(option);
+    });
+
+    const hasPrevious = sortedCities.some(function (city) {
+      return city.toLowerCase() === previousValue.toLowerCase();
+    });
+    cityFilter.value = hasPrevious ? previousValue : "all";
+  }
+
+  function getFilteredEvents() {
+    const selectedCity = cityFilter ? cityFilter.value.trim().toLowerCase() : "all";
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+    return events.filter(function (ev) {
+      const evCity = (ev.city || "").trim();
+      if (selectedCity !== "all" && evCity.toLowerCase() !== selectedCity) {
+        return false;
+      }
+
+      if (!query) {
+        return true;
+      }
+
+      const haystack = [
+        ev.title || "",
+        ev.artist || "",
+        evCity,
+        ev.venue || "",
+        getNormalizedStatus(ev),
+        formatDashboardDate(ev.date)
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.indexOf(query) !== -1;
+    });
+  }
+
+  function renderKPIs(filteredEvents) {
+    let totalRevenue = 0;
+    let totalSold = 0;
+    let totalCapacity = 0;
+    let activeConcerts = 0;
+
+    filteredEvents.forEach(function (ev) {
+      totalRevenue += getEventRevenue(ev);
+      totalSold += getTicketsSold(ev);
+      totalCapacity += getTotalCapacity(ev);
+      if (getNormalizedStatus(ev) === "Published") {
+        activeConcerts += 1;
+      }
+    });
+
+    const avgTicket = totalSold > 0 ? Math.round(totalRevenue / totalSold) : 0;
+
+    if (kpiTotalRevenue) {
+      kpiTotalRevenue.textContent = formatOrganizerPKR(totalRevenue);
+    }
+    if (kpiTicketsSold) {
+      kpiTicketsSold.textContent =
+        totalSold.toLocaleString("en-US") + " / " + totalCapacity.toLocaleString("en-US");
+    }
+    if (kpiActiveConcerts) {
+      kpiActiveConcerts.textContent = activeConcerts.toLocaleString("en-US");
+    }
+    if (kpiAvgTicket) {
+      kpiAvgTicket.textContent = formatOrganizerPKR(avgTicket);
+    }
+  }
+
+  function createEventRow(ev) {
+    const tr = document.createElement("tr");
+    const status = getNormalizedStatus(ev);
+    const sold = getTicketsSold(ev);
+    const capacity = getTotalCapacity(ev);
+    const revenue = getEventRevenue(ev);
+    const fillPercent = capacity > 0 ? Math.min(100, Math.round((sold / capacity) * 100)) : 0;
+
+    // 1. Event Name (+ Artist / Venue subtitle)
+    const tdName = document.createElement("td");
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "dash-event-name";
+    titleDiv.textContent = ev.title || "Untitled Concert";
+    tdName.appendChild(titleDiv);
+
+    const metaParts = [ev.artist, ev.venue].filter(Boolean);
+    if (metaParts.length > 0) {
+      const metaDiv = document.createElement("div");
+      metaDiv.className = "dash-event-meta";
+      metaDiv.textContent = metaParts.join(" • ");
+      tdName.appendChild(metaDiv);
+    }
+    tr.appendChild(tdName);
+
+    // 2. Date & City
+    const tdDateCity = document.createElement("td");
+    tdDateCity.className = "dash-date-city";
+    const dateLabel = formatDashboardDate(ev.date);
+    const cityLabel = (ev.city || "").trim();
+    tdDateCity.textContent = cityLabel ? dateLabel + ", " + cityLabel : dateLabel;
+    tr.appendChild(tdDateCity);
+
+    // 3. Tickets Sold
+    const tdTickets = document.createElement("td");
+    const ticketsCell = document.createElement("div");
+    ticketsCell.className = "dash-tickets-cell";
+
+    const ticketsText = document.createElement("span");
+    ticketsText.className = "dash-tickets-text";
+    ticketsText.textContent = sold.toLocaleString("en-US") + " / " + capacity.toLocaleString("en-US");
+    ticketsCell.appendChild(ticketsText);
+
+    const progressTrack = document.createElement("div");
+    progressTrack.className = "dash-progress-track";
+    const progressFill = document.createElement("div");
+    progressFill.className = "dash-progress-fill";
+    progressFill.style.width = fillPercent + "%";
+    progressTrack.appendChild(progressFill);
+    ticketsCell.appendChild(progressTrack);
+
+    tdTickets.appendChild(ticketsCell);
+    tr.appendChild(tdTickets);
+
+    // 4. Revenue
+    const tdRevenue = document.createElement("td");
+    tdRevenue.className = "dash-revenue-text";
+    tdRevenue.textContent = formatOrganizerPKR(revenue);
+    tr.appendChild(tdRevenue);
+
+    // 5. Status Badge
+    const tdStatus = document.createElement("td");
+    const statusBadge = document.createElement("span");
+    statusBadge.className =
+      "dash-status-badge " +
+      (status === "Published" ? "dash-status-published" : "dash-status-draft");
+    statusBadge.textContent = status;
+    tdStatus.appendChild(statusBadge);
+    tr.appendChild(tdStatus);
+
+    // 6. Actions
+    const tdActions = document.createElement("td");
+    tdActions.className = "text-end";
+    const actionsWrap = document.createElement("div");
+    actionsWrap.className = "dash-row-actions";
+
+    const toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.className =
+      "dash-action-btn " + (status === "Draft" ? "dash-action-publish" : "dash-action-draft");
+    toggleBtn.dataset.action = "toggle-status";
+    toggleBtn.dataset.eventId = String(ev.id);
+    toggleBtn.textContent = status === "Published" ? "Set Draft" : "Publish";
+    toggleBtn.setAttribute(
+      "aria-label",
+      (status === "Published" ? "Set Draft for " : "Publish ") + (ev.title || "event")
+    );
+    actionsWrap.appendChild(toggleBtn);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "dash-action-btn dash-action-delete";
+    deleteBtn.dataset.action = "delete";
+    deleteBtn.dataset.eventId = String(ev.id);
+    deleteBtn.textContent = "Delete";
+    deleteBtn.setAttribute("aria-label", "Delete " + (ev.title || "event"));
+    actionsWrap.appendChild(deleteBtn);
+
+    tdActions.appendChild(actionsWrap);
+    tr.appendChild(tdActions);
+
+    return tr;
+  }
+
+  function renderDashboard() {
+    const filteredEvents = getFilteredEvents();
+    const isFiltered =
+      (cityFilter && cityFilter.value !== "all") ||
+      (searchInput && searchInput.value.trim() !== "");
+
+    renderKPIs(filteredEvents);
+
+    if (eventCountEl) {
+      if (isFiltered && events.length > 0) {
+        eventCountEl.textContent =
+          filteredEvents.length + " of " + events.length + (events.length === 1 ? " event" : " events");
+      } else {
+        eventCountEl.textContent =
+          filteredEvents.length + (filteredEvents.length === 1 ? " event" : " events");
+      }
+    }
+
+    tbody.innerHTML = "";
+
+    if (filteredEvents.length === 0) {
+      if (tableWrap) {
+        tableWrap.hidden = true;
+      }
+      if (emptyStateEl) {
+        emptyStateEl.hidden = false;
+      }
+      if (emptyMessageEl) {
+        emptyMessageEl.textContent =
+          events.length === 0
+            ? "You have no organizer concerts yet. Create your first event to start tracking sales."
+            : "No concerts match your current filter.";
+      }
+      if (resetFiltersBtn) {
+        resetFiltersBtn.hidden = !isFiltered;
+      }
+      return;
+    }
+
+    if (tableWrap) {
+      tableWrap.hidden = false;
+    }
+    if (emptyStateEl) {
+      emptyStateEl.hidden = true;
+    }
+
+    const fragment = document.createDocumentFragment();
+    filteredEvents.forEach(function (ev) {
+      fragment.appendChild(createEventRow(ev));
+    });
+    tbody.appendChild(fragment);
+  }
+
+  // Filter & search listeners
+  if (cityFilter) {
+    cityFilter.addEventListener("change", renderDashboard);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", renderDashboard);
+  }
+
+  if (resetFiltersBtn) {
+    resetFiltersBtn.addEventListener("click", function () {
+      if (cityFilter) {
+        cityFilter.value = "all";
+      }
+      if (searchInput) {
+        searchInput.value = "";
+      }
+      renderDashboard();
+    });
+  }
+
+  // Delegated status toggle and delete handlers
+  tbody.addEventListener("click", function (event) {
+    const button = event.target.closest("button[data-action]");
+    if (!button) {
+      return;
+    }
+
+    const action = button.dataset.action;
+    const eventId = button.dataset.eventId;
+    if (!eventId) {
+      return;
+    }
+
+    if (action === "toggle-status") {
+      events = events.map(function (ev) {
+        if (String(ev.id) === eventId) {
+          const nextStatus = getNormalizedStatus(ev) === "Published" ? "Draft" : "Published";
+          return Object.assign({}, ev, { status: nextStatus });
+        }
+        return ev;
+      });
+      saveOrganizerEvents(events);
+      renderDashboard();
+    } else if (action === "delete") {
+      events = events.filter(function (ev) {
+        return String(ev.id) !== eventId;
+      });
+      saveOrganizerEvents(events);
+      populateCityFilter();
+      renderDashboard();
+    }
+  });
+
+  populateCityFilter();
+  renderDashboard();
 }

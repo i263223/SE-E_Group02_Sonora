@@ -4,6 +4,7 @@
    Scoped to:
      - body.sonora-host-page (pages/host.html)
      - body.sonora-create-event-page (pages/create-event.html)
+     - body.sonora-dashboard-page (pages/organizer-dashboard.html)
    ========================================================= */
 
 /* =========================================================
@@ -665,5 +666,433 @@ body.sonora-create-event-page {
 
   .ce-action-btn {
     width: 100%;
+  }
+}
+
+/* =========================================================
+   3. Organizer Dashboard Page — Shared SONORA Dark Theme
+   Scoped to pages/organizer-dashboard.html via body.sonora-dashboard-page
+   ========================================================= */
+
+body.sonora-dashboard-page {
+  background-color: var(--sonora-bg-primary);
+  color: var(--sonora-text-primary);
+  font-family: var(--sonora-font-sans);
+  line-height: 1.6;
+}
+
+.sonora-dashboard-page .container {
+  max-width: 1320px;
+  padding-left: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
+  padding-right: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
+}
+
+.sonora-dashboard-page .sonora-navbar .navbar-nav .nav-link {
+  border-bottom: none;
+  padding: 0.5rem 0.95rem;
+}
+
+.sonora-dashboard-page .btn-sonora-pill {
+  border-radius: var(--sonora-radius-pill);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-width: 1px;
+}
+
+/* --- Dashboard Header & Controls --- */
+.sonora-dashboard-page .dash-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.sonora-dashboard-page .dash-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sonora-dashboard-page .dash-studio-link:hover {
+  color: #ffffff;
+  background-color: rgba(225, 29, 72, 0.28);
+  border-color: var(--sonora-accent);
+}
+
+.sonora-dashboard-page .dash-title {
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--sonora-text-primary);
+}
+
+.sonora-dashboard-page .dash-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sonora-dashboard-page .dash-filter-group {
+  min-width: 165px;
+}
+
+.sonora-dashboard-page .dash-select {
+  min-height: 42px;
+  padding: 0.5rem 2.25rem 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  color-scheme: dark;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23a1a1aa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px 10px;
+}
+
+.sonora-dashboard-page .dash-select option {
+  background-color: var(--sonora-bg-surface);
+  color: var(--sonora-text-primary);
+}
+
+.sonora-dashboard-page .dash-search-group {
+  position: relative;
+  min-width: 220px;
+}
+
+.sonora-dashboard-page .dash-search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--sonora-text-secondary);
+  pointer-events: none;
+}
+
+.sonora-dashboard-page .dash-search-input {
+  min-height: 42px;
+  padding: 0.5rem 0.9rem 0.5rem 2.35rem;
+  font-size: 0.9rem;
+  color-scheme: dark;
+}
+
+.sonora-dashboard-page .dash-create-btn {
+  min-height: 42px;
+}
+
+/* --- 4-Column KPI Grid --- */
+.sonora-dashboard-page .dash-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.sonora-dashboard-page .dash-kpi-card {
+  padding: 1.35rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, var(--sonora-bg-surface) 100%);
+  box-shadow: var(--sonora-shadow-card);
+  transition: border-color var(--sonora-transition), transform var(--sonora-transition);
+}
+
+.sonora-dashboard-page .dash-kpi-card:hover {
+  border-color: var(--sonora-border-strong);
+  transform: translateY(-2px);
+}
+
+.sonora-dashboard-page .dash-kpi-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sonora-text-secondary);
+}
+
+.sonora-dashboard-page .dash-kpi-value {
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  font-weight: 800;
+  color: var(--sonora-text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.sonora-dashboard-page #kpi-total-revenue {
+  color: #4ade80;
+}
+
+.sonora-dashboard-page .dash-kpi-subtext {
+  font-size: 0.82rem;
+  color: var(--sonora-text-secondary);
+}
+
+/* --- Events Table Section --- */
+.sonora-dashboard-page .dash-events-section {
+  overflow: hidden;
+  box-shadow: var(--sonora-shadow-card);
+}
+
+.sonora-dashboard-page .dash-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.35rem 1.5rem;
+  border-bottom: 1px solid var(--sonora-border);
+}
+
+.sonora-dashboard-page .dash-section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--sonora-text-primary);
+}
+
+.sonora-dashboard-page .dash-count-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--sonora-radius-pill);
+  background-color: var(--sonora-bg-elevated);
+  border: 1px solid var(--sonora-border-strong);
+  color: var(--sonora-text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sonora-dashboard-page .dash-table-wrap {
+  width: 100%;
+}
+
+.sonora-dashboard-page .dash-table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--sonora-text-primary);
+  --bs-table-border-color: var(--sonora-border);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.035);
+  --bs-table-hover-color: var(--sonora-text-primary);
+  --bs-table-striped-bg: transparent;
+  color: var(--sonora-text-primary);
+  background-color: transparent;
+}
+
+.sonora-dashboard-page .dash-table thead th {
+  background-color: var(--sonora-bg-elevated);
+  color: var(--sonora-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--sonora-border-strong);
+  white-space: nowrap;
+}
+
+.sonora-dashboard-page .dash-table tbody td {
+  background-color: transparent;
+  color: var(--sonora-text-primary);
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--sonora-border);
+  vertical-align: middle;
+}
+
+.sonora-dashboard-page .dash-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sonora-dashboard-page .dash-table tbody tr:hover td {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.sonora-dashboard-page .dash-event-name {
+  font-weight: 700;
+  color: var(--sonora-text-primary);
+  font-size: 0.96rem;
+}
+
+.sonora-dashboard-page .dash-event-meta {
+  font-size: 0.8rem;
+  color: var(--sonora-text-secondary);
+  margin-top: 0.15rem;
+}
+
+.sonora-dashboard-page .dash-date-city {
+  color: var(--sonora-text-secondary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.sonora-dashboard-page .dash-tickets-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 115px;
+}
+
+.sonora-dashboard-page .dash-tickets-text {
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.sonora-dashboard-page .dash-progress-track {
+  width: 100%;
+  max-width: 130px;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: var(--sonora-radius-pill);
+  overflow: hidden;
+}
+
+.sonora-dashboard-page .dash-progress-fill {
+  height: 100%;
+  background-color: var(--sonora-accent);
+  border-radius: var(--sonora-radius-pill);
+  transition: width 0.25s ease;
+}
+
+.sonora-dashboard-page .dash-revenue-text {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* --- Status Badges --- */
+.sonora-dashboard-page .dash-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--sonora-radius-pill);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.sonora-dashboard-page .dash-status-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.sonora-dashboard-page .dash-status-published {
+  background-color: rgba(22, 163, 74, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  color: #4ade80;
+}
+
+.sonora-dashboard-page .dash-status-draft {
+  background-color: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fbbf24;
+}
+
+/* --- Table Row Action Buttons --- */
+.sonora-dashboard-page .dash-row-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.sonora-dashboard-page .dash-action-btn {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: var(--sonora-radius-pill);
+  border: 1px solid var(--sonora-border-strong);
+  background-color: var(--sonora-bg-elevated);
+  color: var(--sonora-text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--sonora-transition);
+}
+
+.sonora-dashboard-page .dash-action-btn:hover {
+  border-color: var(--sonora-text-primary);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sonora-dashboard-page .dash-action-publish {
+  border-color: rgba(34, 197, 94, 0.45);
+  color: #4ade80;
+  background-color: rgba(22, 163, 74, 0.12);
+}
+
+.sonora-dashboard-page .dash-action-publish:hover {
+  border-color: #4ade80;
+  background-color: rgba(22, 163, 74, 0.24);
+  color: #86efac;
+}
+
+.sonora-dashboard-page .dash-action-delete {
+  border-color: rgba(225, 29, 72, 0.45);
+  color: #fda4af;
+  background-color: rgba(225, 29, 72, 0.1);
+}
+
+.sonora-dashboard-page .dash-action-delete:hover {
+  border-color: var(--sonora-accent);
+  background-color: var(--sonora-accent);
+  color: #ffffff;
+}
+
+/* --- Empty State --- */
+.sonora-dashboard-page .dash-empty-state {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.sonora-dashboard-page .dash-empty-state[hidden] {
+  display: none !important;
+}
+
+/* --- Responsive Breakpoints for Organizer Dashboard --- */
+@media (max-width: 991.98px) {
+  .sonora-dashboard-page .dash-header {
+    align-items: stretch;
+  }
+
+  .sonora-dashboard-page .dash-controls {
+    width: 100%;
+  }
+
+  .sonora-dashboard-page .dash-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575.98px) {
+  .sonora-dashboard-page .dash-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sonora-dashboard-page .dash-filter-group,
+  .sonora-dashboard-page .dash-search-group,
+  .sonora-dashboard-page .dash-create-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sonora-dashboard-page .dash-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sonora-dashboard-page .dash-section-header {
+    padding: 1.1rem 1rem;
+  }
+
+  .sonora-dashboard-page .dash-table thead th,
+  .sonora-dashboard-page .dash-table tbody td {
+    padding: 0.8rem 0.9rem;
   }
 }

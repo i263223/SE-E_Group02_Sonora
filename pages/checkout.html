@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout | SONORA — Live Concert Tickets</title>
+  <meta name="description" content="Complete your billing details and payment method to receive instant digital QR passes on SONORA." />
+
+  <!-- Bootstrap 5 CSS (no jQuery) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Shared SONORA Theme Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- Page-specific Checkout Styles -->
+  <link rel="stylesheet" href="../css/checkout.css" />
+</head>
+<body>
+  <!-- Sticky Top Navigation Bar -->
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg sonora-navbar" aria-label="Primary navigation">
+      <div class="container">
+        <!-- Left: Logo + Brand Wordmark -->
+        <a class="sonora-brand" href="../index.html">
+          <img
+            src="../images/logo.svg"
+            alt="SONORA logo"
+            class="sonora-brand-logo"
+            width="40"
+            height="40"
+          />
+          <span class="sonora-brand-text">
+            <span class="sonora-brand-title">SONORA</span>
+            <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+          </span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button
+          class="navbar-toggler sonora-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sonoraNavbarNav"
+          aria-controls="sonoraNavbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Center Links + Right Actions -->
+        <div class="collapse navbar-collapse" id="sonoraNavbarNav">
+          <!-- Center Navigation Links -->
+          <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 gap-lg-1">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="events.html"
+                data-nav-link
+                data-nav-match="events.html,concerts.html,event-details.html,seats.html"
+              >
+                Concerts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="artists.html"
+                data-nav-link
+                data-nav-match="artists.html,artist-details.html"
+              >
+                Artists
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="venues.html"
+                data-nav-link
+                data-nav-match="venues.html,venue-details.html"
+              >
+                Venues
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="my-tickets.html"
+                data-nav-link
+                data-nav-match="my-tickets.html,checkout.html,cart.html"
+              >
+                <span>My Tickets</span>
+                <span class="sonora-badge-count d-none" data-sonora-ticket-badge>0</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right Actions: Search Button + Sign In / Sign Up -->
+          <div class="d-flex align-items-center gap-2 sonora-nav-actions">
+            <button
+              type="button"
+              class="sonora-icon-btn"
+              data-bs-toggle="collapse"
+              data-bs-target="#sonoraSearchDrawer"
+              aria-expanded="false"
+              aria-controls="sonoraSearchDrawer"
+              aria-label="Toggle quick search"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path stroke-linecap="round" d="M20 20l-3.5-3.5" />
+              </svg>
+            </button>
+
+            <div id="sonoraAuthActions" class="d-flex align-items-center gap-2">
+              <a href="signin.html" class="btn btn-sonora-pill btn-sonora-outline">Sign In</a>
+              <a href="signup.html" class="btn btn-sonora-pill btn-sonora-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Collapsible Quick Search Bar -->
+    <div class="collapse sonora-search-drawer" id="sonoraSearchDrawer">
+      <div class="container py-3">
+        <form class="d-flex gap-2" role="search" data-sonora-search-form>
+          <label for="sonoraQuickSearchInput" class="visually-hidden">Search concerts, artists, or cities</label>
+          <input
+            id="sonoraQuickSearchInput"
+            name="search"
+            type="search"
+            class="form-control sonora-search-input"
+            placeholder="Search concerts, artists, genres, or cities..."
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-sonora-pill btn-sonora-primary px-4">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Checkout Content -->
+  <main class="py-4 py-md-5">
+    <div class="container">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="sonora-breadcrumb mb-3">
+        <a href="../index.html">Home</a>
+        <span class="mx-2">/</span>
+        <a href="events.html">Concerts</a>
+        <span class="mx-2">/</span>
+        <a href="cart.html">Cart</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">Checkout</span>
+      </nav>
+
+      <!-- Two-Column Checkout Layout -->
+      <div class="row g-4 align-items-start">
+        <!-- Left Column: Progress Line, Billing Details Form & Payment Method -->
+        <div class="col-lg-8">
+          <!-- Checkout Progress Line -->
+          <section class="sonora-surface p-3 p-md-4 mb-4" aria-label="Checkout progress">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+              <div>
+                <span class="sonora-tag mb-2">Secure Checkout</span>
+                <h1 class="h3 mb-0">Complete Your Order</h1>
+              </div>
+              <span id="progressStatusLabel" class="small text-muted-sonora">Step 3 of 4 &bull; Payment &amp; Billing</span>
+            </div>
+
+            <nav aria-label="Order steps">
+              <ol id="checkoutProgressList" class="sonora-progress-list list-unstyled mb-0" data-current-step="3">
+                <li class="sonora-progress-step is-completed" data-step="1">
+                  <a href="seats.html" class="sonora-progress-link">
+                    <span class="sonora-step-dot" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="sonora-step-text">Select Seats</span>
+                  </a>
+                </li>
+
+                <li class="sonora-progress-step is-completed" data-step="2">
+                  <a href="cart.html" class="sonora-progress-link">
+                    <span class="sonora-step-dot" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="sonora-step-text">Review Cart</span>
+                  </a>
+                </li>
+
+                <li class="sonora-progress-step is-active" data-step="3" aria-current="step">
+                  <div class="sonora-progress-link">
+                    <span class="sonora-step-dot" aria-hidden="true">3</span>
+                    <span class="sonora-step-text">Billing &amp; Payment</span>
+                  </div>
+                </li>
+
+                <li class="sonora-progress-step" data-step="4">
+                  <div class="sonora-progress-link">
+                    <span class="sonora-step-dot" aria-hidden="true">4</span>
+                    <span class="sonora-step-text">Confirmation</span>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+          </section>
+
+          <!-- Validation / Status Feedback Banner -->
+          <div
+            id="checkoutFeedbackBanner"
+            class="sonora-checkout-feedback mb-4 d-none"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+          <!-- Billing Details & Payment Method Form -->
+          <form id="checkoutForm" novalidate>
+            <!-- Billing Details Card -->
+            <section class="sonora-surface p-3 p-md-4 mb-4" aria-labelledby="billingDetailsHeading">
+              <div class="sonora-section-header pb-3 mb-4">
+                <div>
+                  <h2 id="billingDetailsHeading" class="h4 mb-1">Billing Details</h2>
+                  <p class="small text-muted-sonora mb-0">
+                    Your digital QR concert passes and receipt will be delivered to this email address.
+                  </p>
+                </div>
+                <span class="small text-muted-sonora">All fields required</span>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="billingFullName" class="form-label small fw-semibold text-white">Full Name</label>
+                  <input
+                    type="text"
+                    id="billingFullName"
+                    name="fullName"
+                    class="form-control sonora-input"
+                    placeholder="Jordan Taylor"
+                    autocomplete="name"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter your full name.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="billingEmail" class="form-label small fw-semibold text-white">Email Address</label>
+                  <input
+                    type="email"
+                    id="billingEmail"
+                    name="email"
+                    class="form-control sonora-input"
+                    placeholder="jordan@example.com"
+                    autocomplete="email"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter a valid email address for ticket delivery.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="billingPhone" class="form-label small fw-semibold text-white">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="billingPhone"
+                    name="phone"
+                    class="form-control sonora-input"
+                    placeholder="+1 (555) 234-5678"
+                    autocomplete="tel"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter a valid phone number.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="billingCountry" class="form-label small fw-semibold text-white">Country / Region</label>
+                  <select
+                    id="billingCountry"
+                    name="country"
+                    class="form-select sonora-select"
+                    autocomplete="country-name"
+                    required
+                  >
+                    <option value="United States" selected>United States</option>
+                    <option value="Canada">Canada</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <div class="invalid-feedback">Please select your country or region.</div>
+                </div>
+
+                <div class="col-12">
+                  <label for="billingAddress" class="form-label small fw-semibold text-white">Street Address</label>
+                  <input
+                    type="text"
+                    id="billingAddress"
+                    name="address"
+                    class="form-control sonora-input"
+                    placeholder="420 Mercer Street, Apt 4B"
+                    autocomplete="street-address"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter your billing street address.</div>
+                </div>
+
+                <div class="col-md-5">
+                  <label for="billingCity" class="form-label small fw-semibold text-white">City</label>
+                  <input
+                    type="text"
+                    id="billingCity"
+                    name="city"
+                    class="form-control sonora-input"
+                    placeholder="New York"
+                    autocomplete="address-level2"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter your city.</div>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="billingState" class="form-label small fw-semibold text-white">State / Province</label>
+                  <input
+                    type="text"
+                    id="billingState"
+                    name="state"
+                    class="form-control sonora-input"
+                    placeholder="NY"
+                    autocomplete="address-level1"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter your state or province.</div>
+                </div>
+
+                <div class="col-md-3">
+                  <label for="billingZip" class="form-label small fw-semibold text-white">Postal / ZIP</label>
+                  <input
+                    type="text"
+                    id="billingZip"
+                    name="postalCode"
+                    class="form-control sonora-input"
+                    placeholder="10013"
+                    autocomplete="postal-code"
+                    required
+                  />
+                  <div class="invalid-feedback">Please enter a postal code.</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Payment Method Card -->
+            <section class="sonora-surface p-3 p-md-4" aria-labelledby="paymentMethodHeading">
+              <div class="sonora-section-header pb-3 mb-4">
+                <div>
+                  <h2 id="paymentMethodHeading" class="h4 mb-1">Payment Method</h2>
+                  <p class="small text-muted-sonora mb-0">
+                    Choose how you&rsquo;d like to pay for your concert tickets.
+                  </p>
+                </div>
+                <span class="sonora-tag">Encrypted Demo</span>
+              </div>
+
+              <!-- Payment Method Options -->
+              <div class="row g-3 mb-4" role="radiogroup" aria-labelledby="paymentMethodHeading">
+                <div class="col-md-4">
+                  <label class="sonora-payment-option is-selected" for="payMethodCard">
+                    <input
+                      type="radio"
+                      id="payMethodCard"
+                      name="paymentMethod"
+                      value="card"
+                      class="sonora-payment-radio"
+                      checked
+                    />
+                    <span class="sonora-payment-title">Credit / Debit Card</span>
+                    <span class="sonora-payment-meta">Visa, Mastercard, Amex</span>
+                  </label>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="sonora-payment-option" for="payMethodWallet">
+                    <input
+                      type="radio"
+                      id="payMethodWallet"
+                      name="paymentMethod"
+                      value="wallet"
+                      class="sonora-payment-radio"
+                    />
+                    <span class="sonora-payment-title">Digital Wallet</span>
+                    <span class="sonora-payment-meta">Apple Pay or Google Pay</span>
+                  </label>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="sonora-payment-option" for="payMethodPaypal">
+                    <input
+                      type="radio"
+                      id="payMethodPaypal"
+                      name="paymentMethod"
+                      value="paypal"
+                      class="sonora-payment-radio"
+                    />
+                    <span class="sonora-payment-title">PayPal</span>
+                    <span class="sonora-payment-meta">Fast one-click checkout</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Panel 1: Credit / Debit Card Fields -->
+              <div id="paymentPanelCard" class="sonora-payment-panel">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label for="cardHolderName" class="form-label small fw-semibold text-white">Name on Card</label>
+                    <input
+                      type="text"
+                      id="cardHolderName"
+                      name="cardHolderName"
+                      class="form-control sonora-input"
+                      placeholder="Jordan Taylor"
+                      autocomplete="cc-name"
+                      required
+                    />
+                    <div class="invalid-feedback">Please enter the cardholder&rsquo;s name.</div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="cardNumber" class="form-label small fw-semibold text-white">Card Number</label>
+                    <input
+                      type="text"
+                      id="cardNumber"
+                      name="cardNumber"
+                      class="form-control sonora-input"
+                      inputmode="numeric"
+                      maxlength="23"
+                      placeholder="4532 8910 2345 6789"
+                      autocomplete="cc-number"
+                      required
+                    />
+                    <div class="invalid-feedback">Please enter a valid 13 to 19 digit card number.</div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="cardExpiry" class="form-label small fw-semibold text-white">Expiration Date</label>
+                    <input
+                      type="text"
+                      id="cardExpiry"
+                      name="cardExpiry"
+                      class="form-control sonora-input"
+                      inputmode="numeric"
+                      maxlength="5"
+                      placeholder="MM/YY"
+                      autocomplete="cc-exp"
+                      required
+                    />
+                    <div class="invalid-feedback">Enter a valid future expiry in MM/YY format.</div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="cardCvv" class="form-label small fw-semibold text-white">Security Code (CVV)</label>
+                    <input
+                      type="password"
+                      id="cardCvv"
+                      name="cardCvv"
+                      class="form-control sonora-input"
+                      inputmode="numeric"
+                      maxlength="4"
+                      placeholder="123"
+                      autocomplete="cc-csc"
+                      required
+                    />
+                    <div class="invalid-feedback">Enter a 3 or 4 digit security code.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel 2: Digital Wallet -->
+              <div id="paymentPanelWallet" class="sonora-payment-panel d-none">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="walletProvider" class="form-label small fw-semibold text-white">Wallet Provider</label>
+                    <select id="walletProvider" name="walletProvider" class="form-select sonora-select">
+                      <option value="Apple Pay" selected>Apple Pay</option>
+                      <option value="Google Pay">Google Pay</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="walletHandle" class="form-label small fw-semibold text-white">Wallet Account Email</label>
+                    <input
+                      type="email"
+                      id="walletHandle"
+                      name="walletHandle"
+                      class="form-control sonora-input"
+                      placeholder="jordan@icloud.com"
+                    />
+                    <div class="invalid-feedback">Please enter the email associated with your digital wallet.</div>
+                  </div>
+                </div>
+                <p class="small text-muted-sonora mt-3 mb-0">
+                  Clicking &ldquo;Pay now&rdquo; will confirm your order instantly using your selected digital wallet.
+                </p>
+              </div>
+
+              <!-- Panel 3: PayPal -->
+              <div id="paymentPanelPaypal" class="sonora-payment-panel d-none">
+                <div class="mb-3">
+                  <label for="paypalEmail" class="form-label small fw-semibold text-white">PayPal Email Address</label>
+                  <input
+                    type="email"
+                    id="paypalEmail"
+                    name="paypalEmail"
+                    class="form-control sonora-input"
+                    placeholder="jordan.paypal@example.com"
+                  />
+                  <div class="invalid-feedback">Please enter a valid PayPal email address.</div>
+                </div>
+                <p class="small text-muted-sonora mb-0">
+                  Your order will be authorized immediately via PayPal prototype checkout without external redirect.
+                </p>
+              </div>
+            </section>
+          </form>
+
+          <!-- Order Confirmation State (Shown After Successful Payment) -->
+          <section
+            id="checkoutSuccessPanel"
+            class="sonora-surface p-4 p-md-5 d-none"
+            aria-labelledby="checkoutSuccessHeading"
+          >
+            <div class="sonora-success-icon mb-3" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span class="sonora-tag mb-2">Payment Confirmed</span>
+            <h2 id="checkoutSuccessHeading" class="h3 mb-2">Your tickets are ready!</h2>
+            <p class="text-muted-sonora mb-4">
+              Thank you, <span id="confirmCustomerName" class="text-white fw-semibold">Guest</span>.
+              Your digital QR passes have been saved to your account and a confirmation receipt was prepared for
+              <span id="confirmCustomerEmail" class="text-white fw-semibold">your email</span>.
+            </p>
+
+            <div class="sonora-confirmation-box p-3 mb-4">
+              <div class="row g-3 small">
+                <div class="col-sm-4">
+                  <div class="text-muted-sonora">Order Reference</div>
+                  <div id="confirmOrderId" class="text-white fw-bold">—</div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="text-muted-sonora">Payment Method</div>
+                  <div id="confirmPaymentMethod" class="text-white fw-semibold">—</div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="text-muted-sonora">Amount Paid</div>
+                  <div id="confirmAmountPaid" class="text-white fw-bold">$0.00</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+              <a href="my-tickets.html" class="btn btn-sonora-pill btn-sonora-primary">
+                View My Tickets
+              </a>
+              <a href="events.html" class="btn btn-sonora-pill btn-sonora-outline">
+                Browse More Concerts
+              </a>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Column: Sticky "Your order" Box -->
+        <aside class="col-lg-4" aria-labelledby="yourOrderHeading">
+          <div class="sonora-surface p-4 sonora-summary-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h2 id="yourOrderHeading" class="h5 mb-0">Your order</h2>
+              <span id="orderTicketsPill" class="sonora-tag">0 Tickets</span>
+            </div>
+
+            <!-- Empty Cart State -->
+            <div id="orderEmptyState" class="py-3 border-top border-bottom" style="border-color: var(--sonora-border) !important;">
+              <p class="small text-muted-sonora mb-3">
+                Your cart is currently empty. Choose concert seats or General Admission passes before completing checkout.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <a href="seats.html" class="btn btn-sonora-pill btn-sonora-outline btn-sm">Select Seats</a>
+                <a href="events.html" class="btn btn-sonora-pill btn-sonora-ghost btn-sm">Browse Concerts</a>
+              </div>
+            </div>
+
+            <!-- Cart Items & Total -->
+            <div id="orderDetails" class="d-none">
+              <ul id="orderItemsList" class="list-unstyled sonora-order-list mb-3"></ul>
+
+              <div class="border-top border-bottom py-3 mb-3" style="border-color: var(--sonora-border) !important;">
+                <div class="d-flex justify-content-between small mb-2">
+                  <span class="text-muted-sonora">Total Tickets</span>
+                  <span id="orderTicketCount" class="text-white fw-semibold">0</span>
+                </div>
+                <div class="d-flex justify-content-between small mb-2">
+                  <span class="text-muted-sonora">Tickets Subtotal</span>
+                  <span id="orderSubtotal" class="text-white fw-semibold">$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between small mb-2">
+                  <span class="text-muted-sonora">Digital QR Delivery</span>
+                  <span class="text-white fw-semibold">Free</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-baseline pt-2 border-top" style="border-color: var(--sonora-border) !important;">
+                  <span class="fw-bold text-white">Total</span>
+                  <span id="orderTotal" class="h4 mb-0 text-white">$0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-3">
+              <button
+                type="submit"
+                form="checkoutForm"
+                id="payNowBtn"
+                class="btn btn-sonora-pill btn-sonora-primary"
+                disabled
+              >
+                Pay now
+              </button>
+              <a id="backToCartLink" href="cart.html" class="btn btn-sonora-pill btn-sonora-outline">
+                Back to Cart
+              </a>
+            </div>
+
+            <p class="small text-muted-sonora mt-3 mb-0">
+              Instant QR ticket delivery upon payment. All prices reflect direct ticket totals.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Matching Dark Footer -->
+  <footer class="sonora-footer">
+    <div class="container">
+      <div class="row gy-4 align-items-center justify-content-between">
+        <div class="col-lg-5">
+          <a class="sonora-brand mb-3" href="../index.html">
+            <img
+              src="../images/logo.svg"
+              alt="SONORA logo"
+              class="sonora-brand-logo"
+              width="36"
+              height="36"
+            />
+            <span class="sonora-brand-text">
+              <span class="sonora-brand-title">SONORA</span>
+              <span class="sonora-brand-subtitle">LIVE CONCERT TICKETS</span>
+            </span>
+          </a>
+          <p class="text-muted-sonora small mb-0">
+            Your gateway to live music experiences, unforgettable tours, and instant digital concert passes.
+          </p>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column align-items-lg-end gap-3">
+          <ul class="sonora-footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+
+          <!-- AI Image Disclosure Placeholder -->
+          <div class="sonora-ai-disclosure w-100 text-lg-end" role="note">
+            AI Image Disclosure Placeholder: Promotional artist, venue, and concert imagery used on this site may include AI-generated visuals created for academic prototype demonstration.
+          </div>
+        </div>
+      </div>
+
+      <hr class="sonora-footer-divider my-4" />
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 small text-muted-sonora">
+        <span>&copy; <span data-sonora-year>2026</span> SONORA Live Concert Tickets. All rights reserved.</span>
+        <span>Built with Semantic HTML, Bootstrap 5 &amp; Vanilla JS.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle (no jQuery) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Shared SONORA Data & Core Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- Page-specific Checkout Logic -->
+  <script src="../js/checkout.js"></script>
+</body>
+</html>
